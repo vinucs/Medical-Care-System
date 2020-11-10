@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>EzMed</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <!--swup-->
+        <script defer src="scripts.js"></script>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <header class="header">
+            <a href="index.html"><img class="logo" src="images/EzMedLogo.png" alt="logo"></a>
+            <nav>
+                <ul class="navbar">
+                    <li class="navbar"><a href="services.html">Serviços</a></li>
+                    <li class="navbar"><a href="services.html">História</a></li>
+                    <li class="navbar"><a href="contact.html">Fale com a EzMed</a></li>
+                </ul>
+            </nav>
+            <a href="login.html"><button id="login_button">Login</button></a>
+        </header>
+        <div class="container">
+            <div class="content-box">
+                <h1>Cadastre-se Agora!</h1>
+                <p>Entre para usar os recursos da plataforma!</p>
+                <form class="standard-form">
+                    <input type="text" placeholder="Nome Completo">
+                    <input type="text" placeholder="Endereço">
+                    <input type="tel" placeholder="Telefone">
+                    <input type="email" placeholder="Email">
+                    <input type="password" placeholder="Senha">
+                    <input type="password" placeholder="Confirmar Senha">  
+                    <div class="user-selection">
+                        <p>Usuário:</p>
+                        <input type="radio" id="patient-check" name="user_type" value="patient" onclick="changeTypeUserForm()">
+                        <label for="patient">Paciente</label>
+                        <input type="radio" id="doctor-check" name="user_type" value="doctor" onclick="changeTypeUserForm()">
+                        <label for="doctor">Médico</label>
+                        <input type="radio" id="lab-check" name="user_type" value="lab" onclick="changeTypeUserForm()">
+                        <label for="lab">Laboratório</label>
+                    </div>
+                    <div id="patient-form" style="display:none" class="standard-form">
+                        <div class="type-selection">
+                            <label for="genero">Gênero: </label>
+                            <select id="genero" name="genero">
+                                <option value="masculino">Masculino</option>
+                                <option value="feminino">Feminino</option>
+                            </select>
+                        </div>
+                        <input type="text" placeholder="Idade">
+                        <input type="text" placeholder="CPF">
+                    </div>
+                    <div id="doctor-form" style="display:none" class="standard-form">
+                        <div class="type-selection">
+                            <label for="especialidade">Especialidade: </label>
+                            <select id="especialidade" name="especialidade">
+                                <option value="cardiologista">Cardiologista</option>
+                                <option value="pediatra">Pediatra</option>
+                                <option value="psiquiatra">Psiquiatra</option>
+                                <option value="psicologo">Psicólogo</option>
+                            </select>
+                        </div>
+                        <input type="text" placeholder="CRM">
+                    </div>
+                    <div id="lab-form" style="display:none" class="standard-form">
+                        <p>Exames Realizados: </p>
+                        <div class="checkbox-selection">
+                            <input type="checkbox" id="mamografia-check" name="mamografia-check" value="mamografia">
+                            <label for="mamografia-check">Mamografia</label>
+                        </div>
+                        <div class="checkbox-selection">
+                            <input type="checkbox" id="ressonancia-check" name="ressonancia-check" value="ressonancia">
+                            <label for="ressonancia-check">Ressonância Magnética</label>
+                        </div>
+                        <div class="checkbox-selection">
+                            <input type="checkbox" id="tomografia-check" name="tomografia-check" value="tomografia">
+                            <label for="tomografia-check">Tomografia</label>
+                        </div>
+                        <div class="checkbox-selection">
+                            <input type="checkbox" id="sonografia-check" name="sonografia-check" value="sonografia">
+                            <label for="sonografia-check">Ultra-sonografia</label>
+                        </div>
+                        <input type="text" placeholder="CNPJ">
+                    </div>               
+                </form>
+                <button class="content-box">Cadastrar</button>
+            </div>
+        </div>
+    </body>
+    <footer>
+        <p>Feito por Nathan Garcia e Vinicius Sartorio. O código é livre, podendo ser utilizado por qualquer indivíduo.</p>
+    </footer>
+</html>

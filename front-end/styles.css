@@ -1,0 +1,197 @@
+/*---------- GLOBAL STYLES -----------*/
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+*:focus {
+    outline: none;
+}
+
+/* HEADER */
+.header {
+    background-color: teal;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+}
+
+/* NAVBAR */
+.navbar {
+    list-style: none;
+}
+
+.navbar li {
+    display: inline-block;
+    padding: 0px 50px;
+}
+
+.navbar li a{
+    color: whitesmoke;
+    font-family: Arial, Helvetica;
+    font-weight: 500;
+    font-size: 25px;
+    text-decoration: none;
+    transition: all 0.3s ease 0s;
+}
+
+.navbar li a:hover {
+    color: black;
+}
+
+.header button:hover {
+    background-color: rgb(15, 233, 186);
+}
+
+.header button {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: whitesmoke;
+    text-decoration: none;
+    padding: 9px 25px;
+    background-color: green;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+#logo {
+    cursor: pointer;
+}
+
+.container {
+    display: flex;  
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(189, 247, 247);
+    min-height: 100vh;
+    font-family: sans-serif;
+}
+
+.container p, a{
+    font-weight: 500;
+    font-size: 14px;
+    color: black;
+    text-decoration: none;
+}
+
+/* FOOTER */
+footer {
+    display: flex;
+    font-family: sans-serif;
+    color: white;
+    background-color:teal;
+    padding: 10px;
+}
+
+/*---------- HOME PAGE -----------*/
+
+.description {
+    padding: 40px 40px;
+    display: flex;
+    flex-direction: column;
+    background-color:white;
+    border-radius: 15px;
+    width: 80%;
+    height: fit-content;
+    align-items: center;
+}
+
+.description p{
+    justify-content: left;
+}
+
+/*---------- LOGIN AND SIGN IN PAGE -----------*/
+
+.content-box {
+    padding: 40px 40px;
+    display: flex;
+    flex-direction: column;
+    background-color:white;
+    border-radius: 15px;
+    width: fit-content;
+    height: fit-content;
+    align-items: center;
+}
+
+.content-box h1 {
+    font-size: 30px;
+    text-align: center;
+    color: black;
+    padding-bottom: 10px;
+}
+
+.content-box p {
+    font-size: 18px;
+    text-align: center;
+    color: black;
+    padding-bottom: 30px;
+}
+
+.content-box button{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: whitesmoke;
+    text-decoration: none;
+    background-color: green;
+    border: none;
+    border-radius: 50px;
+    margin: 35px;
+    padding: 10px 25px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.content-box button:hover{
+    background-color: rgb(15, 233, 186);
+}
+
+.standard-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.standard-form input{
+    font-size: 18px;
+    margin: 3px;
+    padding: 2px 2px;
+}
+
+/*---------- LOGIN PAGE -----------*/
+.advice p, a{
+    font-size: 14px;
+}
+
+.advice a{
+    color: teal;
+}
+
+.advice a:hover{
+    color: blue;
+}
+
+/*---------- SIGN IN PAGE -----------*/
+.user-selection {
+    margin: 20px;
+    display: inline-block;
+    align-items: center;
+}
+
+.type-selection {
+    display: inline-block;
+    margin: 3px;
+}
+
+.type-selection select{
+    font-size: 14px;
+}
+
+.checkbox-selection {
+    display: inline-flex;
+}
+
