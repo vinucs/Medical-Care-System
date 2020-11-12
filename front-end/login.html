@@ -5,23 +5,12 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-        <!--swup-->
-        <script defer src="node_modules/swup/dist/swup.min.js"></script>
-        <!-- Bootstrap CSS -->
+        <!--scripts-->
+        <script defer src="scripts.js"></script>
+        <!-- Styles CSS -->
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <header class="header">
-            <a href="index.html"><img class="logo" src="images/EzMedLogo.png" alt="logo"></a>
-            <nav>
-                <ul class="navbar">
-                    <li class="navbar"><a href="services.html">Serviços</a></li>
-                    <li class="navbar"><a href="services.html">História</a></li>
-                    <li class="navbar"><a href="contact.html">Fale com a EzMed</a></li>
-                </ul>
-            </nav>
-            <a href="login.html"><button id="login_button">Login</button></a>
-        </header>
         <div class="container">
             <div class="content-box">
                 <h1>Bem-vindo!</h1>
@@ -30,10 +19,7 @@
                     <input type="email" placeholder="Email">
                     <input type="password" placeholder="Password">
                 </form>
-                <div class="advice">
-                    <p>Não tem uma conta? Cadastre-se <a href="sign-in.html">aqui.</a></p>
-                </div>
-                <button class="content-box">Entrar</button>
+                <a href="index.html" onclick="isLogged()"><button class="content-box">Entrar</button></a>
             </div>
         </div>
     </body>
