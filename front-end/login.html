@@ -12,14 +12,14 @@
     </head>
     <body>
         <div class="container">
-            <div class="content-box">
+            <div class="login-box">
                 <h1>Bem-vindo!</h1>
                 <p>Entre para usar os recursos da plataforma!</p>
-                <form class="standard-form">
-                    <input type="email" placeholder="Email">
-                    <input type="password" placeholder="Password">
+                <form name="login-form" onsubmit="makeLogin()">
+                    <input type="text" placeholder="Nome de usuário">
+                    <input type="password" placeholder="Senha">
+                    <input type="submit" value="Entrar" class="default-button">
                 </form>
-                <a href="index.html" onclick="isLogged()"><button class="content-box">Entrar</button></a>
             </div>
         </div>
     </body>

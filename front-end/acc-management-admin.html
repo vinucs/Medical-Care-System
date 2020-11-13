@@ -21,7 +21,7 @@
                 </ul>
             </nav>
             <div id="acc-header">
-                <a href="#" id="acc-ref" onclick="goToAccount()"><button>Conta</button></a>
+                <a href="#" id="acc-ref"><button class="default-button">Conta</button></a>
                 <a href="index.html" onclick="logoutAccount()"><img id="logout-img" src="images/logout.png"></a>
             </div>
         </header>        
@@ -33,77 +33,89 @@
                     <li><a onclick="loadTab('change user')">Alterar Cadastros</a></li>
                 </ul>
             </div>
-            <div class="content-section">
-                <div id="config-acc-tab" class="content-box" style="display: none;">
-                    <h1>Configure sua conta.</h1>
-                </div>
-                <div id="register-user-tab" class="content-box" style="display: none;">
-                    <h1>Cadastre-se um usuário.</h1>
-                    <form class="standard-form">
-                        <input type="text" placeholder="Nome Completo">
-                        <input type="text" placeholder="Endereço">
-                        <input type="tel" placeholder="Telefone">
-                        <input type="email" placeholder="Email">
-                        <input type="password" placeholder="Senha">
-                        <input type="password" placeholder="Confirmar Senha">  
-                        <div class="user-selection">
-                            <p>Usuário:</p>
-                            <input type="radio" id="patient-check" name="user_type" value="patient" onclick="changeTypeUserForm()">
-                            <label for="patient">Paciente</label>
-                            <input type="radio" id="doctor-check" name="user_type" value="doctor" onclick="changeTypeUserForm()">
-                            <label for="doctor">Médico</label>
-                            <input type="radio" id="lab-check" name="user_type" value="lab" onclick="changeTypeUserForm()">
-                            <label for="lab">Laboratório</label>
-                        </div>
-                        <div id="patient-form" style="display:none" class="standard-form">
-                            <div class="type-selection">
-                                <label for="genero">Gênero: </label>
-                                <select id="genero" name="genero">
-                                    <option value="masculino">Masculino</option>
-                                    <option value="feminino">Feminino</option>
-                                </select>
+            <div id="config-acc-tab" class="content-section">
+                <h1>Configure sua conta.</h1>
+            </div>
+            <div id="register-user-tab" class="content-section" style="display: none;">
+                <h1>Cadastrar um usuário.</h1>
+                <form name="register-form" onsubmit="registerUser()">
+                    <input type="text" placeholder="Nome Completo" name="name">
+                    <input type="text" placeholder="Endereço" name="adress">
+                    <input type="tel" placeholder="Telefone" name="tel">
+                    <input type="email" placeholder="Email" name="email">
+                    <input type="password" placeholder="Senha" name="password">
+                    <input type="password" placeholder="Confirmar Senha" name="cpassword">
+                    <div class="select-style">
+                        <p>Usuário:</p>
+                        <div class="check-selection">
+                            <div class="check-input">
+                                <input type="radio" id="patient-check" name="user_type" value="patient" onclick="changeTypeUserForm()">
+                                <label for="patient">Paciente</label>
                             </div>
-                            <input type="text" placeholder="Idade">
-                            <input type="text" placeholder="CPF">
-                        </div>
-                        <div id="doctor-form" style="display:none" class="standard-form">
-                            <div class="type-selection">
-                                <label for="especialidade">Especialidade: </label>
-                                <select id="especialidade" name="especialidade">
-                                    <option value="cardiologista">Cardiologista</option>
-                                    <option value="pediatra">Pediatra</option>
-                                    <option value="psiquiatra">Psiquiatra</option>
-                                    <option value="psicologo">Psicólogo</option>
-                                </select>
+                            <div class="check-input">
+                                <input type="radio" id="doctor-check" name="user_type" value="doctor" onclick="changeTypeUserForm()">
+                                <label for="doctor">Médico</label>
                             </div>
-                            <input type="text" placeholder="CRM">
+                            <div class="check-input">
+                                <input type="radio" id="lab-check" name="user_type" value="lab" onclick="changeTypeUserForm()">
+                                <label for="lab">Laboratório</label>          
+                            </div>
                         </div>
-                        <div id="lab-form" style="display:none" class="standard-form">
+                    </div>
+                    <div id="patient-form" class="content-section" style="display:none">
+                        <div class="select-style">
+                            <p>Gênero:</p>
+                            <select id="genero" name="sex">
+                                <option value="nenhum">-</option>
+                                <option value="masculino">Masculino</option>
+                                <option value="feminino">Feminino</option>
+                            </select>
+                        </div>
+                        <input type="text" placeholder="Idade" name="age">
+                        <input type="text" placeholder="CPF" name="cpf">
+                    </div>
+                    <div id="doctor-form" class="content-section" style="display:none">
+                        <div class="select-style">
+                            <p>Especialidade:</p>
+                            <select id="especialidade" name="especialidade">
+                                <option value="nenhuma">-</option>
+                                <option value="cardiologista">Cardiologista</option>
+                                <option value="pediatra">Pediatra</option>
+                                <option value="psiquiatra">Psiquiatra</option>
+                                <option value="psicologo">Psicólogo</option>
+                            </select>
+                        </div>
+                        <input type="text" placeholder="CRM" name="crm">
+                    </div>
+                    <div id="lab-form" class="content-section" style="display:none">
+                        <div class="select-style">
                             <p>Exames Realizados: </p>
-                            <div class="checkbox-selection">
-                                <input type="checkbox" id="mamografia-check" name="mamografia-check" value="mamografia">
-                                <label for="mamografia-check">Mamografia</label>
+                            <div class="check-selection">
+                                <div class="check-input">
+                                    <input type="checkbox" id="mamografia-check" name="exams" value="mamografia">
+                                    <label for="mamografia-check">Mamografia</label>
+                                </div>
+                                <div class="check-input">
+                                    <input type="checkbox" id="ressonancia-check" name="exams" value="ressonancia">
+                                    <label for="ressonancia-check">Ressonância Magnética</label>
+                                </div>
+                                <div class="check-input">
+                                    <input type="checkbox" id="tomografia-check" name="exams" value="tomografia">
+                                    <label for="tomografia-check">Tomografia</label>
+                                </div>
+                                <div class="check-input">
+                                    <input type="checkbox" id="sonografia-check" name="exams" value="sonografia">
+                                    <label for="sonografia-check">Ultra-sonografia</label>
+                                </div>
                             </div>
-                            <div class="checkbox-selection">
-                                <input type="checkbox" id="ressonancia-check" name="ressonancia-check" value="ressonancia">
-                                <label for="ressonancia-check">Ressonância Magnética</label>
-                            </div>
-                            <div class="checkbox-selection">
-                                <input type="checkbox" id="tomografia-check" name="tomografia-check" value="tomografia">
-                                <label for="tomografia-check">Tomografia</label>
-                            </div>
-                            <div class="checkbox-selection">
-                                <input type="checkbox" id="sonografia-check" name="sonografia-check" value="sonografia">
-                                <label for="sonografia-check">Ultra-sonografia</label>
-                            </div>
-                            <input type="text" placeholder="CNPJ">
-                        </div>               
-                    </form>
-                    <a href="index.html" onclick="isLogged()"><button class="content-box">Cadastre-se</button></a>
-                </div>
-                <div id="change-user-tab" class="content-box" style="display: none;">
-                    <h1>Altere um usuário</h1>
-                </div>
+                        </div>
+                        <input type="text" placeholder="CNPJ" name="cnpj">
+                    </div>
+                    <input type="submit" value="Cadastre-se" class="default-button">          
+                </form>
+            </div>
+            <div id="change-user-tab" class="content-section" style="display: none;">
+                <h1>Altere um usuário</h1>
             </div>
         </div>
     </body>

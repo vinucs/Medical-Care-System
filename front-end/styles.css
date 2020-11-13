@@ -5,10 +5,6 @@
     padding: 0;
 }
 
-*:focus {
-    outline: none;
-}
-
 /* HEADER */
 .header {
     background-color: teal;
@@ -43,41 +39,43 @@
     color: black;
 }
 
-.header button:hover {
-    background-color: rgb(15, 233, 186);
-}
-
-.header button {
+.default-button {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 500;
     font-size: 20px;
     color: whitesmoke;
     text-decoration: none;
+    width: 100px;
     padding: 9px 25px;
     background-color: green;
     border: none;
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s ease 0s;
+    outline: none;
 }
 
-#logo {
+.default-button:hover {
+    background-color: rgb(15, 233, 186);
+}
+
+.logo {
     cursor: pointer;
 }
 
 #logout-img {
-    cursor: pointer;
     margin: 0px 30px;
     width: 30px;
 }
 
 .container {
     display: flex;  
-    align-items: center;
+    align-items: baseline;
     justify-content: center;
     background-color: rgb(189, 247, 247);
     min-height: 100vh;
     font-family: sans-serif;
+    padding: 150px 50px;
 }
 
 .container p, a{
@@ -96,7 +94,7 @@ footer {
     padding: 10px;
 }
 
-/*---------- HOME PAGE -----------*/
+/*---------- DEFAULT PAGE -----------*/
 
 .description {
     padding: 40px 40px;
@@ -113,10 +111,11 @@ footer {
     justify-content: left;
 }
 
-/*---------- LOGIN AND SIGN IN PAGE -----------*/
+/*---------- LOGIN PAGE -----------*/
 
-.content-box {
+.login-box {
     padding: 40px 40px;
+    margin: 150px;
     display: flex;
     flex-direction: column;
     background-color:white;
@@ -126,80 +125,43 @@ footer {
     align-items: center;
 }
 
-.content-box h1 {
+.login-box h1 {
     font-size: 30px;
     text-align: center;
     color: black;
     padding-bottom: 10px;
 }
 
-.content-box p {
+.login-box p {
     font-size: 18px;
     text-align: center;
     color: black;
     padding-bottom: 30px;
 }
 
-.content-box button{
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 500;
-    font-size: 20px;
-    color: whitesmoke;
-    text-decoration: none;
-    background-color: green;
-    border: none;
-    border-radius: 50px;
-    margin: 35px;
-    padding: 10px 25px;
-    cursor: pointer;
-    transition: all 0.3s ease 0s;
-}
-
-.content-box button:hover{
-    background-color: rgb(15, 233, 186);
-}
-
-.standard-form {
-    display: flex;
-    flex-direction: column;
-}
-
-.standard-form input{
+.login-box input{
     font-size: 18px;
     margin: 3px;
     padding: 2px 2px;
+    width: 300px;
 }
 
-/*---------- SIGN IN PAGE -----------*/
-.user-selection {
-    margin: 20px;
-    display: inline-block;
+.login-box form {
+    display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
-.type-selection {
-    display: inline-block;
-    margin: 3px;
-}
-
-.type-selection select{
-    font-size: 14px;
-}
-
-.checkbox-selection {
-    display: inline-flex;
-}
-
-/*---------- ACC OPTIONS -----------*/
+/*---------- ACCOUNT PAGE -----------*/
 .acc-options {
+    margin: 0px 30px;
+    padding: 15px 15px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     width: fit-content;
     height: fit-content;
-    padding: 20px 20px;
-    margin: 0px 30px;
     border-radius: 15px;
     background-color: white;
 }
@@ -223,13 +185,90 @@ footer {
 }
 
 .content-section {
-    padding: 4px 40px;
     margin: 0px 30px;
+    padding: 20px 20px;
     display: flex;
     flex-direction: column;
-    background-color:white;
-    border-radius: 15px;
     width: 70%;
     height: fit-content;
     align-items: center;
+    background-color:white;
+    border-radius: 15px;
 }
+
+.content-section h1 {
+    font-size: 30px;
+    text-align: center;
+    color: black;
+    padding-top: 15px;
+    padding-bottom: 35px;
+}
+
+.content-section p {
+    font-size: 18px;
+    text-align: center;
+    color: black;
+    padding-bottom: 30px;
+}
+
+.content-section input{
+    font-size: 18px;
+    margin: 3px;
+    padding: 2px 2px;
+    width: 300px;
+}
+
+.content-section form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.select-style {
+    margin: 10px;
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: space-between;
+    width: 300px;
+}
+
+.select-style p {
+    font-size: 18px;
+    text-align: left;
+    color: black;
+    padding-right: 30px;
+}
+
+.select-style select {
+    font-size: 18px;
+}
+
+.check-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+.check-input {
+    display: inline-flex;
+    align-items: center;
+    margin: 2px;
+}
+
+.check-input input {
+    width: 20px;
+}
+
+.type-selection {
+    display: inline-block;
+    margin: 3px;
+}
+
+.type-selection select{
+    font-size: 14px;
+}
+
+.checkbox-selection {
+    display: inline-flex;
+}
+
