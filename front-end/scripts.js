@@ -1,6 +1,7 @@
 /* ---------- INITIAL FUNCTIONS ---------- */
 
 // Check if user is logged on the system
+console.log(localStorage.getItem("is_logged"));
 if (localStorage.getItem("is_logged") == 1)
     showAccountManagement();
 else {
@@ -8,17 +9,25 @@ else {
     showLogin();
 }
 
+document
+  .getElementById("login-form")
+  .addEventListener("submit", function(e) {
+    e.preventDefault();
+    window.location.href = "index.html";
+  });
+
 // Change header to show login button
 function showLogin() {
     if (document.getElementById('login-header') != null)
         document.getElementById('login-header').style.display = "flex";
-    document.getElementById('acc-header').style.display = "none";
+    if (document.getElementById('acc-header') != null) 
+        document.getElementById('acc-header').style.display = "none";
     console.log("not logged");
 }
 
 // Change header to show account button and change account path
 function showAccountManagement() {
-    console.log(window.location.pathname);
+    console.log(window.location.href);
     if (window.location.pathname == "login.html"){
         document.location.replace("index.html");
         return;
@@ -55,7 +64,7 @@ function makeLogin(){
     console.log(document.location);
     localStorage.setItem("is_logged", 1);
     localStorage.setItem("user_type", "admin");
-    window.replace("index.html");
+    window.location.href = "index.html"; 
  }
 
  function logoutAccount(){
