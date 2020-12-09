@@ -1,104 +1,30 @@
-/* ---------- INITIAL FUNCTIONS ---------- */
+ /* ---------- CHANGE TAB FUNCTION ---------- */
 
-// Check if user is logged on the system
-// console.log(window.location.pathname);
-// if (window.location.pathname != "/index.html") {
-//     var session_name = "";
-//     console.log(session_name);
-//     if (!session_name)
-//         window.location.replace('index.html');
-// }
-
-// console.log(sessionStorage.getItem("is_logged"));
-// if (sessionStorage.getItem("is_logged") == 1)
-//     showAccountManagement();
-// else {
-//     sessionStorage.setItem("is_logged", 0);
-//     showLogin();
-// }
-
-// document
-//   .getElementById("login-form")
-//   .addEventListener("submit", function(e) {
-//     e.preventDefault();
-//     window.location.href = "index.html";
-//   });
-
-// Change header to show login button
-function showLogin() {
-    if (document.getElementById('login-header') != null)
-        document.getElementById('login-header').style.display = "flex";
-    if (document.getElementById('acc-header') != null) 
-        document.getElementById('acc-header').style.display = "none";
-    console.log("not logged");
+if (sessionStorage.getItem('tab') == null) {
+    loadTab('config acc');
+}   
+else {
+    loadTab(sessionStorage.getItem('tab'));
 }
 
-// Change header to show account button and change account path
-function showAccountManagement() {
-    console.log(window.location.href);
-    if (window.location.pathname == "login.html"){
-        document.location.replace("index.html");
-        return;
-    }
-    document.getElementById('acc-header').style.display = "flex";
-    document.getElementById('login-header').style.display = "none";
-    console.log("is logged");
-    goToAccount();
-}
-
-// Change account path depending on user type
-function goToAccount() {
-    if (sessionStorage.getItem("user_type") == "admin"){
-        document.getElementById('acc-ref').href = "acc-management-admin.html";
-    }
-    else if (sessionStorage.getItem("user_type") == "patient"){
-        document.getElementById('acc-ref').href = "acc-management-patient.html";
-    }
-    else if (sessionStorage.getItem("user_type") == "doctor"){
-        document.getElementById('acc-ref').href = "acc-management-doctor.html";
-    }
-    else if (sessionStorage.getItem("user_type") == "lab"){
-        document.getElementById('acc-ref').href = "acc-management-lab.html";
-    }
-    else {
-        document.getElementById('acc-ref').href = "#";
-        console.log("Page doesnt exist");
-    }
- }
-
-/* ---------- LOGIN FUNCTIONS ---------- */
-
-function makeLogin(){
-    console.log(document.location);
-    sessionStorage.setItem("is_logged", 1);
-    sessionStorage.setItem("user_type", "admin");
-    window.location.href = "index.html"; 
- }
-
- function logoutAccount(){
-     sessionStorage.setItem("is_logged", 0);
-     sessionStorage.setItem("user_type", "none");
- }
-
- /* ---------- ACCOUNT PAGE FUNCTIONS ---------- */
-
- function loadTab(tab){
-    if (tab == 'config acc') {
+function loadTab(new_tab){
+    sessionStorage.setItem('tab', new_tab);
+    if (new_tab == 'config acc') {
         document.getElementById('config-acc-tab').style.display = "flex";
         document.getElementById('register-user-tab').style.display = "none";
         document.getElementById('change-user-tab').style.display = "none";
     }
-    else if (tab == 'register user') {
+    else if (new_tab == 'register user') {
         document.getElementById('register-user-tab').style.display = "flex";
         document.getElementById('config-acc-tab').style.display = "none";
         document.getElementById('change-user-tab').style.display = "none";
     }
-    else if (tab == 'change user') {
+    else if (new_tab == 'change user') {
         document.getElementById('change-user-tab').style.display = "flex";
         document.getElementById('config-acc-tab').style.display = "none";
         document.getElementById('register-user-tab').style.display = "none";
     }
- }
+}
 
 /* ---------- REGISTER FORM FUNCTIONS ---------- */
 
@@ -153,10 +79,9 @@ function validateCPF(numero) {
     }
 }
 
-function validateForm() {
+function validateRegisterForm() {
     var form = document.forms['register-form'];
 
-    // Form's first part
     var nome = form.name.value;
     var endereco = form.adress.value;
     var tel = form.tel.value;
@@ -238,8 +163,25 @@ function validateForm() {
         return false;
     }
 
+    return true;
 }
 
-function registerUser(){
-    validateForm();
+function validateChangeUserForm() {
+    var form = document.forms['changeuser-form'];
+
+    var email = form.email.value;
+    var nova_senha = form.new_password.value;
+    var nova_csenha = form.new_cpassword.value;
+
+    if (email == "" && nova_senha == ""){
+        alert("Nada preenchido!");
+        return false;
+    }
+        
+    if (nova_senha != "" && nova_senha != nova_csenha){
+        alert("Senhas não conferem!");
+        return false;
+    }   
+        
+    return true;
 }

@@ -2,7 +2,7 @@
 
     class User {
         
-        public function login($email, $senha) {
+        public function checkCredentials($email, $senha) {
 
             if (file_exists('contas.xml')) {
                 $xml = simplexml_load_file('contas.xml');
@@ -13,10 +13,8 @@
 
             foreach($xml->children() as $user) {
                 if ($user->email == $email && $user->password == $senha) {
-                    $_SESSION['tipo'] = $user['type'];                  
-                    $_SESSION['email'] = $user->email;
-                    $_SESSION['senha'] = $user->password;
-                    $_SESSION['id'] = $user->id;
+                    $_SESSION['tipo'] = (string)$user['type'];
+                    $_SESSION['id'] = (string)$user->id;
                     return true;
                 }
             }

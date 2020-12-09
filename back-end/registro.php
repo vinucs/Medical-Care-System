@@ -1,4 +1,7 @@
 <?php
+    
+    echo "chegou no registro.php";
+    exit();
     $xml = simplexml_load_file("contas.xml");
 
     foreach ($xml->children() as $contas) {

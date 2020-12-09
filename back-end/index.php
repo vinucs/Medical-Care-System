@@ -1,9 +1,6 @@
-<?php
+<?php session_start();
 
-    $email = $_POST['email'];
-    $senha = $_POST['senha'];
-
-    if (isset($email) && isset($senha)) {
+    if (isset($_POST['email']) && !empty($_POST['email'] && isset($_POST['senha']) && !empty($_POST['senha']))) {
         $email = addslashes($_POST['email']);
         $senha = addslashes($_POST['senha']);
 
@@ -29,16 +26,20 @@
 
         // }
     
-        echo 'maneiro';
-        session_start();
-        if ($user->login($email, $senha) == true) {
-            if (isset(($_SESSION['id']))) {
-                header("Location: " . $_SESSION['tipo'] . '/index.html');
+        if ($user->checkCredentials($email, $senha) == true) {
+            if (isset(($_SESSION['id'])) && !empty($_SESSION['id'])) {
+                header("Location: ../home.html");
                 exit();
             } 
         }
     }
-    header("Location: login.html");
-    // echo '<script type=‘text/javascript’>alert(‘Usuario ou senha incorreta!’); window.location.href=‘login.html’;</script>'; /// Alerta
+    session_unset();
+    session_destroy();
+    
+    $message = 'Email ou senha inválidos.';
+    echo "<script>
+        window.location.replace('../index.html')
+        alert('$message');
+    </script>";
 
 ?>

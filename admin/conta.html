@@ -8,21 +8,21 @@
         <!--swup-->
         <script defer src="scripts.js"></script>
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="../styles.css">
     </head>
     <body>
         <header class="header">
-            <a href="index.html"><img class="logo" src="images/EzMedLogo.png" alt="logo"></a>
+            <a href="../home.html"><img class="logo" src="../images/EzMedLogo.png" alt="logo"></a>
             <nav>
                 <ul class="navbar">
-                    <li class="navbar"><a href="services.html">Serviços</a></li>
-                    <li class="navbar"><a href="services.html">História</a></li>
-                    <li class="navbar"><a href="contact.html">Fale com a EzMed</a></li>
+                    <li class="navbar"><a href="../services.html">Serviços</a></li>
+                    <li class="navbar"><a href="../services.html">História</a></li>
+                    <li class="navbar"><a href="../contact.html">Fale com a EzMed</a></li>
                 </ul>
             </nav>
             <div id="acc-header">
                 <a href="#" id="acc-ref"><button class="default-button">Conta</button></a>
-                <a href="index.html" onclick="logoutAccount()"><img id="logout-img" src="images/logout.png"></a>
+                <a href="../back-end/logout.php"><img id="logout-img" src="../images/logout.png"></a>
             </div>
         </header>        
         <div class="container">
@@ -35,16 +35,24 @@
             </div>
             <div id="config-acc-tab" class="content-section">
                 <h1>Configure sua conta.</h1>
+                <form id="changeuser-form" action="../back-end/change_user.php" method="POST" onsubmit="return validateChangeUserForm()" >
+                    <input type="email" placeholder="Novo email" name="email">
+                    <input type="password" placeholder="Nova Senha" name="new_password">
+                    <input type="password" placeholder="Confirme a Senha" name="new_cpassword">
+                    <label for="password">Senha necessária para mudanças:</label>
+                    <input type="password" placeholder="Senha Atual" name="password" required>
+                    <input type="submit" value="Mudar" class="default-button">
+                </form>
             </div>
             <div id="register-user-tab" class="content-section" style="display: none;">
                 <h1>Cadastrar um usuário.</h1>
-                <form name="register-form" onsubmit="registerUser()">
-                    <input type="text" placeholder="Nome Completo" name="name">
-                    <input type="text" placeholder="Endereço" name="adress">
-                    <input type="tel" placeholder="Telefone" name="tel">
-                    <input type="email" placeholder="Email" name="email">
-                    <input type="password" placeholder="Senha" name="password">
-                    <input type="password" placeholder="Confirmar Senha" name="cpassword">
+                <form id="register-form" action="../back-end/registro.php" method="POST" onsubmit="return validateRegisterForm()">
+                    <input type="text" placeholder="Nome Completo" name="name" required>
+                    <input type="text" placeholder="Endereço" name="adress"required>
+                    <input type="tel" placeholder="Telefone" name="tel" required>
+                    <input type="email" placeholder="Email" name="email" required>
+                    <input type="password" placeholder="Senha" name="password" required>
+                    <input type="password" placeholder="Confirmar Senha" name="cpassword" required>
                     <div class="select-style">
                         <p>Usuário:</p>
                         <div class="check-selection">
@@ -72,7 +80,7 @@
                             </select>
                         </div>
                         <input type="text" placeholder="Idade" name="age">
-                        <input type="text" placeholder="CPF" name="cpf">
+                        <input type="tel" placeholder="CPF" name="cpf">
                     </div>
                     <div id="doctor-form" class="content-section" style="display:none">
                         <div class="select-style">
