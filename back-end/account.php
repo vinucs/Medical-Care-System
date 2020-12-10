@@ -14,6 +14,10 @@
                 header("Location: ../doctor/conta.html");
                 exit();
                 break;
+            case 'lab':
+                header("Location: ../lab/conta.html");
+                exit();
+                break;
         }
     }
         

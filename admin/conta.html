@@ -21,8 +21,8 @@
                 </ul>
             </nav>
             <div id="acc-header">
-                <a href="#" id="acc-ref"><button class="default-button">Conta</button></a>
-                <a href="../back-end/logout.php"><img id="logout-img" src="../images/logout.png"></a>
+                <a href="conta.html" id="acc-ref"><button class="default-button">Conta</button></a>
+                <a href="../back-end/logout.php" onclick="logout()"><img id="logout-img" src="../images/logout.png"></a>
             </div>
         </header>        
         <div class="container">
@@ -46,7 +46,7 @@
             </div>
             <div id="register-user-tab" class="content-section" style="display: none;">
                 <h1>Cadastrar um usuário.</h1>
-                <form id="register-form" action="../back-end/registro.php" method="POST" onsubmit="return validateRegisterForm()">
+                <form id="register-form" action="../back-end/register_user.php" method="POST" onsubmit="return validateRegisterForm()">
                     <input type="text" placeholder="Nome Completo" name="name" required>
                     <input type="text" placeholder="Endereço" name="adress"required>
                     <input type="tel" placeholder="Telefone" name="tel" required>
@@ -100,20 +100,20 @@
                             <p>Exames Realizados: </p>
                             <div class="check-selection">
                                 <div class="check-input">
-                                    <input type="checkbox" id="mamografia-check" name="exams" value="mamografia">
-                                    <label for="mamografia-check">Mamografia</label>
+                                    <input type="checkbox" name="mamografia" value="mamografia">
+                                    <label for="mamografia">Mamografia</label>
                                 </div>
                                 <div class="check-input">
-                                    <input type="checkbox" id="ressonancia-check" name="exams" value="ressonancia">
-                                    <label for="ressonancia-check">Ressonância Magnética</label>
+                                    <input type="checkbox" name="ressonancia" value="ressonancia">
+                                    <label for="ressonancia">Ressonância Magnética</label>
                                 </div>
                                 <div class="check-input">
-                                    <input type="checkbox" id="tomografia-check" name="exams" value="tomografia">
-                                    <label for="tomografia-check">Tomografia</label>
+                                    <input type="checkbox" name="tomografia" value="tomografia">
+                                    <label for="tomografia">Tomografia</label>
                                 </div>
                                 <div class="check-input">
-                                    <input type="checkbox" id="sonografia-check" name="exams" value="sonografia">
-                                    <label for="sonografia-check">Ultra-sonografia</label>
+                                    <input type="checkbox" name="sonografia" value="sonografia">
+                                    <label for="sonografia">Ultra-sonografia</label>
                                 </div>
                             </div>
                         </div>
@@ -124,6 +124,18 @@
             </div>
             <div id="change-user-tab" class="content-section" style="display: none;">
                 <h1>Altere um usuário</h1>
+                <form id="register-form" action="../back-end/change_register.php" method="POST">
+                    <div class="select-style">
+                        <select list="types" id="user-types" required>
+                            <option value="Patient">Paciente</option>
+                            <option value="Doctor">Médico</option>
+                            <option value="Lab">Laboratório</option>
+                        </select>
+                        <input type="text" placeholder="Nome" name="user_name" required>
+                        <input type="submit" value="Procurar" class="default-button"> 
+                    </div>
+                </form>
+                <input type="text" name="print" value="<?php echo 'need help' ?>" />                
             </div>
         </div>
     </body>

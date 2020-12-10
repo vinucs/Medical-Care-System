@@ -1,8 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <accounts>
-    <user type="admin">
+    <user type="admin" id="5fd05f7f9ba9b">
         <email>admin@admin.com</email>
         <password>admin</password>
-        <id>5fd05f7f9ba9b</id>
+    </user>
+    <user type="patient" id="5fd294b692a7d">
+        <name>vinicius</name>
+        <adress>rua 45 de maio</adress>
+        <telephone>32320336</telephone>
+        <email>vinicius@gmail.com</email>
+        <password>12345</password>
+        <genero>masculino</genero>
+        <idade>23</idade>
+        <cpf>02366598023</cpf>
+    </user>
+    <user type="doctor" id="5fd2968cc52fa">
+        <name>Rogerio Costa</name>
+        <adress>Rua Alfredo Lima, 755</adress>
+        <telephone>32656532</telephone>
+        <email>rogerio.costa@hotmal.com</email>
+        <password>12233</password>
+        <especializacao>cardiologista</especializacao>
+        <crm>3377</crm>
+    </user>
+    <user type="doctor" id="5fd29840e4598">
+        <name>Maria Carvalho</name>
+        <adress>Rua 56 de Janeiro, 455</adress>
+        <telephone>32356464</telephone>
+        <email>maria.carvalho76@yahoo.com</email>
+        <password>565656</password>
+        <especializacao>psiquiatra</especializacao>
+        <crm>5677</crm>
+    </user>
+    <user type="lab" id="5fd2998527dcf">
+        <name>Lunav</name>
+        <adress>Rua Caldas Junior, 4555</adress>
+        <telephone>32320122</telephone>
+        <email>lunav.atendimento@gmail.com</email>
+        <password>123987</password>
+        <cnpj>58641132000182</cnpj>
+        <exame>mamografia</exame>
+        <exame>ressonancia</exame>
+        <exame>sonografia</exame>
     </user>
 </accounts>

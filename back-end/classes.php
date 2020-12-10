@@ -14,7 +14,7 @@
             foreach($xml->children() as $user) {
                 if ($user->email == $email && $user->password == $senha) {
                     $_SESSION['tipo'] = (string)$user['type'];
-                    $_SESSION['id'] = (string)$user->id;
+                    $_SESSION['id'] = (string)$user['id'];
                     return true;
                 }
             }

@@ -224,9 +224,7 @@ function validateForm() {
         }
     }
     else if (tipo_de_usuario == "lab") {
-        var exames = form.exams.value;
         var cnpj = form.cnpj.value;
-        console.log(exames);
 
         if (cnpj == "") {
             alert("O CNPJ inserido é inválido!");
