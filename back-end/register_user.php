@@ -73,14 +73,15 @@
             }
             if ($_POST["tomografia"] != NULL) {
                 $new_user->addChild("exame", $_POST["tomografia"]);
-            } else if ($_POST["sonografia"] != NULL) {
+            } 
+            if ($_POST["sonografia"] != NULL) {
                 $new_user->addChild("exame", $_POST["sonografia"]);
             }
         }
 
         $att_xml = simplexml_import_dom($xml);
         $att_xml->saveXML('contas.xml');
-        echo "<script>window.location.replace('../admin/conta.html');alert('Usuário registrado com sucesso!');</script>";
+        echo "<script>window.location.replace('../admin/conta.php');alert('Usuário registrado com sucesso!');</script>";
         unset($_POST);
     }
 

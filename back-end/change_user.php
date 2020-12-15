@@ -25,7 +25,7 @@
 
     unset($_POST);
     echo "<script>
-    window.location.replace('../admin/conta.html')
+    window.location.replace('../admin/conta.php')
     alert('$message');
     </script>";
     exit();

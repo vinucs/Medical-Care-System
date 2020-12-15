@@ -15,6 +15,7 @@
                 if ($user->email == $email && $user->password == $senha) {
                     $_SESSION['tipo'] = (string)$user['type'];
                     $_SESSION['id'] = (string)$user['id'];
+                    $_SESSION['name'] = (string)$user->name;
                     return true;
                 }
             }

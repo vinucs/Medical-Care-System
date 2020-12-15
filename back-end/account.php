@@ -3,23 +3,23 @@
     if(isset(($_SESSION['id'])) && !empty($_SESSION['id'])) {
         switch($_SESSION['tipo']){
             case 'admin':
-                header("Location: ../admin/conta.html");
+                header("Location: ../admin/conta.php");
                 exit();
                 break;
             case 'patient':
-                header("Location: ../patient/conta.html");
+                header("Location: ../patient/conta.php");
                 exit();
                 break;
             case 'doctor':
-                header("Location: ../doctor/conta.html");
+                header("Location: ../doctor/conta.php");
                 exit();
                 break;
             case 'lab':
-                header("Location: ../lab/conta.html");
+                header("Location: ../lab/conta.php");
                 exit();
                 break;
         }
     }
         
-    header("Location: ../index.html");
+    header("Location: ../index.php");
 ?>

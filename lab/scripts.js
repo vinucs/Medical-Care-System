@@ -1,7 +1,7 @@
  /* ---------- CHANGE TAB FUNCTION ---------- */
 
 if (sessionStorage.getItem('tab') == null) {
-    loadTab('config acc');
+    loadTab('register exams');
 }   
 else {
     loadTab(sessionStorage.getItem('tab'));
@@ -13,100 +13,31 @@ function logout() {
 
 function loadTab(new_tab){
     sessionStorage.setItem('tab', new_tab);
-    if (new_tab == 'config acc') {
-        document.getElementById('config-acc-tab').style.display = "flex";
-        document.getElementById('register-user-tab').style.display = "none";
+    if (new_tab == 'register exams') {
+        document.getElementById('reg-exams-tab').style.display = "flex";
+        document.getElementById('exams-hist-tab').style.display = "none";
         document.getElementById('change-user-tab').style.display = "none";
     }
-    else if (new_tab == 'register user') {
-        document.getElementById('register-user-tab').style.display = "flex";
-        document.getElementById('config-acc-tab').style.display = "none";
+    else if (new_tab == 'exams historic') {
+        document.getElementById('exams-hist-tab').style.display = "flex";
+        document.getElementById('reg-exams-tab').style.display = "none";
         document.getElementById('change-user-tab').style.display = "none";
     }
     else if (new_tab == 'change user') {
         document.getElementById('change-user-tab').style.display = "flex";
-        document.getElementById('config-acc-tab').style.display = "none";
-        document.getElementById('register-user-tab').style.display = "none";
+        document.getElementById('reg-exams-tab').style.display = "none";
+        document.getElementById('exams-hist-tab').style.display = "none";
     }
 }
 
 /* ---------- REGISTER FORM FUNCTIONS ---------- */
 
-// Change user type entrys depending on radio input
-function changeTypeUserForm() { 
-    if (document.getElementById('patient-check').checked) {
-        document.getElementById('patient-form').style.display = "flex";
-        document.getElementById('doctor-form').style.display = "none";
-        document.getElementById('lab-form').style.display = "none";
-    }
-    else if (document.getElementById('doctor-check').checked) {
-        document.getElementById('doctor-form').style.display = "flex";
-        document.getElementById('patient-form').style.display = "none";
-        document.getElementById('lab-form').style.display = "none";
-    }
-    else if (document.getElementById('lab-check').checked) {
-        document.getElementById('lab-form').style.display = "flex";
-        document.getElementById('patient-form').style.display = "none";
-        document.getElementById('doctor-form').style.display = "none";
-    }
- }
-
- // Mask function for form inputs
- function fMasc(objeto, mascara) {
-    obj = objeto
-    masc = mascara
-    setTimeout("fMascEx()",1)
-}
-
-function fMascEx() {
-    obj.value=masc(obj.value)
-}
-
-function mTel(tel) {
-    tel=tel.replace(/\D/g,"")
-    tel=tel.replace(/^(\d)/,"($1")
-    tel=tel.replace(/(.{3})(\d)/,"$1)$2")
-    if(tel.length == 9) {
-        tel=tel.replace(/(.{1})$/,"-$1")
-    } else if (tel.length == 10) {
-        tel=tel.replace(/(.{2})$/,"-$1")
-    } else if (tel.length == 11) {
-        tel=tel.replace(/(.{3})$/,"-$1")
-    } else if (tel.length == 12) {
-        tel=tel.replace(/(.{4})$/,"-$1")
-    } else if (tel.length > 12) {
-        tel=tel.replace(/(.{4})$/,"-$1")
-    }
-    return tel;
-}
-
-function mCNPJ(cnpj){
-    cnpj=cnpj.replace(/\D/g,"")
-    cnpj=cnpj.replace(/^(\d{2})(\d)/,"$1.$2")
-    cnpj=cnpj.replace(/^(\d{2})\.(\d{3})(\d)/,"$1.$2.$3")
-    cnpj=cnpj.replace(/\.(\d{3})(\d)/,".$1/$2")
-    cnpj=cnpj.replace(/(\d{4})(\d)/,"$1-$2")
-    return cnpj
-}
-
-function mCPF(cpf){
-    cpf=cpf.replace(/\D/g,"")
-    cpf=cpf.replace(/(\d{3})(\d)/,"$1.$2")
-    cpf=cpf.replace(/(\d{3})(\d)/,"$1.$2")
-    cpf=cpf.replace(/(\d{3})(\d{1,2})$/,"$1-$2")
-    return cpf
-}
-
-function mCEP(cep){
-    cep=cep.replace(/\D/g,"")
-    cep=cep.replace(/^(\d{2})(\d)/,"$1.$2")
-    cep=cep.replace(/\.(\d{3})(\d)/,".$1-$2")
-    return cep
+ function validateEmail(email) {
+    exp_reg = /\S+@\S+\.\S+/;
+    return exp_reg.test(email);
 }
 
 function validateCPF(numero) {
-    numero = numero.replace(/-/g, '');
-    numero = numero.replace(/\./g, '');
     var soma;
     var resto;
     soma = 0;
@@ -154,8 +85,8 @@ function validateRegisterForm() {
         alert("O telefone deve ser preenchido!");
         return false;
     }
-    else if (!email == "") {
-        alert("O e-mail deve ser preenchido!");
+    else if (!validateEmail(email)) {
+        alert("O e-mail inserido é invalido!");
         return false;
     }
     else if (senha == "" || csenha == ""){ 
@@ -172,6 +103,8 @@ function validateRegisterForm() {
         var cpf = form.cpf.value;
         var sexo = form.sex.value;
         var idade = form.age.value;
+
+        console.log(sexo);
 
         if (sexo == "nenhum") {
             alert("Por favor, selecione o sexo");
@@ -237,6 +170,3 @@ function validateChangeUserForm() {
         
     return true;
 }
-
-/*----- Mascaras para o formulario -----*/
-

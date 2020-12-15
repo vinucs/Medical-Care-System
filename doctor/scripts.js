@@ -1,7 +1,7 @@
  /* ---------- CHANGE TAB FUNCTION ---------- */
 
 if (sessionStorage.getItem('tab') == null) {
-    loadTab('config acc');
+    loadTab('register queries');
 }   
 else {
     loadTab(sessionStorage.getItem('tab'));
@@ -13,43 +13,24 @@ function logout() {
 
 function loadTab(new_tab){
     sessionStorage.setItem('tab', new_tab);
-    if (new_tab == 'config acc') {
-        document.getElementById('config-acc-tab').style.display = "flex";
-        document.getElementById('register-user-tab').style.display = "none";
+    if (new_tab == 'register queries') {
+        document.getElementById('reg-queries-tab').style.display = "flex";
+        document.getElementById('queries-hist-tab').style.display = "none";
         document.getElementById('change-user-tab').style.display = "none";
     }
-    else if (new_tab == 'register user') {
-        document.getElementById('register-user-tab').style.display = "flex";
-        document.getElementById('config-acc-tab').style.display = "none";
+    else if (new_tab == 'queris historic') {
+        document.getElementById('queries-hist-tab').style.display = "flex";
+        document.getElementById('reg-queries-tab').style.display = "none";
         document.getElementById('change-user-tab').style.display = "none";
     }
     else if (new_tab == 'change user') {
         document.getElementById('change-user-tab').style.display = "flex";
-        document.getElementById('config-acc-tab').style.display = "none";
-        document.getElementById('register-user-tab').style.display = "none";
+        document.getElementById('reg-queries-tab').style.display = "none";
+        document.getElementById('queries-hist-tab').style.display = "none";
     }
 }
 
 /* ---------- REGISTER FORM FUNCTIONS ---------- */
-
-// Change user type entrys depending on radio input
-function changeTypeUserForm() { 
-    if (document.getElementById('patient-check').checked) {
-        document.getElementById('patient-form').style.display = "flex";
-        document.getElementById('doctor-form').style.display = "none";
-        document.getElementById('lab-form').style.display = "none";
-    }
-    else if (document.getElementById('doctor-check').checked) {
-        document.getElementById('doctor-form').style.display = "flex";
-        document.getElementById('patient-form').style.display = "none";
-        document.getElementById('lab-form').style.display = "none";
-    }
-    else if (document.getElementById('lab-check').checked) {
-        document.getElementById('lab-form').style.display = "flex";
-        document.getElementById('patient-form').style.display = "none";
-        document.getElementById('doctor-form').style.display = "none";
-    }
- }
 
  function validateEmail(email) {
     exp_reg = /\S+@\S+\.\S+/;

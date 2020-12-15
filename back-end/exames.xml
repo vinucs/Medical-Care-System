@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<exames>
+    <consulta id="5fd82541577cb">
+        <lab_id>5fd2998527dcf</lab_id>
+        <patient>Vinicius</patient>
+        <lab>Lunav</lab>
+        <date>2021-01-15</date>
+        <exam_type>Ressonancia Magnética</exam_type>
+    </consulta>
+    <consulta id="5fd8255c0ca04">
+        <lab_id>5fd2998527dcf</lab_id>
+        <patient>Keanu Reeves</patient>
+        <lab>Lunav</lab>
+        <date>2021-01-18</date>
+        <exam_type>Sonografia</exam_type>
+    </consulta>
+    <consulta id="5fd837dbded6b">
+        <lab_id>5fd83700e15f5</lab_id>
+        <patient>Ana Luiza</patient>
+        <lab>Unimed Ltda.</lab>
+        <date>2021-02-23</date>
+        <exam_type>Mamografia</exam_type>
+    </consulta>
+    <consulta id="5fd837ee4cdfc">
+        <lab_id>5fd83700e15f5</lab_id>
+        <patient>Cristiano Ronaldo</patient>
+        <lab>Unimed Ltda.</lab>
+        <date>2021-01-05</date>
+        <exam_type>Ultra-sonografia</exam_type>
+    </consulta>
+    <consulta id="5fd8389b831c7">
+        <lab_id>5fd83700e15f5</lab_id>
+        <patient>Cristiano Ronaldo</patient>
+        <lab>Unimed Ltda.</lab>
+        <date>2021-05-04</date>
+        <exam_type>Ressonancia Magnética</exam_type>
+    </consulta>
+</exames>

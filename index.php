@@ -15,7 +15,7 @@
             <div class="login-box">
                 <h1>Bem-vindo!</h1>
                 <p>Entre para usar os recursos da plataforma!</p>
-                <form action="back-end/index.php" method="POST" id="login-form">
+                <form action="back-end/login.php" method="POST" id="login-form">
                     <input type="email" placeholder="Nome de usuário" name="email">
                     <input type="password" placeholder="Senha" name="senha">
                     <input type="submit" value="Entrar" class="default-button">
@@ -27,3 +27,4 @@
         <p>Feito por Nathan Garcia e Vinicius Sartorio. O código é livre, podendo ser utilizado por qualquer indivíduo.</p>
     </footer>
 </html>
+

@@ -1,3 +1,21 @@
+<?php session_start();
+
+    function getUsers() {
+        $xml = simplexml_load_file("../back-end/contas.xml");
+
+        $users = array();
+        foreach($xml->children() as $user) {
+            if ((string)$user['id'] != $_SESSION['id']) {
+                $new_u = array((string)$user->name, (string)$user['type'], (string)$user->email);
+                $users = array_merge($users, $new_u);
+            }
+        }
+
+        return $users;
+    }
+
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,10 +38,8 @@
                     <li class="navbar"><a href="../contact.html">Fale com a EzMed</a></li>
                 </ul>
             </nav>
-            <div id="acc-header">
-                <a href="conta.html" id="acc-ref"><button class="default-button">Conta</button></a>
-                <a href="../back-end/logout.php" onclick="logout()"><img id="logout-img" src="../images/logout.png"></a>
-            </div>
+            <a href="conta.php" id="acc-ref"><button class="default-button">Conta</button></a>
+            <a href="../back-end/logout.php" onclick="logout()"><img id="logout-img" src="../images/logout.png"></a>
         </header>        
         <div class="container">
             <div class="acc-options">
@@ -34,13 +50,16 @@
                 </ul>
             </div>
             <div id="config-acc-tab" class="content-section">
-                <h1>Configure sua conta.</h1>
+                <h1>Configure suas credenciais.</h1>
                 <form id="changeuser-form" action="../back-end/change_user.php" method="POST" onsubmit="return validateChangeUserForm()" >
                     <input type="email" placeholder="Novo email" name="email">
                     <input type="password" placeholder="Nova Senha" name="new_password">
                     <input type="password" placeholder="Confirme a Senha" name="new_cpassword">
-                    <label for="password">Senha necessária para mudanças:</label>
-                    <input type="password" placeholder="Senha Atual" name="password" required>
+                    <br>
+                    <div class="input-label">
+                        <label for="password"><p>Senha atual necessária:</p></label>
+                        <input type="password" placeholder="Senha Atual" name="password" required>
+                    </div>
                     <input type="submit" value="Mudar" class="default-button">
                 </form>
             </div>
@@ -49,7 +68,7 @@
                 <form id="register-form" action="../back-end/register_user.php" method="POST" onsubmit="return validateRegisterForm()">
                     <input type="text" placeholder="Nome Completo" name="name" required>
                     <input type="text" placeholder="Endereço" name="adress"required>
-                    <input type="tel" placeholder="Telefone" name="tel" required>
+                    <input type="tel" placeholder="Telefone" name="tel" onkeydown="fMasc(this, mTel);" required>
                     <input type="email" placeholder="Email" name="email" required>
                     <input type="password" placeholder="Senha" name="password" required>
                     <input type="password" placeholder="Confirmar Senha" name="cpassword" required>
@@ -72,15 +91,15 @@
                     </div>
                     <div id="patient-form" class="content-section" style="display:none">
                         <div class="select-style">
-                            <p>Gênero:</p>
+                            <p>Sexo:</p>
                             <select id="genero" name="sex">
                                 <option value="nenhum">-</option>
                                 <option value="masculino">Masculino</option>
                                 <option value="feminino">Feminino</option>
                             </select>
                         </div>
-                        <input type="text" placeholder="Idade" name="age">
-                        <input type="tel" placeholder="CPF" name="cpf">
+                        <input type="tel" placeholder="Idade" name="age">
+                        <input type="tel" placeholder="CPF" name="cpf" onkeydown="fMasc(this, mCPF);">
                     </div>
                     <div id="doctor-form" class="content-section" style="display:none">
                         <div class="select-style">
@@ -100,42 +119,53 @@
                             <p>Exames Realizados: </p>
                             <div class="check-selection">
                                 <div class="check-input">
-                                    <input type="checkbox" name="mamografia" value="mamografia">
+                                    <input type="checkbox" name="mamografia" value="Mamografia">
                                     <label for="mamografia">Mamografia</label>
                                 </div>
                                 <div class="check-input">
-                                    <input type="checkbox" name="ressonancia" value="ressonancia">
+                                    <input type="checkbox" name="ressonancia" value="Ressonancia Magnética">
                                     <label for="ressonancia">Ressonância Magnética</label>
                                 </div>
                                 <div class="check-input">
-                                    <input type="checkbox" name="tomografia" value="tomografia">
+                                    <input type="checkbox" name="tomografia" value="Tomografia">
                                     <label for="tomografia">Tomografia</label>
                                 </div>
                                 <div class="check-input">
-                                    <input type="checkbox" name="sonografia" value="sonografia">
+                                    <input type="checkbox" name="sonografia" value="Sonografia">
                                     <label for="sonografia">Ultra-sonografia</label>
                                 </div>
                             </div>
                         </div>
-                        <input type="text" placeholder="CNPJ" name="cnpj">
+                        <input type="text" placeholder="CNPJ" name="cnpj" onkeydown="fMasc(this, mCNPJ);">
                     </div>
                     <input type="submit" value="Cadastre-se" class="default-button">          
                 </form>
             </div>
             <div id="change-user-tab" class="content-section" style="display: none;">
                 <h1>Altere um usuário</h1>
-                <form id="register-form" action="../back-end/change_register.php" method="POST">
-                    <div class="select-style">
-                        <select list="types" id="user-types" required>
-                            <option value="Patient">Paciente</option>
-                            <option value="Doctor">Médico</option>
-                            <option value="Lab">Laboratório</option>
-                        </select>
-                        <input type="text" placeholder="Nome" name="user_name" required>
-                        <input type="submit" value="Procurar" class="default-button"> 
-                    </div>
-                </form>
-                <input type="text" name="print" value="<?php echo 'need help' ?>" />                
+                <table>
+                    <tr>
+                        <th>Usuário</th>
+                        <th>Tipo</th>
+                        <th>Email</th>
+                        <th></th>
+                    </tr>
+                    <?php
+                        $users = getUsers();
+                        echo "<tr>";
+                        $cont = 0;
+                        for($i = 0; $i < count($users); $i++) {
+                            echo "<td>$users[$i]</td>";
+                            $cont++;
+                            if ($cont == 3){
+                                echo "<td>Alterar</td>";
+                                echo "</tr><tr>";
+                                $cont = 0;
+                            }
+                        }
+                        echo "</tr>";
+                    ?>
+                    </table>              
             </div>
         </div>
     </body>

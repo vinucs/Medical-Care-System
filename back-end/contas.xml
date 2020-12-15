@@ -5,20 +5,20 @@
         <password>admin</password>
     </user>
     <user type="patient" id="5fd294b692a7d">
-        <name>vinicius</name>
-        <adress>rua 45 de maio</adress>
-        <telephone>32320336</telephone>
+        <name>Vinicius</name>
+        <adress>rua 45 de maio, 561</adress>
+        <telephone>(53)3232-0336</telephone>
         <email>vinicius@gmail.com</email>
         <password>12345</password>
         <genero>masculino</genero>
         <idade>23</idade>
-        <cpf>02366598023</cpf>
+        <cpf>023.665.980-23</cpf>
     </user>
     <user type="doctor" id="5fd2968cc52fa">
         <name>Rogerio Costa</name>
         <adress>Rua Alfredo Lima, 755</adress>
-        <telephone>32656532</telephone>
-        <email>rogerio.costa@hotmal.com</email>
+        <telephone>(53)3265-6532</telephone>
+        <email>rogerio.costa@hotmail.com</email>
         <password>12233</password>
         <especializacao>cardiologista</especializacao>
         <crm>3377</crm>
@@ -26,7 +26,7 @@
     <user type="doctor" id="5fd29840e4598">
         <name>Maria Carvalho</name>
         <adress>Rua 56 de Janeiro, 455</adress>
-        <telephone>32356464</telephone>
+        <telephone>(51)3235-6464</telephone>
         <email>maria.carvalho76@yahoo.com</email>
         <password>565656</password>
         <especializacao>psiquiatra</especializacao>
@@ -35,12 +35,54 @@
     <user type="lab" id="5fd2998527dcf">
         <name>Lunav</name>
         <adress>Rua Caldas Junior, 4555</adress>
-        <telephone>32320122</telephone>
+        <telephone>(53)3232-0122</telephone>
         <email>lunav.atendimento@gmail.com</email>
         <password>123987</password>
-        <cnpj>58641132000182</cnpj>
-        <exame>mamografia</exame>
-        <exame>ressonancia</exame>
-        <exame>sonografia</exame>
+        <cnpj>58.641.132/0001-82</cnpj>
+        <exame>Mamografia</exame>
+        <exame>Ressonancia Magnética</exame>
+        <exame>Sonografia</exame>
+    </user>
+    <user type="patient" id="5fd2ec09b85d1">
+        <name>Keanu Reeves</name>
+        <adress>Rua Wall Street, 5665</adress>
+        <telephone>(53)5664-5233</telephone>
+        <email>keanu88@gmail.com</email>
+        <password>456456</password>
+        <genero>masculino</genero>
+        <idade>45</idade>
+        <cpf>203.359.870-44</cpf>
+    </user>
+    <user type="patient" id="5fd30d3b2257f">
+        <name>Ana Luiza</name>
+        <adress>Rua General Deodoro, 7888</adress>
+        <telephone>(53)3235-4466</telephone>
+        <email>ana.luiza@hotmail.com</email>
+        <password>454545</password>
+        <genero>feminino</genero>
+        <idade>19</idade>
+        <cpf>623.562.987-11</cpf>
+    </user>
+    <user type="patient" id="5fd83535129c7">
+        <name>Cristiano Ronaldo</name>
+        <adress>Avenida Portugal, 1007</adress>
+        <telephone>(53)3237-8977</telephone>
+        <email>cr7.penalti@gmail.com</email>
+        <password>7777777</password>
+        <genero>masculino</genero>
+        <idade>35</idade>
+        <cpf>027.567.897-77</cpf>
+    </user>
+    <user type="lab" id="5fd83700e15f5">
+        <name>Unimed Ltda.</name>
+        <adress>Rua General Vitorino, 411</adress>
+        <telephone>(53)3231-5678</telephone>
+        <email>atendimento@unimed.br</email>
+        <password>123654</password>
+        <cnpj>05.562.233/4556-55</cnpj>
+        <exame>Mamografia</exame>
+        <exame>Ressonancia Magnética</exame>
+        <exame>Tomografia</exame>
+        <exame>Ultra-sonografia</exame>
     </user>
 </accounts>

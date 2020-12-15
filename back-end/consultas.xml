@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<consultas>
+    <consulta id="5fd2faa4e7c2e">
+        <doctor_id>5fd2968cc52fa</doctor_id>
+        <patient>Vinicius</patient>
+        <doctor>Rogerio Costa</doctor>
+        <date>2020-12-01</date>
+        <sintomas>Febre, dor nas costas, tosse forte.</sintomas>
+    </consulta>
+    <consulta id="5fd2fbf5bf6d2">
+        <doctor_id>5fd2968cc52fa</doctor_id>
+        <patient>Keanu Reeves</patient>
+        <doctor>Rogerio Costa</doctor>
+        <date>2021-02-22</date>
+        <sintomas>Vomito, Febre, Dor no corpo.</sintomas>
+    </consulta>
+    <consulta id="5fd30d956e025">
+        <doctor_id>5fd2968cc52fa</doctor_id>
+        <patient>Ana Luiza</patient>
+        <doctor>Rogerio Costa</doctor>
+        <date>2021-01-23</date>
+        <sintomas>Dor de Cabeca, Febre, Dor de Barriga.</sintomas>
+    </consulta>
+    <consulta id="5fd3104beeefa">
+        <doctor_id>5fd29840e4598</doctor_id>
+        <patient>Keanu Reeves</patient>
+        <doctor>Maria Carvalho</doctor>
+        <date>2021-01-12</date>
+        <sintomas>Depressão.</sintomas>
+    </consulta>
+</consultas>
