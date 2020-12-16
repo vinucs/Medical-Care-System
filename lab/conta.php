@@ -1,15 +1,35 @@
 <?php session_start();
 
-    function getPatient() {
+    function getAllPatients() {
         $xml = simplexml_load_file("../back-end/contas.xml");
 
         $patients = array();
         foreach($xml->children() as $user) {
             if ((string)$user['type'] == 'patient') {
-                $patients[] = (string)$user->name;
+                $new_p = array((string)$user->name, (string)$user->cpf, (string)$user['id']);
+                array_push($patients, $new_p);
             }
         }
+
         return $patients;
+    }
+
+    function getPatient($id) {
+        $xml = simplexml_load_file("../back-end/contas.xml");
+
+        $patient = array();
+        foreach($xml->children() as $user) {
+            if ((string)$user['id'] == $id) {
+                array_push($patient, (string)$user->name);
+                array_push($patient, (string)$user->cpf);
+                return $patient;
+            }
+        }
+
+        array_push($patient, "Pacient not found");
+        array_push($patient, "Pacient not found");
+        return $patient;
+        
     }
 
     function getExamsType() {
@@ -31,11 +51,13 @@
 
     function getExams() {
         $xml = simplexml_load_file("../back-end/exames.xml");
+
         $exams = array();
         foreach($xml->children() as $exam) {
             if ((string)$exam->lab_id == $_SESSION['id']) {
-                $new_e = array((string)$exam->patient, (string)$exam->date, (string)$exam->exam_type);
-                $exams = array_merge($exams, $new_e);
+                $patient = getPatient((string)$exam->patient_id);
+                $new_e = array($patient[0], $patient[1], (string)$exam->date, (string)$exam->exam_type);
+                array_push($exams, $new_e);
             }
         }
 
@@ -61,12 +83,12 @@
             <a href="../home.html"><img class="logo" src="../images/EzMedLogo.png" alt="logo"></a>
             <nav>
                 <ul class="navbar">
-                    <li class="navbar"><a href="../services.html">Serviços</a></li>
-                    <li class="navbar"><a href="../history.html">História</a></li>
-                    <li class="navbar"><a href="../contact.html">Fale com a EzMed</a></li>
+                    <li><a href="../services.html">Serviços</a></li>
+                    <li><a href="../services.html">História</a></li>
+                    <li><a href="../contact.html">Fale com a EzMed</a></li>
                 </ul>
             </nav>
-            <div id="acc-header">
+            <div class="acc-header">
                 <a href="conta.php" id="acc-ref"><button class="default-button">Conta</button></a>
                 <a href="../back-end/logout.php" onclick="logout()"><img id="logout-img" src="../images/logout.png"></a>
             </div>
@@ -86,9 +108,9 @@
                         <select name="patient" required>
                             <option value="nenhum">-------</option>
                             <?php
-                                $patients = getPatient();
+                                $patients = getAllPatients();
                                 foreach($patients as $patient) {
-                                    echo "<option value='$patient'>$patient</option>";
+                                    echo "<option value='$patient[2]'>$patient[0] - $patient[1]</option>";
                                 }
                             ?>
                         </select>
@@ -118,24 +140,22 @@
                     <table>
                         <tr>
                             <th>Paciente</th>
+                            <th>CPF</th>
                             <th>Data</th>
                             <th>Exame</th>
                             <th></th>
                         </tr>
                     <?php
                         $exams = getExams();
-                        echo "<tr>";
-                        $cont = 0;
-                        for($i = 0; $i < count($exams); $i++) {
-                            echo "<td>$exams[$i]</td>";
-                            $cont++;
-                            if ($cont == 3){
-                                echo "<td>Alterar</td>";
-                                echo "</tr><tr>";
-                                $cont = 0;
-                            }
+                        foreach($exams as $exam) {
+                            echo "<tr>";
+                            echo "<td>$exam[0]</td>";
+                            echo "<td>$exam[1]</td>";
+                            echo "<td>$exam[2]</td>";
+                            echo "<td>$exam[3]</td>";
+                            echo "<td>Alterar</td>";
+                            echo "</tr>";
                         }
-                        echo "</tr>";
                     ?>
                     </table>
                 </div>

@@ -28,6 +28,5 @@
     window.location.replace('../admin/conta.php')
     alert('$message');
     </script>";
-    exit();
 
 ?>

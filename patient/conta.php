@@ -2,9 +2,10 @@
 
     function getQueries() {
         $xml = simplexml_load_file("../back-end/consultas.xml");
+
         $queries = array();
         foreach($xml->children() as $querie) {
-            if ((string)$querie->patient == $_SESSION['name']) {
+            if ((string)$querie->patient_id == $_SESSION['id']) {
                 $new_q = array((string)$querie->doctor, (string)$querie->date, (string)$querie->sintomas);
                 $queries = array_merge($queries, $new_q);
             }
@@ -15,9 +16,10 @@
 
     function getExams() {
         $xml = simplexml_load_file("../back-end/exames.xml");
+        
         $exams = array();
         foreach($xml->children() as $exam) {
-            if ((string)$exam->patient == $_SESSION['name']) {
+            if ((string)$exam->patient_id == $_SESSION['id']) {
                 $new_e = array((string)$exam->lab, (string)$exam->date, (string)$exam->exam_type);
                 $exams = array_merge($exams, $new_e);
             }
@@ -45,12 +47,12 @@
             <a href="../home.html"><img class="logo" src="../images/EzMedLogo.png" alt="logo"></a>
             <nav>
                 <ul class="navbar">
-                    <li class="navbar"><a href="../services.html">Serviços</a></li>
-                    <li class="navbar"><a href="../history.html">História</a></li>
-                    <li class="navbar"><a href="../contact.html">Fale com a EzMed</a></li>
+                    <li><a href="../services.html">Serviços</a></li>
+                    <li><a href="../services.html">História</a></li>
+                    <li><a href="../contact.html">Fale com a EzMed</a></li>
                 </ul>
             </nav>
-            <div id="acc-header">
+            <div class="acc-header">
                 <a href="conta.php" id="acc-ref"><button class="default-button">Conta</button></a>
                 <a href="../back-end/logout.php" onclick="logout()"><img id="logout-img" src="../images/logout.png"></a>
             </div>
@@ -67,7 +69,7 @@
                     <h1>Histórico de Consultas.</h1>
                     <table>
                         <tr>
-                            <th>Paciente</th>
+                            <th>Médico</th>
                             <th>Data</th>
                             <th>Sintomas</th>
                         </tr>
@@ -93,9 +95,9 @@
                     <h1>Histórico de Exames.</h1>
                     <table>
                         <tr>
-                            <th>Paciente</th>
+                            <th>Laboratório</th>
                             <th>Data</th>
-                            <th>Exames</th>
+                            <th>Exame</th>
                         </tr>
                     <?php
                         $exams = getExams();

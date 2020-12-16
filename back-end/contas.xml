@@ -5,11 +5,11 @@
         <password>admin</password>
     </user>
     <user type="patient" id="5fd294b692a7d">
-        <name>Vinicius</name>
+        <name>Vinicius Sartorio</name>
         <adress>rua 45 de maio, 561</adress>
         <telephone>(53)3232-0336</telephone>
         <email>vinicius@gmail.com</email>
-        <password>12345</password>
+        <password>123456</password>
         <genero>masculino</genero>
         <idade>23</idade>
         <cpf>023.665.980-23</cpf>
@@ -19,7 +19,7 @@
         <adress>Rua Alfredo Lima, 755</adress>
         <telephone>(53)3265-6532</telephone>
         <email>rogerio.costa@hotmail.com</email>
-        <password>12233</password>
+        <password>122334</password>
         <especializacao>cardiologista</especializacao>
         <crm>3377</crm>
     </user>
@@ -33,7 +33,7 @@
         <crm>5677</crm>
     </user>
     <user type="lab" id="5fd2998527dcf">
-        <name>Lunav</name>
+        <name>Lunav Ltda.</name>
         <adress>Rua Caldas Junior, 4555</adress>
         <telephone>(53)3232-0122</telephone>
         <email>lunav.atendimento@gmail.com</email>
@@ -84,5 +84,24 @@
         <exame>Ressonancia Magnética</exame>
         <exame>Tomografia</exame>
         <exame>Ultra-sonografia</exame>
+    </user>
+    <user type="doctor" id="5fd932153b698">
+        <name>Carol Silva</name>
+        <adress>Rua Buarque de Macedo, 2013</adress>
+        <telephone>(51)99815-6566</telephone>
+        <email>carol@yahoo.com.br</email>
+        <password>aassdd</password>
+        <especializacao>pediatra</especializacao>
+        <crm>45565</crm>
+    </user>
+    <user type="patient" id="5fd933a02e17c">
+        <name>Amanda Carvalho</name>
+        <adress>Avenida Rio Grande, 1998</adress>
+        <telephone>(53)99566-4555</telephone>
+        <email>roberto877@gmail.com</email>
+        <password>878787</password>
+        <genero>feminino</genero>
+        <idade>9</idade>
+        <cpf>545.466.566-66</cpf>
     </user>
 </accounts>

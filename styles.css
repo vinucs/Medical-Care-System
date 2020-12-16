@@ -39,7 +39,13 @@
     color: black;
 }
 
+.acc-header {
+    display: inline-flex;
+    align-items: center;
+}
+
 .default-button {
+    display: block;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 500;
     font-size: 20px;
@@ -65,7 +71,7 @@
 
 #logout-img {
     margin: 0px 20px;
-    width: 30px;
+    width: 26px;
 }
 
 .container {

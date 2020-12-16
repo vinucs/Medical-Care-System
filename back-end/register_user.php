@@ -2,27 +2,29 @@
     
     function checkData($xml) {
         foreach ($xml->children() as $user) {
-            if ($user['type'] == $_POST["user_type"]) {
-                if ($contas->tipo == 'usuario') {
-                    if ($contas->cpf == $_POST["cpf"]) {
-                        echo "<script>window.location.replace('../admin/conta.html');alert('Esse paciente já esta registrado!');</script>";
-                        unset($_POST);
-                        // header('Refresh: 1; url = registro.html');
-                        return false;
-                    }
-                } else if ($contas->tipo == 'lab') {
-                    if ($contas->cnpj == $_POST['cnpj']) {
-                        echo "<script>window.location.replace('../admin/conta.html');alert('Esse laboratório já esta registrado!');</script>";
-                        unset($_POST);
-                        return false;
-                        
-                    }
-                } else if ($contas->tipo == 'doctor') {
-                    if ($contas->crm == $_POST['crm']) {
-                        echo "<script>window.location.replace('../admin/conta.html');alert('Esse médico já esta registrado!');</script>";
-                        unset($_POST);
-                        return false;
-                    }
+            if ($user->email == $_POST["email"]) {
+                echo "<script>window.location.replace('../admin/conta.php');alert('Email já está em uso!');</script>";
+                unset($_POST);
+                return false;
+            }
+            if ($user['type'] == 'patient') {
+                if ($user->cpf == $_POST["cpf"]) {
+                    echo "<script>window.location.replace('../admin/conta.php');alert('Esse CPF já esta registrado!');</script>";
+                    unset($_POST);
+                    return false;
+                }
+            } else if ($user['type'] == 'lab') {
+                if ($user->cnpj == $_POST['cnpj']) {
+                    echo "<script>window.location.replace('../admin/conta.php');alert('Esse CNPJ já esta registrado!');</script>";
+                    unset($_POST);
+                    return false;
+                    
+                }
+            } else if ($user['type'] == 'doctor') {
+                if ($user->crm == $_POST['crm']) {
+                    echo "<script>window.location.replace('../admin/conta.php');alert('Esse CRM já esta registrado!');</script>";
+                    unset($_POST);
+                    return false;
                 }
             }
         }

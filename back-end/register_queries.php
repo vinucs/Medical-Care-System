@@ -1,7 +1,7 @@
 <?php session_start();
 
     function registerQuerie($xml) {
-        $patient = addslashes($_POST["patient"]);
+        $patient_id = addslashes($_POST["patient"]);
         $date = addslashes($_POST["date"]);
         $sintomas = addslashes($_POST["sintomas"]);
         $id = uniqid();
@@ -11,7 +11,7 @@
         $new_querie = $xml->addChild('consulta');
         $new_querie->addAttribute("id", $id);
         $new_querie->addChild("doctor_id", $doctor_id);
-        $new_querie->addChild('patient',  $patient);
+        $new_querie->addChild('patient_id',  $patient_id);
         $new_querie->addChild("doctor", $doctor);
         $new_querie->addChild('date', $date);
         $new_querie->addChild('sintomas', $sintomas);
