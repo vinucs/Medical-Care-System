@@ -51,9 +51,10 @@
     font-size: 20px;
     color: whitesmoke;
     text-decoration: none;
-    width: 100px;
+    width: fit-content;
     padding: 8px 25px;
-    background-color: green;
+    margin: 10px 10px;
+    background-color: rgb(2, 124, 67);
     border: none;
     border-radius: 50px;
     cursor: pointer;
@@ -228,6 +229,17 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.inline-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.inline-content a {
+    font-size: 25px;
+    margin: 10px 10px;
 }
 
 .select-style {

@@ -4,7 +4,7 @@
         <lab_id>5fd2998527dcf</lab_id>
         <patient_id>5fd294b692a7d</patient_id>
         <lab>Lunav Ltda.</lab>
-        <date>2021-01-15</date>
+        <date>2021-01-07</date>
         <exam_type>Ressonancia Magnética</exam_type>
     </consulta>
     <consulta id="5fd8255c0ca04">
@@ -12,7 +12,7 @@
         <patient_id>5fd2ec09b85d1</patient_id>
         <lab>Lunav Ltda.</lab>
         <date>2021-01-18</date>
-        <exam_type>Sonografia</exam_type>
+        <exam_type>Ultra-Sonografia</exam_type>
     </consulta>
     <consulta id="5fd837dbded6b">
         <lab_id>5fd83700e15f5</lab_id>
@@ -42,4 +42,4 @@
         <date>2021-02-17</date>
         <exam_type>Ressonancia Magnética</exam_type>
     </consulta>
-<consulta id="5fd922ae0e5b8"><lab_id>5fd83700e15f5</lab_id><patient_id>5fd294b692a7d</patient_id><lab>Unimed Ltda.</lab><date>2021-03-16</date><exam_type>Ultra-sonografia</exam_type></consulta><consulta id="5fd9358653aad"><lab_id>5fd83700e15f5</lab_id><patient_id>5fd933a02e17c</patient_id><lab>Unimed Ltda.</lab><date>2020-12-29</date><exam_type>Ressonancia Magnética</exam_type></consulta></exames>
+<consulta id="5fdc26df2773b"><lab_id>5fd2998527dcf</lab_id><patient_id>5fd933a02e17c</patient_id><lab>Lunav Ltda.</lab><date>2021-03-17</date><exam_type>Ultra-Sonografia</exam_type></consulta></exames>

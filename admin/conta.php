@@ -18,6 +18,7 @@
         $xml = simplexml_load_file("../back-end/contas.xml");
 
         $user_info = array();
+        array_push($user_info, $ch_user);
         foreach($xml->children() as $user) {
             if ((string)$user['id'] == $ch_user) {
                 foreach($user->children() as $elem)
@@ -72,7 +73,7 @@
                 <ul>
                     <li><a onclick="loadTab('register user')">Cadastrar Usuário</a></li>
                     <li><a onclick="loadTab('change user')">Alterar Cadastros</a></li>
-                    <li><a onclick="loadTab('config acc')">Alterar Credenciais</a></li>
+                    <li><a onclick="loadTab('config acc')">Mudar Credenciais</a></li>
                 </ul>
             </div>
             <div id="register-user-tab" class="content-section" style="display: none;">
@@ -143,14 +144,14 @@
                                     <label for="tomografia">Tomografia</label>
                                 </div>
                                 <div class="check-input">
-                                    <input type="checkbox" name="sonografia" value="Sonografia">
+                                    <input type="checkbox" name="sonografia" value="Ultra-Sonografia">
                                     <label for="sonografia">Ultra-sonografia</label>
                                 </div>
                             </div>
                         </div>
                         <input type="text" placeholder="CNPJ" name="cnpj" onkeydown="fMasc(this, mCNPJ);">
                     </div>
-                    <input type="submit" value="Cadastre-se" class="default-button">          
+                    <button type="submit" form="register-form" class="default-button">Cadastre-se</button>         
                 </form>
             </div>
             <div id="change-user-tab" class="content-section" style="display: none;">
@@ -169,7 +170,7 @@
                             echo "<td>$user[0]</td>";
                             echo "<td>$user[1]</td>";
                             echo "<td>$user[2]</td>";
-                            echo "<td><a href='conta.php?user=$user[3]' onclick=\"loadTab('user form')\">Alterar</a></td>";
+                            echo "<td><a href='conta.php?user=$user[3]' onclick=\"loadTab('user form')\"><u>Alterar</u></a></td>";
                             echo "</tr>";
                         }
                     ?>
@@ -177,7 +178,7 @@
             </div>
             <div id="config-acc-tab" class="content-section" style="display: none;">
                 <h1>Configure suas credenciais.</h1>
-                <form id="changeuser-form" action="../back-end/change_credentials.php" method="POST" onsubmit="return validateChangeUserForm()" >
+                <form id="change-cred-form" action="../back-end/change_credentials.php" method="POST" onsubmit="return validateChangeCredentialsForm()" >
                     <input type="email" placeholder="Novo email" name="email">
                     <input type="password" placeholder="Nova Senha" name="new_password">
                     <input type="password" placeholder="Confirme a Senha" name="new_cpassword">
@@ -186,44 +187,54 @@
                         <label for="password"><p>Senha atual necessária:</p></label>
                         <input type="password" placeholder="Senha Atual" name="password" required>
                     </div>
-                    <input type="submit" value="Mudar" class="default-button">
+                    <button type="submit" form="change-cred-form" class="default-button">Mudar</button>
                 </form>
             </div>
             <div id="change-user-form-tab" class="content-section">
-                <?php echo "<h1>Mude o usuário $user_info[0]</h1>"; ?>
-                <form id="register-form" action="../back-end/change_user.php" method="POST" onsubmit="return validateRegisterForm()">
+                <?php echo "<h1>Mude o usuário $user_info[1].</h1>"; 
+                    echo "<form id='change-user-form' action='../back-end/change_user.php?user=$user_info[0]' method='POST' onsubmit='return validateChangeUserForm()'>";
+                ?>
+                    <script type="text/javascript">
+                        var change_user_type = "<?php echo end($user_info); ?>";
+                    </script>
                     <?php
-                        echo "<input type='text' placeholder='$user_info[0]' name='name'>";
-                        echo "<input type='text' placeholder='$user_info[1]' name='adress'>";
-                        echo "<input type='tel' placeholder='$user_info[2]' name='tel' onkeydown='fMasc(this, mTel);'>";
-                        echo "<input type='email' placeholder='$user_info[3]' name='email'>";
-                        echo "<input type='password' placeholder='Nova Senha' name='password'>";
-                        echo "<input type='password' placeholder='Confirmar Senha' name='cpassword'>";
+                        echo "<input type='text' placeholder='$user_info[1]' name='name' value='$user_info[1]'>";
+                        echo "<input type='text' placeholder='$user_info[2]' name='adress' value='$user_info[2]'>";
+                        echo "<input type='tel' placeholder='$user_info[3]' name='tel' value='$user_info[3]' onkeydown='fMasc(this, mTel);'>";
+                        echo "<input type='email' placeholder='$user_info[4]' name='email' value='$user_info[4]'>";
+                        echo "<input type='password' placeholder='Nova Senha' name='password' value='$user_info[5]'>";
+                        echo "<input type='password' placeholder='Confirmar Senha' name='cpassword' value='$user_info[5]'>";
 
                         if (end($user_info) == 'patient') {
                             echo "<div class='select-style'>
                                     <p>Sexo:</p>
                                     <select id='genero' name='sex'>
-                                        <option value='nenhum'>----------</option>
-                                        <option value='masculino'>Masculino</option>
-                                        <option value='feminino'>Feminino</option>
-                                    </select>
-                                </div>
-                                <input type='tel' placeholder=$user_info[6] name='age' onkeydown='fMasc(this, mNum);'>
-                                <input type='tel' placeholder=$user_info[7] name='cpf' onkeydown='fMasc(this, mCPF);'>";
+                                        <option value=''>----------</option>";
+                            if ($user_info[6] == 'masculino') {
+                                echo "<option value='masculino' selected>Masculino</option>
+                                    <option value='feminino'>Feminino</option>";
+                            }
+                            else {
+                                echo "<option value='masculino'>Masculino</option>
+                                    <option value='feminino' selected>Feminino</option>";
+                            }
+                            echo "</select>
+                                    </div>
+                                    <input type='tel' placeholder='$user_info[7]' name='age' value='$user_info[7]' onkeydown='fMasc(this, mNum);'>
+                                    <input type='tel' placeholder='$user_info[8]' name='cpf' value='$user_info[8]' onkeydown='fMasc(this, mCPF);'>";
                         }
                         else if (end($user_info) == 'doctor') {
                             echo "<div class='select-style'>
                                     <p>Especialidade:</p>
                                     <select id='especialidade' name='especialidade'>
-                                        <option value='nenhuma'>--------------</option>
+                                        <option value=''>--------------</option>
                                         <option value='cardiologista'>Cardiologista</option>
                                         <option value='pediatra'>Pediatra</option>
                                         <option value='psiquiatra'>Psiquiatra</option>
                                         <option value='psicologo'>Psicólogo</option>
                                     </select>
                                 </div>
-                                <input type='text' placeholder=$user_info[6] name='crm' onkeydown='fMasc(this, mNum);'>";
+                                <input type='text' placeholder='$user_info[7]' name='crm' value='$user_info[7]' onkeydown='fMasc(this, mNum);'>";
                         }
                         else if (end($user_info) == 'lab') {
                             echo "<div class='select-style'>
@@ -247,20 +258,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <input type='text' placeholder=$user_info[5] name='cnpj' onkeydown='fMasc(this, mCNPJ);'>";
+                                <input type='text' placeholder='$user_info[6]' name='cnpj' value='$user_info[6]' onkeydown='fMasc(this, mCNPJ);'>";
                         }
 
                     ?>
-
-                    <div id="doctor-change-form" class="content-section" style="display:none">
-
-                    </div>
-                    <div id="lab-change-form" class="content-section" style="display:none">
-                        
-                    </div>
-                    <div class="select-style">
-                        <a href="conta.php" onclick="loadTab('change user')">Voltar</a>
-                        <input type="submit" value="Cadastre-se" class="default-button"> 
+                    <div class="inline-content">
+                        <a href="conta.php" onclick="loadTab('change user')"><i><u>Voltar</i></u></a>
+                        <button type="submit" form="change-user-form" class="default-button">Alterar</button>
                     </div>   
                 </form>
             </div>

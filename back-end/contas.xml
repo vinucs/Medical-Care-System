@@ -6,22 +6,22 @@
     </user>
     <user type="patient" id="5fd294b692a7d">
         <name>Vinicius Sartorio</name>
-        <adress>rua 45 de maio, 561</adress>
+        <adress>rua 45 de maio, 2665</adress>
         <telephone>(53)3232-0336</telephone>
         <email>vinicius@gmail.com</email>
         <password>123456</password>
         <genero>masculino</genero>
         <idade>23</idade>
-        <cpf>023.665.980-23</cpf>
+        <cpf>521.654.447-77</cpf>
     </user>
     <user type="doctor" id="5fd2968cc52fa">
         <name>Rogerio Costa</name>
         <adress>Rua Alfredo Lima, 755</adress>
-        <telephone>(53)3265-6532</telephone>
+        <telephone>(53)3234-5698</telephone>
         <email>rogerio.costa@hotmail.com</email>
-        <password>122334</password>
+        <password>112233</password>
         <especializacao>cardiologista</especializacao>
-        <crm>3377</crm>
+        <crm>337788</crm>
     </user>
     <user type="doctor" id="5fd29840e4598">
         <name>Maria Carvalho</name>
@@ -41,7 +41,7 @@
         <cnpj>58.641.132/0001-82</cnpj>
         <exame>Mamografia</exame>
         <exame>Ressonancia Magnética</exame>
-        <exame>Sonografia</exame>
+        <exame>Ultra-Sonografia</exame>
     </user>
     <user type="patient" id="5fd2ec09b85d1">
         <name>Keanu Reeves</name>
@@ -79,11 +79,11 @@
         <telephone>(53)3231-5678</telephone>
         <email>atendimento@unimed.br</email>
         <password>123654</password>
-        <cnpj>05.562.233/4556-55</cnpj>
+        <cnpj>89.002.482/0001-22</cnpj>
         <exame>Mamografia</exame>
         <exame>Ressonancia Magnética</exame>
         <exame>Tomografia</exame>
-        <exame>Ultra-sonografia</exame>
+        <exame>Ultra-Sonografia</exame>
     </user>
     <user type="doctor" id="5fd932153b698">
         <name>Carol Silva</name>
@@ -103,5 +103,14 @@
         <genero>feminino</genero>
         <idade>9</idade>
         <cpf>545.466.566-66</cpf>
+    </user>
+    <user type="doctor" id="5fdac35d78652">
+        <name>Abel Braga</name>
+        <adress>Rua Beira Rio, 1909</adress>
+        <telephone>(59)3232-0556</telephone>
+        <email>abelao@gmail.com</email>
+        <password>braga20</password>
+        <especializacao>psicologo</especializacao>
+        <crm>56669</crm>
     </user>
 </accounts>

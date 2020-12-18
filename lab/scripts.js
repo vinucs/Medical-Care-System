@@ -1,14 +1,10 @@
  /* ---------- CHANGE TAB FUNCTION ---------- */
 
-if (sessionStorage.getItem('tab') == null) {
-    loadTab('register exams');
+ if (sessionStorage.getItem('tab') == null) {
+    document.addEventListener('DOMContentLoaded', loadTab('register exams'));
 }   
 else {
     loadTab(sessionStorage.getItem('tab'));
-}
-
-function logout() {
-    sessionStorage.clear();
 }
 
 function loadTab(new_tab){
@@ -17,152 +13,118 @@ function loadTab(new_tab){
         document.getElementById('reg-exams-tab').style.display = "flex";
         document.getElementById('exams-hist-tab').style.display = "none";
         document.getElementById('change-user-tab').style.display = "none";
+        document.getElementById('change-exam-form-tab').style.display = "none";
+        document.getElementById('acc-options-tab').style.display = "flex";
     }
     else if (new_tab == 'exams historic') {
         document.getElementById('exams-hist-tab').style.display = "flex";
         document.getElementById('reg-exams-tab').style.display = "none";
         document.getElementById('change-user-tab').style.display = "none";
+        document.getElementById('change-exam-form-tab').style.display = "none";
+        document.getElementById('acc-options-tab').style.display = "flex";
     }
     else if (new_tab == 'change user') {
         document.getElementById('change-user-tab').style.display = "flex";
         document.getElementById('reg-exams-tab').style.display = "none";
         document.getElementById('exams-hist-tab').style.display = "none";
+        document.getElementById('change-exam-form-tab').style.display = "none";
+        document.getElementById('acc-options-tab').style.display = "flex";
+    }
+    else if (new_tab == 'change exam') {
+        document.getElementById('change-exam-form-tab').style.display = "flex";
+        document.getElementById('change-user-tab').style.display = "none";
+        document.getElementById('reg-exams-tab').style.display = "none";
+        document.getElementById('exams-hist-tab').style.display = "none";
+        document.getElementById('acc-options-tab').style.display = "none";
     }
 }
 
-/* ---------- REGISTER FORM FUNCTIONS ---------- */
+/* ---------- CREDENTIALS FUNCTION ---------- */
 
- function validateEmail(email) {
-    exp_reg = /\S+@\S+\.\S+/;
-    return exp_reg.test(email);
+function logout() {
+    sessionStorage.clear();
 }
 
-function validateCPF(numero) {
-    var soma;
-    var resto;
-    soma = 0;
-    if (/^(\d)\1*$/.test(numero) == true || numero.length != 11) { //testa se todos os digitos sao iguais
-        return false;
-    } 
-    else {
-        for (x = 1; x < 9; x++)
-            soma = soma + parseInt(numero.substring(x - 1, x), 10) * (11 - i)
-        resto = (soma * 10) % 11;
-        //verificando primeiro digito
-        if (resto != parseInt(numero.substring(9, 10))) { //primeiro digito verificador
-            alert("O cpf inserido é invalido!!!");
-            return false;
-        }
-        else {
-            for (d = 1; d <= 10; d++)
-                soma = soma + parseInt(number.substring(d - 1, d)) * (12 - d);
-            resto = (soma * 10) % 11;
-            if (resto != parseInt(number.substring(10, 11))) {
-                return true;
-            }
-        }
-    }
+/* ---------- FORM MASK FUNCTIONS ---------- */
+
+function fMasc(objeto, mascara) {
+    obj = objeto
+    masc = mascara
+    setTimeout("fMascEx()",1)
 }
 
-function validateRegisterForm() {
-    var form = document.forms['register-form'];
+function fMascEx() {
+    obj.value=masc(obj.value)
+}
 
-    var nome = form.name.value;
-    var endereco = form.adress.value;
-    var tel = form.tel.value;
-    var email = form.email.value;
-    var senha = form.password.value;
-    var csenha = form.cpassword.value;
-    if (nome == "") {
-        alert("O nome deve ser preenchido!");
-        return false;
+function mTel(tel) {
+    tel=tel.replace(/\D/g,"")
+    tel=tel.replace(/^(\d)/,"($1")
+    tel=tel.replace(/(.{3})(\d)/,"$1)$2")
+    if(tel.length == 9) {
+        tel=tel.replace(/(.{1})$/,"-$1")
+    } else if (tel.length == 10) {
+        tel=tel.replace(/(.{2})$/,"-$1")
+    } else if (tel.length == 11) {
+        tel=tel.replace(/(.{3})$/,"-$1")
+    } else if (tel.length == 12) {
+        tel=tel.replace(/(.{4})$/,"-$1")
+    } else if (tel.length > 12) {
+        tel=tel.replace(/(.{4})$/,"-$1")
     }
-    else if (endereco == "") {
-        alert("O endereço deve ser preenchido!");
-        return false;
-    }
-    else if (tel == "") {
-        alert("O telefone deve ser preenchido!");
-        return false;
-    }
-    else if (!validateEmail(email)) {
-        alert("O e-mail inserido é invalido!");
-        return false;
-    }
-    else if (senha == "" || csenha == ""){ 
-        alert("Insira uma senha");
-        return false;
-    }
-    else if (senha != csenha) {
-        alert("Senha não confere!");
-        return false;
-    }
+    return tel;
+}
 
-    var tipo_de_usuario = form.user_type.value;
-    if (tipo_de_usuario == "patient") {
-        var cpf = form.cpf.value;
-        var sexo = form.sex.value;
-        var idade = form.age.value;
+/* ---------- VALIDATE CHANGE USER FORM FUNCTIONS ---------- */
 
-        console.log(sexo);
+function validateTel(tel) {
+    tel = tel.replace(/-/g, '');
+    tel = tel.replace(/\(/g, '');
+    tel = tel.replace(/\)/g, '');
 
-        if (sexo == "nenhum") {
-            alert("Por favor, selecione o sexo");
-            return false;
-        }
-        else if (idade == "") {
-            alert("Por favor, insira a idade!");
-            return false;
-        }
-        else if (!validateCPF(cpf)) {
-            alert("O CPF inserido nao é valido!");
-            return false;
-        }
+    if (tel == '')
+        return true;
 
-    }
-    else if (tipo_de_usuario == "doctor") {
-        var especialidade = form.especialidade.value;
-        var crm = form.crm.value;
-
-        if (especialidade == "nenhuma") {
-            alert("Escolha uma especialidade!");
-            return false;
-        }
-        else if (crm == "") {
-            alert("Por favor, insira o CRM");
-            return false;
-        }
-    }
-    else if (tipo_de_usuario == "lab") {
-        var exames = form.exams.value;
-        var cnpj = form.cnpj.value;
-        console.log(exames);
-
-        if (cnpj == "") {
-            alert("O CNPJ inserido é inválido!");
-            return false;
-        }
-    }
-    else {
-        alert("Escolha um tipo de usuário!");
+    if (tel.length < 10 || tel.length > 11)
         return false;
-    }
+
+    return true;
+}
+
+function validatePassword(password) {
+    if (password == '')
+        return true;
+
+    if (password.length < 6)
+        return false;
 
     return true;
 }
 
 function validateChangeUserForm() {
-    var form = document.forms['changeuser-form'];
+    var form = document.forms['change-user-form'];
 
     var email = form.email.value;
+    var adress = form.adress.value;
+    var tel = form.tel.value;
     var nova_senha = form.new_password.value;
     var nova_csenha = form.new_cpassword.value;
 
-    if (email == "" && nova_senha == ""){
+    if (email == "" && nova_senha == "" && adress == "" && tel == ""){
         alert("Nada preenchido!");
         return false;
     }
-        
+
+    if (!validateTel(tel)) {
+        alert("Número de telefone inválido!");
+        return false;
+    }
+
+    if (!validatePassword(nova_senha)) {
+        alert("Senha muito fraca!");
+        return false;
+    }
+
     if (nova_senha != "" && nova_senha != nova_csenha){
         alert("Senhas não conferem!");
         return false;

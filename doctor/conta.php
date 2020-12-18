@@ -25,11 +25,10 @@
                 return $patient;
             }
         }
+        array_push($patient, "Pacient not found");
+        array_push($patient, "Pacient not found");
 
-        array_push($patient, "Pacient not found");
-        array_push($patient, "Pacient not found");
         return $patient;
-        
     }
 
     function getQueries() {
@@ -39,12 +38,38 @@
         foreach($xml->children() as $querie) {
             if ((string)$querie->doctor_id == $_SESSION['id']) {
                 $patient = getPatient((string)$querie->patient_id);
-                $new_q = array($patient[0], $patient[1], (string)$querie->date, (string)$querie->sintomas);
+                $new_q = array((string)$querie['id'], $patient[0], $patient[1], (string)$querie->date, (string)$querie->sintomas);
                 array_push($queries, $new_q);
             }
         }
 
         return $queries;
+    }
+
+    function getQuerieInfo() {
+        $xml = simplexml_load_file("../back-end/consultas.xml");
+        $querie_id = htmlspecialchars($_GET['querie']);
+        $patient_name = htmlspecialchars($_GET['patient']);
+
+        $querie_info = array();
+        array_push($querie_info, $querie_id);
+        array_push($querie_info, $patient_name);
+        foreach($xml->children() as $querie) {
+            if ((string)$querie['id'] == $querie_id) {
+                array_push($querie_info, (string)$querie->date);
+                array_push($querie_info, (string)$querie->sintomas);
+                break;
+            }
+        }
+
+        return $querie_info;
+    }
+
+    if (isset($_GET['querie']) && !empty($_GET['querie'])) {
+        $querie_info = getQuerieInfo();
+    }
+    else {
+        unset($_GET);
     }
 
 ?>
@@ -80,8 +105,8 @@
             <div class="acc-options">
                 <ul>
                     <li><a onclick="loadTab('register queries')">Cadastrar Consultas</a></li>
-                    <li><a onclick="loadTab('queris historic')">Histórico de Consultas</a></li>
-                    <li><a onclick="loadTab('change user')">Alterar Cadastro</a></li>
+                    <li><a onclick="loadTab('queries historic')">Histórico de Consultas</a></li>
+                    <li><a onclick="loadTab('change user')">Altere sua Conta</a></li>
                 </ul>
             </div>
             <div id="reg-queries-tab" class="content-section">
@@ -104,7 +129,7 @@
                         <input type="date" name="date" value="2020-12-01" min="2020-12-01" max="2022-12-31" required>
                     </div>
                     <textarea name="sintomas" rows="10" cols="34" class="text-area" required>Sintomas.</textarea>
-                    <input type="submit" value="Marcar" class="default-button">
+                    <button type="submit" form="changeuser-form" class="default-button">Marcar</button>
                 </form>
             </div>
             <div id="queries-hist-tab" class="content-section" style="display: none;">
@@ -122,16 +147,44 @@
                             $queries = getQueries();
                             foreach($queries as $querie) {
                                 echo "<tr>";
-                                echo "<td>$querie[0]</td>";
                                 echo "<td>$querie[1]</td>";
                                 echo "<td>$querie[2]</td>";
                                 echo "<td>$querie[3]</td>";
-                                echo "<td>Alterar</td>";
+                                echo "<td>$querie[4]</td>";
+                                echo "<td><a href='conta.php?querie=$querie[0]&patient=$querie[1]' onclick=\"loadTab('change querie')\"><u>Alterar</u></a></td>";
                                 echo "</tr>";
                             }
                         ?>
                     </table>
                 </div>
+            </div>
+            <div id="config-acc-tab" class="content-section" style="display: none;">
+                <h1>Configurar Conta.</h1>
+                <form id="change-user-form" action="../back-end/change_credentials.php" method="POST" onsubmit="return validateChangeUserForm()" >
+                    <input type="email" placeholder="Novo email" name="email">
+                    <input type="text" placeholder="Novo endereço" name="adress">
+                    <input type="tel" placeholder="Novo telefone" name="tel" onkeydown="fMasc(this, mTel);">
+                    <input type="password" placeholder="Nova Senha" name="new_password">
+                    <input type="password" placeholder="Confirme a Senha" name="new_cpassword">
+                    <br>
+                    <div class="input-label">
+                        <label for="password"><p>Senha atual necessária:</p></label>
+                        <input type="password" placeholder="Senha Atual" name="password" required>
+                    </div>
+                    <button type="submit" form="change-user-form" class="default-button">Mudar</button>
+                </form>
+            </div>
+            <div id="change-querie-form-tab" class="content-section" style="display: none;">
+                <?php echo "<h1>Altere a consulta de $querie_info[1].</h1>"; 
+                    echo "<form id='change-querie-form' action='../back-end/change_querie.php?querie=$querie_info[0]' method='POST'>";
+                    echo "<input type='date' name='date' value=$querie_info[2] min='2020-12-01' max='2022-12-31'>";
+                    echo "<textarea name='sintomas' rows='10' cols='34' class='text-area'>$querie_info[3]</textarea>";
+                    ?>
+                    <div class="inline-content">
+                        <a href="conta.php" onclick="loadTab('queries hist')"><i><u>Voltar</i></u></a>
+                        <button type="submit" form="change-querie-form" class="default-button">Alterar</button>
+                    </div>   
+                </form>
             </div>
         </div>
     </body>

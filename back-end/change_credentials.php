@@ -12,21 +12,27 @@
                         $user->email = addslashes($_POST['email']);
                     if (isset($_POST['new_password']) && !empty($_POST['new_password']))
                         $user->password = addslashes($_POST['new_password']);
+                    if (isset($_POST['adress']) && !empty($_POST['adress']))
+                        $user->adress = addslashes($_POST['adress']);
+                    if (isset($_POST['tel']) && !empty($_POST['tel']))
+                        $user->telephone = addslashes($_POST['tel']);
+
                     $new_xml = simplexml_import_dom($xml);
                     $new_xml->saveXML('contas.xml');
                     $message = 'Mudado com sucesso!';
                     break;
                 }
-                $message = 'Senha inválida!';
-
+                else {
+                    $message = 'Senha inválida!';
+                    break;
+                }
             }
         }
     }
 
+    $session_type = $_SESSION['tipo'];
+    echo $session_type;
+    echo "<script>window.location.replace('../$session_type/conta.php');alert('$message'); </script>";
     unset($_POST);
-    echo "<script>
-    window.location.replace('../admin/conta.php')
-    alert('$message');
-    </script>";
 
 ?>

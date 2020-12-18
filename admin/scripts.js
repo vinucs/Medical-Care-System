@@ -1,7 +1,7 @@
  /* ---------- CHANGE TAB FUNCTION ---------- */
-
+ 
 if (sessionStorage.getItem('tab') == null) {
-    loadTab('register user');
+    document.addEventListener('DOMContentLoaded', loadTab('register user'));
 }   
 else {
     loadTab(sessionStorage.getItem('tab'));
@@ -97,9 +97,8 @@ function loadChangeUserForm(new_form){
     }
 }
 
-/* ---------- FORM VALIDATION FUNCTIONS ---------- */
+/* ---------- FORM MASK FUNCTIONS ---------- */
 
- // Mask function for form inputs
  function fMasc(objeto, mascara) {
     obj = objeto
     masc = mascara
@@ -157,9 +156,14 @@ function mNum(num){
     return num
 }
 
+/* ---------- FORM VALIDATE FUNCTIONS ---------- */
+
 function validateCPF(numero) {
     numero = numero.replace(/-/g, '');
     numero = numero.replace(/\./g, '');
+
+    if (cpf == '')
+        return true;
 
     var soma;
     var resto;
@@ -196,7 +200,10 @@ function validateCNPJ(cnpj) {
     cnpj = cnpj.replace(/\//g, '');
     console.log(cnpj);
  
-    if(cnpj == '' || /^(\d)\1*$/.test(cnpj) || cnpj.length != 14)
+    if(cnpj == '')
+        return true;
+
+    if(/^(\d)\1*$/.test(cnpj) || cnpj.length != 14)
         return false;
          
     tamanho = cnpj.length - 2
@@ -230,6 +237,9 @@ function validateCNPJ(cnpj) {
 }
 
 function validateCRM(crm) {
+    if (crm == '')
+        return true;
+
     if(crm == '' || /^(\d)\1*$/.test(crm) || crm.length < 4 || crm.length > 8)
         return false;
 
@@ -240,7 +250,9 @@ function validateTel(tel) {
     tel = tel.replace(/-/g, '');
     tel = tel.replace(/\(/g, '');
     tel = tel.replace(/\)/g, '');
-    console.log(tel);
+
+    if (tel == '')
+        return true;
 
     if (tel.length < 10 || tel.length > 11)
         return false;
@@ -249,6 +261,9 @@ function validateTel(tel) {
 }
 
 function validatePassword(password) {
+    if (password == '')
+        return true;
+
     if (password.length < 6)
         return false;
 
@@ -261,7 +276,7 @@ function validateRegisterForm() {
     var senha = form.password.value;
     var csenha = form.cpassword.value;
 
-    if (!validateTel(tel)) {
+    if (!validateTel(tel) || tel == '') {
         alert("Número de telefone inválido!");
         return false;
     }
@@ -271,7 +286,7 @@ function validateRegisterForm() {
         return false;
     }
 
-    if (!validatePassword(senha)) {
+    if (!validatePassword(senha) || senha == '') {
         alert("Senha muito fraca!");
         return false;
     }
@@ -297,7 +312,7 @@ function validateRegisterForm() {
             alert("Por favor, insira a idade!");
             return false;
         }
-        else if (!validateCPF(cpf)) {
+        else if (!validateCPF(cpf) || cpf == '') {
             alert("O CPF inserido nao é valido!");
             return false;
         }
@@ -311,7 +326,7 @@ function validateRegisterForm() {
             alert("Escolha uma especialidade!");
             return false;
         }
-        else if (!validateCRM(crm)) {
+        else if (!validateCRM(crm) || crm == '') {
             alert("O CRM inserido é inválido!");
             return false;
         }
@@ -321,7 +336,7 @@ function validateRegisterForm() {
         var cnpj = form.cnpj.value;
         console.log(cnpj);
 
-        if (!validateCNPJ(cnpj)) {
+        if (!validateCNPJ(cnpj) || cnpj == '') {
             alert("O CNPJ inserido é inválido!");
             return false;
         }
@@ -335,7 +350,58 @@ function validateRegisterForm() {
 }
 
 function validateChangeUserForm() {
-    var form = document.forms['changeuser-form'];
+    var form = document.forms['change-user-form'];
+
+    var tel = form.tel.value; 
+    var senha = form.password.value;
+    var csenha = form.cpassword.value;
+
+    if (!validateTel(tel)) {
+        alert("Número de telefone inválido!");
+        return false;
+    }
+
+    if (senha != csenha) {
+        alert("Senha não confere!");
+        return false;
+    }
+
+    if (!validatePassword(senha)) {
+        alert("Senha muito fraca!");
+        return false;
+    }
+    
+    if (change_user_type == "patient") {
+        var cpf = form.cpf.value;
+
+        if (!validateCPF(cpf)) {
+            alert("O CPF inserido nao é valido!");
+            return false;
+        }
+
+    }
+    else if (change_user_type == "doctor") {
+        var crm = form.crm.value;
+
+        if (!validateCRM(crm)) {
+            alert("O CRM inserido é inválido!");
+            return false;
+        }
+    }
+    else if (change_user_type == "lab") {
+        var cnpj = form.cnpj.value;
+
+        if (!validateCNPJ(cnpj)) {
+            alert("O CNPJ inserido é inválido!");
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function validateChangeCredentialsForm() {
+    var form = document.forms['change-cred-form'];
 
     var email = form.email.value;
     var nova_senha = form.new_password.value;
@@ -349,7 +415,7 @@ function validateChangeUserForm() {
     if (nova_senha != "" && nova_senha != nova_csenha){
         alert("Senhas não conferem!");
         return false;
-    }   
+    }
         
     return true;
 }

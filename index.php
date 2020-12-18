@@ -18,7 +18,7 @@
                 <form action="back-end/login.php" method="POST" id="login-form">
                     <input type="email" placeholder="Nome de usuário" name="email">
                     <input type="password" placeholder="Senha" name="senha">
-                    <input type="submit" value="Entrar" class="default-button">
+                    <button type="submit" form="login-form" class="default-button">Entrar</button>
                 </form>
             </div>
         </div>
