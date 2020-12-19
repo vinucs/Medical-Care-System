@@ -72,6 +72,11 @@
         unset($_GET);
     }
 
+    if ($_SESSION['tipo'] != 'doctor'){
+        session_destroy();
+        header("Location: ../index.php");
+    }
+
 ?>
 
 <!DOCTYPE html>

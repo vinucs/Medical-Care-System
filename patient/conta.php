@@ -28,6 +28,11 @@
         return $exams;
     }
 
+    if ($_SESSION['tipo'] != 'patient'){
+        session_destroy();
+        header("Location: ../index.php");
+    }
+
 ?>
 
 <!DOCTYPE html>

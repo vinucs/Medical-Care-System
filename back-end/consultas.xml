@@ -28,4 +28,18 @@
         <date>2021-02-06</date>
         <sintomas>Transtorno de ansiedade e depressão.</sintomas>
     </consulta>
-<consulta id="5fdc1d9a3f53e"><doctor_id>5fd29840e4598</doctor_id><patient_id>5fd933a02e17c</patient_id><doctor>Maria Carvalho</doctor><date>2021-01-04</date><sintomas>Transtorno bipolar.</sintomas></consulta></consultas>
+    <consulta id="5fdc1d9a3f53e">
+        <doctor_id>5fd29840e4598</doctor_id>
+        <patient_id>5fd933a02e17c</patient_id>
+        <doctor>Maria Carvalho</doctor>
+        <date>2021-01-04</date>
+        <sintomas>Transtorno bipolar.</sintomas>
+    </consulta>
+    <consulta id="5fdd56d419513">
+        <doctor_id>5fd2968cc52fa</doctor_id>
+        <patient_id>5fdd53db42b34</patient_id>
+        <doctor>Rogerio Costa</doctor>
+        <date>2021-02-27</date>
+        <sintomas>Pressão alta, tontura, falta de ar.</sintomas>
+    </consulta>
+</consultas>

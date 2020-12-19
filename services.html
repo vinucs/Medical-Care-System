@@ -5,8 +5,6 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-        <!--scripts-->
-        <script defer src="scripts.js"></script>
         <!-- Styles CSS -->
         <link rel="stylesheet" href="styles.css">
     </head>

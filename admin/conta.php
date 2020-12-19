@@ -39,6 +39,11 @@
         unset($_GET);
     }
 
+    if ($_SESSION['tipo'] != 'admin'){
+        session_destroy();
+        header("Location: ../index.php");
+    }
+
 ?>
 
 <!DOCTYPE html>

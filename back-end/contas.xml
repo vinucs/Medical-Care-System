@@ -113,4 +113,14 @@
         <especializacao>psicologo</especializacao>
         <crm>56669</crm>
     </user>
+    <user type="patient" id="5fdd53db42b34">
+        <name>Nathan Garcia</name>
+        <adress>Avenida Itália, 7566</adress>
+        <telephone>(53)3212-1245</telephone>
+        <email>nathan.garcia@gmail.com</email>
+        <password>111111</password>
+        <genero>masculino</genero>
+        <idade>23</idade>
+        <cpf>023.562.860-00</cpf>
+    </user>
 </accounts>

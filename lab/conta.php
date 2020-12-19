@@ -91,6 +91,11 @@
         unset($_GET);
     }
 
+    if ($_SESSION['tipo'] != 'lab'){
+        session_destroy();
+        header("Location: ../index.php");
+    }
+
 ?>
 
 <!DOCTYPE html>
