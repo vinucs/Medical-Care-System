@@ -3,34 +3,19 @@
     require('mongodb.php');
 
     function getUsers() {
-        $xml = simplexml_load_file("../back-end/contas.xml");
 
-        $users = array();
-        foreach($xml->children() as $user) {
-            if ((string)$user['id'] != $_SESSION['id']) {
-                $new_u = array((string)$user['type'], (string)$user->name, (string)$user->email, (string)$user['id']);
-                array_push($users, $new_u);
-            }
-        }
-
+        $col = $database->selectCollection('contas');
+        $users = $col->find();
         return $users;
     }
 
     function getUserInfo($ch_user) {
-        $xml = simplexml_load_file("../back-end/contas.xml");
-
-        $user_info = array();
-        array_push($user_info, $ch_user);
-        $database->
-        foreach($xml->children() as $user) {
-            if ((string)$user['id'] == $ch_user) {
-                foreach($user->children() as $elem)
-                    array_push($user_info, (string)$elem);
-                    
-                array_push($user_info, (string)$user['type']);
-                break;
-            }
-        }
+        $col = $database->selectCollection('contas');
+        $user_info = $col->findOne(
+            array(
+                'id' => $ch_user
+            )
+        );
 
         return $user_info;
     }
@@ -175,10 +160,10 @@
                         $users = getUsers();
                         foreach($users as $user) {
                             echo "<tr>";
-                            echo "<td>$user[0]</td>";
-                            echo "<td>$user[1]</td>";
-                            echo "<td>$user[2]</td>";
-                            echo "<td><a href='conta.php?user=$user[3]' onclick=\"loadTab('user form')\"><u>Alterar</u></a></td>";
+                            echo "<td>$user['type']</td>";
+                            echo "<td>$user['name']</td>";
+                            echo "<td>$user['email']</td>";
+                            echo "<td><a href='conta.php?user=$user['id']' onclick=\"loadTab('user form')\"><u>Alterar</u></a></td>";
                             echo "</tr>";
                         }
                     ?>

@@ -3,6 +3,7 @@
     require('mongodb.php');
 
     function checkData() {
+        $col = $database->selectCollection('contas');
         $result = $col->findOne(array('email' => $_POST["email"]))
         if (!empty($result)) {
             echo "<script>window.location.replace('../admin/conta.php');alert('Email já está em uso!');</script>";
@@ -51,7 +52,6 @@
         $type = stripslashes($_POST['user_type']);
         $id =  uniqid();
 
-        $col = $database->selectCollection('contas');
         $col->insertOne(
             array(
                 'type' => $type,
