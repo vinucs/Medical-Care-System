@@ -1,5 +1,7 @@
 <?php session_start();
 
+    require('mongodb.php');
+
     function getUsers() {
         $xml = simplexml_load_file("../back-end/contas.xml");
 
@@ -19,6 +21,7 @@
 
         $user_info = array();
         array_push($user_info, $ch_user);
+        $database->
         foreach($xml->children() as $user) {
             if ((string)$user['id'] == $ch_user) {
                 foreach($user->children() as $elem)

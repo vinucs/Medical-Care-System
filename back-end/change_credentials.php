@@ -2,11 +2,12 @@
     require('mongodb.php')
     $message = "Ocorreu algum erro!";
     if (isset($_POST['password']) && !empty($_POST['password'])) {
+        $id = $_SESSION['id']
         $password = addslashes($_POST['password']);
-        $xml = simplexml_load_file("contas.xml");
+        $col = $database->selectCollection('contas')
         $result = $col->findOne(
             array(
-                'id': $_SESSION['id'],
+                'id': $id,
                 'password': $password
             )
             );
@@ -30,16 +31,12 @@
                 ]
             );
                 $message = 'Mudado com sucesso!';
-                break;
         } else {
             $message = 'Senha inválida!';
-            break;
         }
     }
-
     $session_type = $_SESSION['tipo'];
     echo $session_type;
     echo "<script>window.location.replace('../$session_type/conta.php');alert('$message'); </script>";
     unset($_POST);
-
 ?>

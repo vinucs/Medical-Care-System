@@ -1,7 +1,8 @@
 <?php session_start();
     require('mongodb.php');
 
-    function changeExam($xml, $exam_id) {
+    function changeExam($exam_id) {
+        $col = $database->selectCollection('exames')
         $result = $col->findOne(
             array(
                 'id': $exam_id
@@ -23,12 +24,10 @@
                     );
         }
     }
-
         echo "<script>alert('Exame alterado com sucesso!'); sessionStorage.setItem('tab', 'exams historic');window.location.replace('../lab/conta.php');</script>";
         unset($_POST);
         unset($_GET);
     }
-
     if (isset($_GET['exam']) && !empty($_GET['exam'])) {
         changeExam();
     } else {

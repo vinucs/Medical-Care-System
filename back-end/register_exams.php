@@ -1,5 +1,7 @@
 <?php session_start();
 
+    require('mongodb.php');
+    
     function registerExam() {
         require('mongodb.php');
         $patient_id = addslashes($_POST["patient"]);

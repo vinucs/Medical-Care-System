@@ -1,4 +1,5 @@
 <?php
+
     require('mongodb.php');
 
     function checkData() {
@@ -50,7 +51,7 @@
         $type = stripslashes($_POST['user_type']);
         $id =  uniqid();
 
-        $col = $database->selectCollection('consultas');
+        $col = $database->selectCollection('contas');
         $col->insertOne(
             array(
                 'type' => $type,

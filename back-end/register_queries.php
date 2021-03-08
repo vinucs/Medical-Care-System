@@ -1,5 +1,6 @@
 <?php session_start();
 
+    require('mongodb.php');
     function registerQuerie() {
         $patient_id = addslashes($_POST["patient"]);
         $date = addslashes($_POST["date"]);
@@ -8,7 +9,6 @@
         $doctor_id = $_SESSION['id'];
         $doctor = $_SESSION['name'];
     
-        require('mongodb.php')
         $col = $database->selectCollection('consultas');
         $col->insertOne(
             array(
