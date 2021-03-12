@@ -63,7 +63,7 @@
             </div>
         </header>          
         <div class="container">
-            <div class="acc-options">
+            <div class="acc-options" id="acc-options-tab">
                 <ul>
                     <li><a onclick="loadTab('queries tab')">Suas Consultas</a></li>
                     <li><a onclick="loadTab('exams tab')">Seus Exames</a></li>

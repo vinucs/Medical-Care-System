@@ -233,7 +233,7 @@ footer {
 
 .inline-content {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
 }
 
@@ -259,6 +259,7 @@ footer {
 
 .select-style select {
     font-size: 18px;
+    width: 100px;
 }
 
 .check-selection {

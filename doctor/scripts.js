@@ -1,3 +1,59 @@
+/* ---------- LOAD AND DRAW CHART FUNCTIONS ---------- */
+
+google.charts.load('current', {packages: ['corechart']});
+google.charts.setOnLoadCallback(function() {drawChart('----')});
+
+function selectedYear(event) {
+    drawChart(this.options[this.selectedIndex].text);
+}
+
+function contQueries(year) {
+    yqueries = new Array(12).fill(0);
+    num_queries_year = 0;
+    for(i = 0; i < queries.length; i++) {
+        if (year.localeCompare(queries[i].slice(0, 4)) == 0){
+            index = parseInt(queries[i].slice(5, 7)) - 1;
+            yqueries[index] += 1;
+            num_queries_year += 1;
+        }
+    }
+
+    return [yqueries, num_queries_year];
+}
+
+function drawChart(year) {
+    var [year_queries, num_queries_year] = contQueries(year)
+
+    const container = document.querySelector('#chart')
+    const data = new google.visualization.arrayToDataTable([
+        ['Mês', 'Consultas'],
+        ['Jan', year_queries[0]],
+        ['Fev', year_queries[1]],
+        ['Mar', year_queries[2]],
+        ['Abr', year_queries[3]],
+        ['Mai', year_queries[4]],
+        ['Jun', year_queries[5]],
+        ['Jul', year_queries[6]],
+        ['Ago', year_queries[7]],
+        ['Set', year_queries[8]],
+        ['Out', year_queries[9]],
+        ['Nov', year_queries[10]],
+        ['Dez', year_queries[11]]
+    ])
+
+    const options = {
+        title: 'Consultas por mês no ano de ' + year,
+        height: 400,
+        width: 720
+    }
+    
+    document.getElementById('media-mes').innerHTML = +parseFloat((num_queries_year/12).toFixed(3))
+    document.getElementById('total-ano').innerHTML = num_queries_year
+
+    const chart = new google.visualization.ColumnChart(container)
+    chart.draw(data, options)
+}
+ 
  /* ---------- CHANGE TAB FUNCTION ---------- */
 
  if (sessionStorage.getItem('tab') == null) {
@@ -14,6 +70,7 @@ function loadTab(new_tab){
         document.getElementById('queries-hist-tab').style.display = "none";
         document.getElementById('config-acc-tab').style.display = "none";
         document.getElementById('change-querie-form-tab').style.display = "none";
+        document.getElementById('statistics-tab').style.display = "none";
         document.getElementById('acc-options-tab').style.display = "flex";
     }
     else if (new_tab == 'queries historic') {
@@ -21,6 +78,7 @@ function loadTab(new_tab){
         document.getElementById('reg-queries-tab').style.display = "none";
         document.getElementById('config-acc-tab').style.display = "none";
         document.getElementById('change-querie-form-tab').style.display = "none";
+        document.getElementById('statistics-tab').style.display = "none";
         document.getElementById('acc-options-tab').style.display = "flex";
     }
     else if (new_tab == 'change user') {
@@ -28,6 +86,15 @@ function loadTab(new_tab){
         document.getElementById('reg-queries-tab').style.display = "none";
         document.getElementById('queries-hist-tab').style.display = "none";
         document.getElementById('change-querie-form-tab').style.display = "none";
+        document.getElementById('statistics-tab').style.display = "none";
+        document.getElementById('acc-options-tab').style.display = "flex";
+    }
+    else if (new_tab == 'statistics') {
+        document.getElementById('statistics-tab').style.display = "flex";
+        document.getElementById('change-querie-form-tab').style.display = "none";
+        document.getElementById('config-acc-tab').style.display = "none";
+        document.getElementById('reg-queries-tab').style.display = "none";
+        document.getElementById('queries-hist-tab').style.display = "none";
         document.getElementById('acc-options-tab').style.display = "flex";
     }
     else if (new_tab == 'change querie') {
@@ -35,6 +102,7 @@ function loadTab(new_tab){
         document.getElementById('config-acc-tab').style.display = "none";
         document.getElementById('reg-queries-tab').style.display = "none";
         document.getElementById('queries-hist-tab').style.display = "none";
+        document.getElementById('statistics-tab').style.display = "none";
         document.getElementById('acc-options-tab').style.display = "none";
     }
 }

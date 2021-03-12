@@ -96,6 +96,12 @@
         header("Location: ../index.php");
     }
 
+    $exams = getExams();
+    $exams_date = array();
+    foreach($exams as $e) {
+        array_push($exams_date, $e[3]);
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -105,9 +111,11 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-        <!--swup-->
+        <!--scripts-->
+        <script type='text/javascript'>var exams = <?php echo json_encode($exams_date)?>;</script>
         <script defer src="scripts.js"></script>
-        <!-- Bootstrap CSS -->
+        <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+        <!-- CSS -->
         <link rel="stylesheet" href="../styles.css">
     </head>
     <body>
@@ -126,14 +134,15 @@
             </div>
         </header>          
         <div class="container">
-            <div class="acc-options">
+            <div class="acc-options" id="acc-options-tab" style="display: none;">
                 <ul>
                     <li><a onclick="loadTab('register exams')">Cadastrar Exames</a></li>
                     <li><a onclick="loadTab('exams historic')">Histórico de Exames</a></li>
+                    <li><a onclick="loadTab('statistics')">Estatísticas</a></li>
                     <li><a onclick="loadTab('change user')">Altere sua Conta</a></li>
                 </ul>
             </div>
-            <div id="reg-exams-tab" class="content-section">
+            <div id="reg-exams-tab" class="content-section" style="display: none;">>
                 <h1>Cadastre seus Exames!</h1>
                 <form id="reg-exam-form" action="../back-end/register_exams.php" method="POST">
                     <div class="input-label">
@@ -191,6 +200,33 @@
                         }
                     ?>
                     </table>
+                </div>
+            </div>
+            <div id="statistics-tab" class="content-section" style="display: none;">
+                <h1>Veja suas estatísticas!</h1>
+                <div class="select-style">
+                    <div class="inline-content">
+                        <p>Escolha o ano:</p>
+                        <select onchange="selectedYear.call(this, event)">
+                            <option value='----'>----</option>
+                            <option value='2018'>2018</option>
+                            <option value='2019'>2019</option>
+                            <option value='2020'>2020</option>
+                            <option value='2021'>2021</option>
+                            <option value='2022'>2022</option>
+                        </select>
+                    </div>
+                </div>
+                <div id='chart'></div>
+                <div class="select-style">
+                    <div class="inline-content">
+                        <p>Média Mensal:</p>
+                        <p id="media-mes">--</p>
+                    </div>
+                    <div class="inline-content">
+                        <p>Total Anual:</p>
+                        <p id="total-ano">--</p>
+                    </div>
                 </div>
             </div>
             <div id="change-user-tab" class="content-section" style="display: none;">
