@@ -1,14 +1,15 @@
 <?php session_start();
-    require('mongodb.php')
+    require('mongodb.php');
+
     $message = "Ocorreu algum erro!";
     if (isset($_POST['password']) && !empty($_POST['password'])) {
-        $id = $_SESSION['id']
+        $id = $_SESSION['id'];
         $password = addslashes($_POST['password']);
-        $col = $database->selectCollection('contas')
+        $col = $database->selectCollection('contas');
         $result = $col->findOne(
             array(
-                'id': $id,
-                'password': $password
+                'id' => $id,
+                'password' => $password
             )
             );
         if (!empty($result)) {
@@ -20,7 +21,8 @@
                 $adress = addslashes($_POST['adress']);
             if (isset($_POST['tel']) && !empty($_POST['tel']))
                 $telephone = addslashes($_POST['tel']);
-            $col->updateOne(
+
+            $col->update(
                 ['id' => $_SESSION['id']],
                 ['$set' => [
                                 'email' => $email,
@@ -30,7 +32,7 @@
                             ]
                 ]
             );
-                $message = 'Mudado com sucesso!';
+            $message = 'Mudado com sucesso!';
         } else {
             $message = 'Senha inválida!';
         }

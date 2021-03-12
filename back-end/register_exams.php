@@ -1,6 +1,4 @@
 <?php session_start();
-
-    require('mongodb.php');
     
     function registerExam() {
         require('mongodb.php');

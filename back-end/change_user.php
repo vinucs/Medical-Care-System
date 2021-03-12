@@ -1,22 +1,25 @@
 <?php session_start();
-    require('mongodb.php')
+    require('mongodb.php');
     // function changeValue($value, $elem) {
     //     if (isset($value) && !empty($value))
     //         $elem = (string)$value;
     // }
     function checkData($user_id) {
-        $col = $database->selectCollection('contas')
+        require('mongodb.php');
+        $col = $database->selectCollection('contas');
         $result = $col->findOne(
             array(
-                'id': $user_id
+                'id' => $user_id
             )
         );
         if (empty($result)) {
             $result = $col->findOne(
                 array(
-                    'email': $_POST["email"]
-                );
-            if (!empty($result) {
+                    'email' => $_POST["email"]
+                )
+            );
+        }
+            if (!empty($result)) {
                 echo "<script>alert('Email já está em uso!');window.history.back();</script>";
                 unset($_POST);
                 return false;
@@ -24,18 +27,21 @@
             if ($result['type'] == 'patient') {
                 $result = $col->findOne(
                     array(
-                        'cpf': $_POST["cpf"]
-                    );
+                        'cpf' => $_POST["cpf"]
+                    )
+                );
                 if (!empty($result)) {
                     echo "<script>alert('Esse CPF já esta registrado!');window.history.back();</script>";
                     unset($_POST);
                     return false;
                 }
+
             } else if ($result['type'] == 'lab') {
                 $result = $col->findOne(
                     array(
-                        'cnpj': $_POST["cnpj"]
-                    );
+                        'cnpj' => $_POST["cnpj"]
+                    )
+                );
                 if (!empty($result)) {
                     echo "<script>alert('Esse CNPJ já esta registrado!');window.history.back();</script>";
                     unset($_POST);
@@ -44,15 +50,15 @@
             } else if ($result['type'] == 'doctor') {
                 $result = $col->findOne(
                     array(
-                        'crm': $_POST["crm"]
-                    );
+                        'crm' => $_POST["crm"]
+                    )
+                );
                 if (!empty($result)) {
                     echo "<script>alert('Esse CRM já esta registrado!');window.history.back();</script>";
                     unset($_POST);
                     return false;
                 }
             }
-        }
         return true;
     }
 
@@ -75,7 +81,6 @@
                 $result['email'] = stripslashes($_POST['email']);
             if (isset($_POST['password']) && !empty($_POST['password']))
                 $result['password'] = stripslashes($_POST['password']);
-
             if ($result['type'] == 'patient') {
                 if (isset($_POST['age']) && !empty($_POST['age']))
                     $result['idade'] = stripslashes($_POST['age']);
@@ -83,13 +88,13 @@
                     $result['genero'] = stripslashes($_POST['sex']);
                 if (isset($_POST['cpf']) && !empty($_POST['cpf']))
                     $result['cpf'] = stripslashes($_POST['cpf']);                
-
             } else if ($result['type'] == 'doctor') {
                 if (isset($_POST['especialidade']) && !empty($_POST['especialidade']))
                     $result['especializacao'] = stripslashes($_POST['especialidade']);
                 if (isset($_POST['crm']) && !empty($_POST['crm']))
                     $result['crm'] = stripslashes($_POST['crm']);
-            } else if ($result['type'] == 'lab') {
+            } else if ($result['type'] == 'lab') 
+            {
                 if (isset($_POST['cnpj']) && !empty($_POST['cnpj']))
                     $cnpj = stripslashes($_POST['cnpj']);
                     $col->updateOne(
@@ -99,7 +104,7 @@
                                         'adress' => $adress,
                                         'telephone' => $telephone,
                                         'email' => $email,
-                                        'password' = $password,
+                                        'password' => $password,
                                         'mamografia' => $_POST["mamografia"],
                                         'ressonancia' => $_POST['ressonancia'],
                                         'tomografia' => $_POST["tomografia"],
@@ -107,14 +112,13 @@
                                     ]
                         ]
                         );
-                }
+            }
+
             $col->updateOne(
                 ['id' => $id],
                 ['$set' => $result]
                 );
             }
-        }
-
         echo "<script>alert('Usuário alterado com sucesso!');sessionStorage.setItem('tab', 'change user');window.location.replace('../admin/conta.php');</script>";
         unset($_POST);
         unset($_GET);

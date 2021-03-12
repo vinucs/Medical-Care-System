@@ -1,31 +1,36 @@
 <?php session_start();
 
     function getQueries() {
-        $xml = simplexml_load_file("../back-end/consultas.xml");
+        require("../back-end/mongodb.php");
+        
+        $col = $database->selectCollection('consultas');
 
-        $queries = array();
-        foreach($xml->children() as $querie) {
-            if ((string)$querie->patient_id == $_SESSION['id']) {
-                $new_q = array((string)$querie->doctor, (string)$querie->date, (string)$querie->sintomas);
-                $queries = array_merge($queries, $new_q);
-            }
+        $cursor = $col->find(
+            [ 'id' => $_SESSION['id'] ]
+        );
+        $users = var_dump(iterator_to_array($cursor));
+        if (!empty($users)) {
+            return $users;
+        } else {
+            return "Nenhuma consulta encontrada";
         }
-
-        return $queries;
     }
 
     function getExams() {
-        $xml = simplexml_load_file("../back-end/exames.xml");
+        require("../back-end/mongodb.php");
         
-        $exams = array();
-        foreach($xml->children() as $exam) {
-            if ((string)$exam->patient_id == $_SESSION['id']) {
-                $new_e = array((string)$exam->lab, (string)$exam->date, (string)$exam->exam_type);
-                $exams = array_merge($exams, $new_e);
-            }
-        }
+        $col = $database->selectCollection('exames');
 
-        return $exams;
+        
+        $cursor = $col->find(
+                [ 'id' => $_SESSION['id'] ]
+        );
+        $result = var_dump(iterator_to_array($cursor));
+        if (!empty($result)) {
+            return $result;
+        } else {
+            return "Nenhum exame encontrado";
+        }
     }
 
     if ($_SESSION['tipo'] != 'patient'){

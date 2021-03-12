@@ -1,61 +1,69 @@
 <?php session_start();
 
     function getAllPatients() {
-        $xml = simplexml_load_file("../back-end/contas.xml");
-
-        $patients = array();
-        foreach($xml->children() as $user) {
-            if ((string)$user['type'] == 'patient') {
-                $new_p = array((string)$user->name, (string)$user->cpf, (string)$user['id']);
-                array_push($patients, $new_p);
-            }
+        require("../back-end/mongodb.php");
+        $col = $database->selectCollection('contas');
+        $cursor = $col->find(
+            array(
+                'type' => 'patient'
+            )
+        );
+        $result = iterator_to_array($cursor);
+        if (!empty($result)) {
+            return $result;
+        } else {
+            return "Nenhum paciente foi encontrado";
         }
-
-        return $patients;
     }
 
     function getPatient($id) {
-        $xml = simplexml_load_file("../back-end/contas.xml");
 
-        $patient = array();
-        foreach($xml->children() as $user) {
-            if ((string)$user['id'] == $id) {
-                array_push($patient, (string)$user->name);
-                array_push($patient, (string)$user->cpf);
-                return $patient;
-            }
+        require("../back-end/mongodb.php");
+        $col = $database->selectCollection('contas');
+        $result = $col->findOne(
+            array(
+                'id' => $id
+            )
+        );
+        if (!empty($result)) {
+            return $result;
+        } else {
+            return "Paciente não encontrado";
         }
-
-        array_push($patient, "Pacient not found");
-        array_push($patient, "Pacient not found");
-        return $patient;
-        
     }
 
     function getExamsType() {
-        $xml = simplexml_load_file("../back-end/contas.xml");
-
-        $exams = array();
-        foreach($xml->children() as $user) {
-            if ((string)$user['id'] == $_SESSION['id']) {
-                foreach($user->children() as $elem) {
-                    if ($elem->getName() == 'exame')
-                        $exams[] = (string)$elem;
-                }
-                break;
-            }
+        require("../back-end/mongodb.php");
+        $col = $database->selectCollection('contas');
+        $cursor = $col->find(
+            [ 'id' => $_SESSION['id'] ],
+            [ 'exame' => 1 ]
+            );
+        $result = iterator_to_array($cursor);
+        if (!empty($result)) {
+            return $result;
+        } else {
+            return "Não foi encontrado tipo dos exames.";
         }
-
-        return $exams;
     }
 
     function getExams() {
-        $xml = simplexml_load_file("../back-end/exames.xml");
 
-        $exams = array();
-        foreach($xml->children() as $exam) {
+        require("../back-end/mongodb.php");
+        $col = $database->selectCollection('exames');
+        $cursor = $col->find(
+            [ 'lab_id' => $_SESSION['id'] ]
+            );
+        $result = iterator_to_array($cursor);
+        if (!empty($result)) {
+            return $result;
+        } else {
+            return "Não foi encontrado nenhum exame.";
+        }
+
+        foreach($matches as $exam) {
             if ((string)$exam->lab_id == $_SESSION['id']) {
-                $patient = getPatient((string)$exam->patient_id);
+                $patient = getPatient((string)$exam['patient_id']);
                 $new_e = array((string)$exam['id'], $patient[0], $patient[1], (string)$exam->date, (string)$exam->exam_type);
                 array_push($exams, $new_e);
             }
@@ -65,20 +73,26 @@
     }
 
     function getExamInfo() {
-        $xml = simplexml_load_file("../back-end/exames.xml");
+        require("../back-end/mongodb.php");
+
         $exam_id = htmlspecialchars($_GET['exam']);
         $patient_name = htmlspecialchars($_GET['patient']);
 
         $exam_info = array();
         array_push($exam_info, $exam_id);
         array_push($exam_info, $patient_name);
-        foreach($xml->children() as $exam) {
-            if ((string)$exam['id'] == $exam_id) {
-                array_push($exam_info, (string)$exam->date);
-                array_push($exam_info, (string)$exam->exam_type);
-
-                break;
-            }
+        $cursor = $col->find(
+            [ 'id' => $exam_id ]
+            );
+        $result = iterator_to_array($cursor);
+        if (!empty($result)) {
+            return $result;
+        } else {
+            return "Não foi encontrado nenhum exame.";
+        }
+        foreach($matches as $exam) {
+            array_push($exam_info, (string)$exam['date']);
+            array_push($exam_info, (string)$exam['exam_type']);
         }
 
         return $exam_info;

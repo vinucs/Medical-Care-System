@@ -1,68 +1,68 @@
 <?php session_start();
 
     function getAllPatients() {
-        $xml = simplexml_load_file("../back-end/contas.xml");
+        require('mongodb.php');
+        $col = $database->selectCollection('contas');
+        $cursor = $col->find(
+                [ 'user_type' => 'patient' ]
+        );
 
+        $users = iterator_to_array($cursor);
         $patients = array();
-        foreach($xml->children() as $user) {
-            if ((string)$user['type'] == 'patient') {
+        foreach($users as $user) {
                 $new_p = array((string)$user->name, (string)$user->cpf, (string)$user['id']);
                 array_push($patients, $new_p);
             }
-        }
 
         return $patients;
     }
 
     function getPatient($id) {
-        $xml = simplexml_load_file("../back-end/contas.xml");
-
-        $patient = array();
-        foreach($xml->children() as $user) {
-            if ((string)$user['id'] == $id) {
-                array_push($patient, (string)$user->name);
-                array_push($patient, (string)$user->cpf);
-                return $patient;
-            }
+        require('mongodb.php');
+        $col = $database->selectCollection('contas');
+        $patient = $col->findOne(
+                [ 'user_type' => 'patient' ]
+        );
+        if (!is_null($patient)) {
+            return $patient;
+        } else {
+            return "Paciente não encontrado";
         }
-        array_push($patient, "Pacient not found");
-        array_push($patient, "Pacient not found");
-
-        return $patient;
     }
 
     function getQueries() {
-        $xml = simplexml_load_file("../back-end/consultas.xml");
+        require('mongodb.php');
+        $col = $database->selectCollection('consultas');
+        $cursor = $col->find(
+                [ 'doctor_id' => $_SESSION['id'] ]
+        );
+        $queries = iterator_to_array($cursor);
 
-        $queries = array();
-        foreach($xml->children() as $querie) {
+        if (!($queries)) {
+            return "Não há consultas marcadas.";
+        }
+
+        $formatted_queries = array();
+        foreach($queries as $querie) {
             if ((string)$querie->doctor_id == $_SESSION['id']) {
                 $patient = getPatient((string)$querie->patient_id);
                 $new_q = array((string)$querie['id'], $patient[0], $patient[1], (string)$querie->date, (string)$querie->sintomas);
-                array_push($queries, $new_q);
+                array_push($formatted_queries, $new_q);
             }
         }
 
-        return $queries;
+        return $formatted_queries;
     }
 
     function getQuerieInfo() {
-        $xml = simplexml_load_file("../back-end/consultas.xml");
+        require('mongodb.php');
+        $col = $database->selectCollection('consultas');
         $querie_id = htmlspecialchars($_GET['querie']);
         $patient_name = htmlspecialchars($_GET['patient']);
-
-        $querie_info = array();
-        array_push($querie_info, $querie_id);
-        array_push($querie_info, $patient_name);
-        foreach($xml->children() as $querie) {
-            if ((string)$querie['id'] == $querie_id) {
-                array_push($querie_info, (string)$querie->date);
-                array_push($querie_info, (string)$querie->sintomas);
-                break;
-            }
-        }
-
-        return $querie_info;
+        $query = $col->findOne(
+            [ 'id' => $querie_id]
+        );
+        return $query;
     }
 
     if (isset($_GET['querie']) && !empty($_GET['querie'])) {

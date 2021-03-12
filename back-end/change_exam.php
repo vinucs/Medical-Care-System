@@ -2,28 +2,34 @@
     require('mongodb.php');
 
     function changeExam($exam_id) {
-        $col = $database->selectCollection('exames')
+        $col = $database->selectCollection('exames');
         $result = $col->findOne(
             array(
-                'id': $exam_id
+                'id' => $exam_id
             )
         );
         if (!empty($result)) {
             if (isset($_POST['date']) && !empty($_POST['date']))
                 $date = stripslashes($_POST['date']);
+                $col->updateOne(
+                    ['id' => $id],
+                    ['$set' => 
+                            [
+                                'date' => $date
+                            ]
+                    ]
+                            );
             if (isset($_POST['exam_type']) && !empty($_POST['exam_type']))
                 $exam_type = stripslashes($_POST['exam_type']);
-        $col->updateOne(
-            ['id' => $id],
-            ['$set' => 
-                    [
-                        'date' => $date,
-                        'exam_type' => $exam_type
-                    ]
-            ]
+                $col->updateOne(
+                    ['id' => $id],
+                        ['$set' => 
+                            [
+                            'exam_type' => $exam_type
+                            ]
+                        ]
                     );
-        }
-    }
+            }
         echo "<script>alert('Exame alterado com sucesso!'); sessionStorage.setItem('tab', 'exams historic');window.location.replace('../lab/conta.php');</script>";
         unset($_POST);
         unset($_GET);

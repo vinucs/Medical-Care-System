@@ -3,19 +3,19 @@
     require('mongodb.php');
 
     function getUsers() {
-
+        require('mongodb.php');
         $col = $database->selectCollection('contas');
-        $users = $col->find();
+        $cursor = $col->find();
+        $users = iterator_to_array($cursor);
         return $users;
     }
 
     function getUserInfo($ch_user) {
+        require('mongodb.php');
         $col = $database->selectCollection('contas');
-        $user_info = $col->findOne(
-            array(
-                'id' => $ch_user
-            )
-        );
+        $users_info = $col->findOne(
+                    ['id' => $ch_user]
+                    );
 
         return $user_info;
     }
@@ -159,11 +159,15 @@
                     <?php
                         $users = getUsers();
                         foreach($users as $user) {
+                            $user_type = $user['user_type'];
+                            $name = $users['name'];
+                            $email = $users['email'];
                             echo "<tr>";
-                            echo "<td>$user['type']</td>";
-                            echo "<td>$user['name']</td>";
-                            echo "<td>$user['email']</td>";
-                            echo "<td><a href='conta.php?user=$user['id']' onclick=\"loadTab('user form')\"><u>Alterar</u></a></td>";
+                            echo "<td>$user</td>";
+                            echo "<td>$user_type</td>";
+                            echo "<td>$name</td>";
+                            echo "<td>$email</td>";
+                            #echo '<td><a href='conta.php?user=$user["id"]' onclick=\"loadTab('user form')\"><u>Alterar</u></a></td>';
                             echo "</tr>";
                         }
                     ?>
