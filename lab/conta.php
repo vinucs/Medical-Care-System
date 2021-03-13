@@ -1,62 +1,57 @@
 <?php session_start();
 
     function getAllPatients() {
-        $xml = simplexml_load_file("../back-end/contas.xml");
+        require("../back-end/mongodb.php");
+        $col = $database->selectCollection('contas');
+        $cursor = $col->find(
+            array(
+                'user_type' => 'patient'
+            )
+        );
+        $result = iterator_to_array($cursor);
+        return $result;
 
-        $patients = array();
-        foreach($xml->children() as $user) {
-            if ((string)$user['type'] == 'patient') {
-                $new_p = array((string)$user->name, (string)$user->cpf, (string)$user['id']);
-                array_push($patients, $new_p);
-            }
-        }
-
-        return $patients;
     }
 
     function getPatient($id) {
-        $xml = simplexml_load_file("../back-end/contas.xml");
-
-        $patient = array();
-        foreach($xml->children() as $user) {
-            if ((string)$user['id'] == $id) {
-                array_push($patient, (string)$user->name);
-                array_push($patient, (string)$user->cpf);
-                return $patient;
-            }
+        require("../back-end/mongodb.php");
+        $col = $database->selectCollection('contas');
+        $result = $col->findOne(
+            array(
+                'id' => $id
+            )
+        );
+        if (!empty($result)) {
+            return $result;
+        } else {
+            return "Paciente não encontrado";
         }
-
-        array_push($patient, "Pacient not found");
-        array_push($patient, "Pacient not found");
-        return $patient;
-        
     }
 
     function getExamsType() {
-        $xml = simplexml_load_file("../back-end/contas.xml");
-
-        $exams = array();
-        foreach($xml->children() as $user) {
-            if ((string)$user['id'] == $_SESSION['id']) {
-                foreach($user->children() as $elem) {
-                    if ($elem->getName() == 'exame')
-                        $exams[] = (string)$elem;
-                }
-                break;
-            }
-        }
-
-        return $exams;
+        require("../back-end/mongodb.php");
+        $col = $database->selectCollection('contas');
+        $result = $col->findOne(
+            [ 'id' => $_SESSION['id'] ]
+            );
+        #$result = iterator_to_array($cursor);
+        $exam_types = array_values($result['exames']);
+        return $exam_types;
     }
 
     function getExams() {
-        $xml = simplexml_load_file("../back-end/exames.xml");
-
+        require("../back-end/mongodb.php");
+        $col = $database->selectCollection('exames');
+        $cursor = $col->find(
+            [ 'lab_id' => $_SESSION['id'] ]
+            );
+        $result = iterator_to_array($cursor);
+        return $result;
         $exams = array();
-        foreach($xml->children() as $exam) {
+        foreach($result as $exam) {
             if ((string)$exam->lab_id == $_SESSION['id']) {
-                $patient = getPatient((string)$exam->patient_id);
-                $new_e = array((string)$exam['id'], $patient[0], $patient[1], (string)$exam->date, (string)$exam->exam_type);
+                $patient = getPatient((string)$exam['patient_id']);
+                $new_e = array((string)$exam['id'], $patient['name'], $patient['cpf'], (string)$exam['date'], (string)$exam['exam_type']);
                 array_push($exams, $new_e);
             }
         }
@@ -65,42 +60,45 @@
     }
 
     function getExamInfo() {
-        $xml = simplexml_load_file("../back-end/exames.xml");
+        require("../back-end/mongodb.php");
+
         $exam_id = htmlspecialchars($_GET['exam']);
         $patient_name = htmlspecialchars($_GET['patient']);
 
         $exam_info = array();
         array_push($exam_info, $exam_id);
         array_push($exam_info, $patient_name);
-        foreach($xml->children() as $exam) {
-            if ((string)$exam['id'] == $exam_id) {
-                array_push($exam_info, (string)$exam->date);
-                array_push($exam_info, (string)$exam->exam_type);
-
-                break;
-            }
+        $col = $database->selectCollection('exames');
+        $cursor = $col->find(
+            [ 'id' => $exam_id ]
+            );
+        $result = iterator_to_array($cursor);
+        #return $result;
+        foreach($result as $exam) {
+            array_push($exam_info, (string)$exam['date']);
+            array_push($exam_info, (string)$exam['exam_type']);
         }
 
         return $exam_info;
-    }
+    } 
 
     function compareFunction($a, $b) {
-        $a_year = (int)substr($a[3], 0, 4);
-        $b_year = (int)substr($b[3], 0, 4);
+        $a_year = (int)substr($a['date'], 0, 4);
+        $b_year = (int)substr($b['date'], 0, 4);
         if ($a_year < $b_year)
             return 1;
         if ($a_year > $b_year)
             return -1;
 
-        $a_month = (int)substr($a[3], 5, 2);
-        $b_month = (int)substr($b[3], 5, 2);
+        $a_month = (int)substr($a['date'], 5, 2);
+        $b_month = (int)substr($b['date'], 5, 2);
         if ($a_month < $b_month)
             return 1;
         if ($a_month > $b_month)
             return -1;
 
-        $a_day = (int)substr($a[3], 8, 2);
-        $b_day = (int)substr($b[3], 8, 2);
+        $a_day = (int)substr($a['date'], 8, 2);
+        $b_day = (int)substr($b['date'], 8, 2);
         if ($a_day < $b_day)
             return 1;
         if ($a_day > $b_day)
@@ -125,7 +123,7 @@
     uasort($exams, 'compareFunction');
     $exams_date = array();
     foreach($exams as $e) {
-        array_push($exams_date, $e[3]);
+        array_push($exams_date, $e['date']);
     }
 
 ?>
@@ -178,7 +176,10 @@
                             <?php
                                 $patients = getAllPatients();
                                 foreach($patients as $patient) {
-                                    echo "<option value='$patient[2]'>$patient[0] - $patient[1]</option>";
+                                    $id = $patient["id"];
+                                    $name = $patient["name"];
+                                    $cpf = $patient["cpf"];
+                                    echo "<option value='$patient->id'>$patient->name - $patient->cpf</option>";
                                 }
                             ?>
                         </select>
@@ -215,12 +216,17 @@
                         </tr>
                     <?php
                         foreach($exams as $exam) {
+                            $name = $exam['name'];
+                            $cpf = $exam['cpf'];
+                            $date = $exam['date'];
+                            $exam_type = $exam['exam_type'];
+                            $id = $exam['id'];
                             echo "<tr>";
-                            echo "<td>$exam[1]</td>";
-                            echo "<td>$exam[2]</td>";
-                            echo "<td>$exam[3]</td>";
-                            echo "<td>$exam[4]</td>";
-                            echo "<td><a href='conta.php?exam=$exam[0]&patient=$exam[1]' onclick=\"loadTab('change exam')\"><u>Alterar</u></a></td>";
+                            echo "<td>$name</td>";
+                            echo "<td>$cpf</td>";
+                            echo "<td>$date</td>";
+                            echo "<td>$exam_type</td>";
+                            echo "<td><a href='conta.php?exam=$id&patient=$name' onclick=\"loadTab('change exam')\"><u>Alterar</u></a></td>";
                             echo "</tr>";
                         }
                     ?>
@@ -271,18 +277,23 @@
                 </form>
             </div>
             <div id="change-exam-form-tab" class="content-section" style="display: none;">
-                <?php echo "<h1>Altere o exame de $exam_info[1].</h1>"; 
-                    echo "<form id='change-exam-form' action='../back-end/change_exam.php?exam=$exam_info[0]' method='POST'>";
+                <?php 
+                    $patient_name = $exam_info[1];
+                    $exam_id = $exam_info[0];
+                    $exam_date = $exam_info[2];
+                    $exam_type = $exam_info[3];
+                    echo "<h1>Altere o exame de $patient_name</h1>"; 
+                    echo "<form id='change-exam-form' action='../back-end/change_exam.php?exam=$exam_id' method='POST'>";
                     echo "<div class='input-label'>
                         <p>Selecionar data:</p>
-                        <input type='date' name='date' value=$exam_info[2] min='2018-01-01' max='2022-12-31'></div>";
+                        <input type='date' name='date' value=$exam_date min='2020-12-01' max='2022-12-31'></div>";
                     echo "<div class='input-label'>
                         <p>Selecionar exame:</p>
                         <select name='exam_type'>
                             <option value=''>----------</option>";
-                    $exams = getExamsType();
-                    foreach($exams as $exam) {
-                        if ($exam == $exam_info[3])
+                    $exams_type = getExamsType();
+                    foreach($exams_type as $exam) {
+                        if ($exam == $exam_type)
                             echo "<option value='$exam' selected>$exam</option>";
                         else
                             echo "<option value='$exam'>$exam</option>";

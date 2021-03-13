@@ -1,50 +1,49 @@
 <?php session_start();
 
     function getQueries() {
-        $xml = simplexml_load_file("../back-end/consultas.xml");
+        require("../back-end/mongodb.php");
 
-        $queries = array();
-        foreach($xml->children() as $querie) {
-            if ((string)$querie->patient_id == $_SESSION['id']) {
-                $new_q = array((string)$querie->doctor, (string)$querie->date, (string)$querie->sintomas);
-                array_push($queries, $new_q);
-            }
-        }
+        $col = $database->selectCollection('consultas');
 
+        $cursor = $col->find(
+            [ 'patient_id' => $_SESSION['id'] ]
+        );
+        $queries = iterator_to_array($cursor);
         return $queries;
     }
 
     function getExams() {
-        $xml = simplexml_load_file("../back-end/exames.xml");
-        
-        $exams = array();
-        foreach($xml->children() as $exam) {
-            if ((string)$exam->patient_id == $_SESSION['id']) {
-                $new_e = array((string)$exam->lab, (string)$exam->date, (string)$exam->exam_type);
-                array_push($exams, $new_e);
-            }
-        }
+        require("../back-end/mongodb.php");
 
-        return $exams;
+        $col = $database->selectCollection('exames');
+
+
+        $cursor = $col->find(
+                [ 'patient_id' => $_SESSION['id'] ]
+        );
+        $result = iterator_to_array($cursor);
+        #return $cursor;
+        return $result;
+
     }
 
     function compareFunction($a, $b) {
-        $a_year = (int)substr($a[1], 0, 4);
-        $b_year = (int)substr($b[1], 0, 4);
+        $a_year = (int)substr($a['date'], 0, 4);
+        $b_year = (int)substr($b['date'], 0, 4);
         if ($a_year < $b_year)
             return 1;
         if ($a_year > $b_year)
             return -1;
 
-        $a_month = (int)substr($a[1], 5, 2);
-        $b_month = (int)substr($b[1], 5, 2);
+        $a_month = (int)substr($a['date'], 5, 2);
+        $b_month = (int)substr($b['date'], 5, 2);
         if ($a_month < $b_month)
             return 1;
         if ($a_month > $b_month)
             return -1;
 
-        $a_day = (int)substr($a[1], 8, 2);
-        $b_day = (int)substr($b[1], 8, 2);
+        $a_day = (int)substr($a['date'], 8, 2);
+        $b_day = (int)substr($b['date'], 8, 2);
         if ($a_day < $b_day)
             return 1;
         if ($a_day > $b_day)
@@ -62,14 +61,14 @@
     uasort($queries, 'compareFunction');
     $queries_date = array();
     foreach($queries as $q) {
-        array_push($queries_date, $q[1]);
+        array_push($queries_date, $q['date']);
     }
 
     $exams = getExams();
     uasort($exams, 'compareFunction');
     $exams_date = array();
     foreach($exams as $e) {
-        array_push($exams_date, $e[1]);
+        array_push($exams_date, $e['date']);
     }
 ?>
 
@@ -123,11 +122,14 @@
                             <th>Sintomas</th>
                         </tr>
                     <?php
-                        foreach($queries as $querie) {
+                        foreach ($queries as $query) {
                             echo "<tr>";
-                            echo "<td>$querie[0]</td>";
-                            echo "<td>$querie[1]</td>";
-                            echo "<td>$querie[2]</td>";
+                            $doctor = $query['doctor'];
+                            $date = $query['date'];
+                            $symptoms = $query['sintomas'];
+                            echo "<td>$doctor</td>";
+                            echo "<td>$date</td>";
+                            echo "<td>$symptoms</td>";
                             echo "</tr>";
                         }
                     ?>
@@ -144,11 +146,14 @@
                             <th>Exame</th>
                         </tr>
                     <?php
-                        foreach($exams as $exam) {
+                        foreach ($exams as $exam) {
                             echo "<tr>";
-                            echo "<td>$exam[0]</td>";
-                            echo "<td>$exam[1]</td>";
-                            echo "<td>$exam[2]</td>";
+                            $lab_name = $exam["lab_name"];
+                            $date = $exam["date"];
+                            $exam_type = $exam["exam_type"];
+                            echo "<td>$lab_name</td>";
+                            echo "<td>$date</td>";
+                            echo "<td>$exam_type</td>";
                             echo "</tr>";
                         }
                     ?>

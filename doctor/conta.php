@@ -1,87 +1,62 @@
 <?php session_start();
 
     function getAllPatients() {
-        $xml = simplexml_load_file("../back-end/contas.xml");
+        require('../back-end/mongodb.php');
+        $col = $database->selectCollection('contas');
+        $cursor = $col->find(
+                [ 'user_type' => 'patient' ]
+        );
 
-        $patients = array();
-        foreach($xml->children() as $user) {
-            if ((string)$user['type'] == 'patient') {
-                $new_p = array((string)$user->name, (string)$user->cpf, (string)$user['id']);
-                array_push($patients, $new_p);
-            }
-        }
-
+        $patients = iterator_to_array($cursor);
         return $patients;
     }
 
     function getPatient($id) {
-        $xml = simplexml_load_file("../back-end/contas.xml");
-
-        $patient = array();
-        foreach($xml->children() as $user) {
-            if ((string)$user['id'] == $id) {
-                array_push($patient, (string)$user->name);
-                array_push($patient, (string)$user->cpf);
-                return $patient;
-            }
-        }
-        array_push($patient, "Pacient not found");
-        array_push($patient, "Pacient not found");
-
+        require('../back-end/mongodb.php');
+        $col = $database->selectCollection('contas');
+        $patient = $col->findOne(
+                [ 'user_type' => 'patient' ]
+        );
         return $patient;
     }
 
     function getQueries() {
-        $xml = simplexml_load_file("../back-end/consultas.xml");
-
-        $queries = array();
-        foreach($xml->children() as $querie) {
-            if ((string)$querie->doctor_id == $_SESSION['id']) {
-                $patient = getPatient((string)$querie->patient_id);
-                $new_q = array((string)$querie['id'], $patient[0], $patient[1], (string)$querie->date, (string)$querie->sintomas);
-                array_push($queries, $new_q);
-            }
-        }
-
+        require('../back-end/mongodb.php');
+        $col = $database->selectCollection('consultas');
+        $cursor = $col->find(
+                [ 'doctor_id' => $_SESSION['id'] ]
+        );
+        $queries = iterator_to_array($cursor);
         return $queries;
     }
 
     function getQuerieInfo() {
-        $xml = simplexml_load_file("../back-end/consultas.xml");
+        require('../back-end/mongodb.php');
+        $col = $database->selectCollection('consultas');
         $querie_id = htmlspecialchars($_GET['querie']);
-        $patient_name = htmlspecialchars($_GET['patient']);
-
-        $querie_info = array();
-        array_push($querie_info, $querie_id);
-        array_push($querie_info, $patient_name);
-        foreach($xml->children() as $querie) {
-            if ((string)$querie['id'] == $querie_id) {
-                array_push($querie_info, (string)$querie->date);
-                array_push($querie_info, (string)$querie->sintomas);
-                break;
-            }
-        }
-
-        return $querie_info;
+        $query = $col->findOne(
+            [ 'id' => $querie_id]
+        );
+        return $query;
     }
 
     function compareFunction($a, $b) {
-        $a_year = (int)substr($a[3], 0, 4);
-        $b_year = (int)substr($b[3], 0, 4);
+        $a_year = (int)substr($a['date'], 0, 4);
+        $b_year = (int)substr($b['date'], 0, 4);
         if ($a_year < $b_year)
             return 1;
         if ($a_year > $b_year)
             return -1;
 
-        $a_month = (int)substr($a[3], 5, 2);
-        $b_month = (int)substr($b[3], 5, 2);
+        $a_month = (int)substr($a['date'], 5, 2);
+        $b_month = (int)substr($b['date'], 5, 2);
         if ($a_month < $b_month)
             return 1;
         if ($a_month > $b_month)
             return -1;
 
-        $a_day = (int)substr($a[3], 8, 2);
-        $b_day = (int)substr($b[3], 8, 2);
+        $a_day = (int)substr($a['date'], 8, 2);
+        $b_day = (int)substr($b['date'], 8, 2);
         if ($a_day < $b_day)
             return 1;
         if ($a_day > $b_day)
@@ -106,7 +81,7 @@
     uasort($queries, 'compareFunction');
     $queries_date = array();
     foreach($queries as $q) {
-        array_push($queries_date, $q[3]);
+        array_push($queries_date, $q['date']);
     }
 
 ?>
@@ -159,7 +134,10 @@
                             <?php
                                 $patients = getAllPatients();
                                 foreach($patients as $patient) {
-                                    echo "<option value='$patient[2]'>$patient[0] - $patient[1]</option>";
+                                    $id = $patient['id'];
+                                    $name = $patient['name'];
+                                    $cpf = $patient['cpf'];
+                                    echo "<option value='$id'>$name - $cpf</option>";
                                 }
                             ?>
                         </select>
@@ -185,12 +163,18 @@
                         </tr>
                         <?php
                             foreach($queries as $querie) {
+                                $name = $querie['patient_name'];
+                                $cpf = $querie['patient_cpf'];
+                                $date = $querie['date'];
+                                $symptoms = $querie['sintomas'];
+                                $patient_id = $querie['patient_id'];
+                                $querie_id = $querie['id'];
                                 echo "<tr>";
-                                echo "<td>$querie[1]</td>";
-                                echo "<td>$querie[2]</td>";
-                                echo "<td>$querie[3]</td>";
-                                echo "<td>$querie[4]</td>";
-                                echo "<td><a href='conta.php?querie=$querie[0]&patient=$querie[1]' onclick=\"loadTab('change querie')\"><u>Alterar</u></a></td>";
+                                echo "<td>$name</td>";
+                                echo "<td>$cpf</td>";
+                                echo "<td>$date</td>";
+                                echo "<td>$symptoms</td>";
+                                echo "<td><a href='conta.php?querie=$querie_id&patient=$patient_id' onclick=\"loadTab('change querie')\"><u>Alterar</u></a></td>";
                                 echo "</tr>";
                             }
                         ?>
@@ -241,10 +225,15 @@
                 </form>
             </div>
             <div id="change-querie-form-tab" class="content-section" style="display: none;">
-                <?php echo "<h1>Altere a consulta de $querie_info[1].</h1>"; 
-                    echo "<form id='change-querie-form' action='../back-end/change_querie.php?querie=$querie_info[0]' method='POST'>";
-                    echo "<input type='date' name='date' value=$querie_info[2] min='2018-01-01' max='2022-12-31'>";
-                    echo "<textarea name='sintomas' rows='10' cols='34' class='text-area'>$querie_info[3]</textarea>";
+                <?php 
+                    $patient_name = $querie_info['patient_name'];
+                    $query_id = $querie_info['id'];
+                    $date = $querie_info['date'];
+                    $symptoms = $querie_info['sintomas'];
+                    echo "<h1>Altere a consulta de $patient_name.</h1>"; 
+                    echo "<form id='change-querie-form' action='../back-end/change_querie.php?querie=$query_id' method='POST'>";
+                    echo "<input type='date' name='date' value=$date min='2020-12-01' max='2022-12-31'>";
+                    echo "<textarea name='sintomas' rows='10' cols='34' class='text-area'>$symptoms</textarea>";
                     ?>
                     <div class="inline-content">
                         <a href="conta.php" onclick="loadTab('queries historic')"><i><u>Voltar</i></u></a>
