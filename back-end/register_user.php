@@ -62,7 +62,7 @@
 
         $col->insert(
             array(
-                'type' => $type,
+                'user_type' => $type,
                 'id' => $id,
                 'name' => $name,
                 'adress' => $end,
@@ -100,21 +100,18 @@
         } 
         else if ($_POST["user_type"] == 'lab') {
             $cnpj = stripslashes($_POST["cnpj"]);
+            $exames = array();
+            array_push($exames,$_POST["mamografia"]);
+            array_push($exames,$_POST["ressonancia"]);
+            array_push($exames,$_POST["tomografia"]);
+            array_push($exames,$_POST["sonografia"]);
+            $exames = array_filter($exames,'strlen');
             $col->update(
                 ['id' => $id],
                 ['$set' => [
-                                'cnpj' => $cnpj
+                                'cnpj' => $cnpj,
+                                'exames' => $exames
                            ]
-                ]
-                );
-            $col->update(
-                ['id' => $id],
-                ['$set' => [
-                                'mamografia' => $_POST["mamografia"],
-                                'ressonancia' => $_POST['ressonancia'],
-                                'tomografia' => $_POST["tomografia"],
-                                'sonografia' => $_POST['sonografia']
-                            ]
                 ]
                 );
             }

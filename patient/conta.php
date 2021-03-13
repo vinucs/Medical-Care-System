@@ -8,12 +8,8 @@
         $cursor = $col->find(
             [ 'id' => $_SESSION['id'] ]
         );
-        $users = var_dump(iterator_to_array($cursor));
-        if (!empty($users)) {
-            return $users;
-        } else {
-            return "Nenhuma consulta encontrada";
-        }
+        $queries = iterator_to_array($cursor);
+        return $queries;
     }
 
     function getExams() {
@@ -25,12 +21,9 @@
         $cursor = $col->find(
                 [ 'id' => $_SESSION['id'] ]
         );
-        $result = var_dump(iterator_to_array($cursor));
-        if (!empty($result)) {
-            return $result;
-        } else {
-            return "Nenhum exame encontrado";
-        }
+        $result = iterator_to_array($cursor);
+        return $result;
+
     }
 
     if ($_SESSION['tipo'] != 'patient'){

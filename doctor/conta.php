@@ -1,64 +1,39 @@
 <?php session_start();
 
     function getAllPatients() {
-        require('mongodb.php');
+        require('../back-end/mongodb.php');
         $col = $database->selectCollection('contas');
         $cursor = $col->find(
                 [ 'user_type' => 'patient' ]
         );
 
-        $users = iterator_to_array($cursor);
-        $patients = array();
-        foreach($users as $user) {
-                $new_p = array((string)$user->name, (string)$user->cpf, (string)$user['id']);
-                array_push($patients, $new_p);
-            }
-
+        $patients = iterator_to_array($cursor);
         return $patients;
     }
 
     function getPatient($id) {
-        require('mongodb.php');
+        require('../back-end/mongodb.php');
         $col = $database->selectCollection('contas');
         $patient = $col->findOne(
                 [ 'user_type' => 'patient' ]
         );
-        if (!is_null($patient)) {
-            return $patient;
-        } else {
-            return "Paciente não encontrado";
-        }
+        return $patient;
     }
 
     function getQueries() {
-        require('mongodb.php');
+        require('../back-end/mongodb.php');
         $col = $database->selectCollection('consultas');
         $cursor = $col->find(
                 [ 'doctor_id' => $_SESSION['id'] ]
         );
         $queries = iterator_to_array($cursor);
-
-        if (!($queries)) {
-            return "Não há consultas marcadas.";
-        }
-
-        $formatted_queries = array();
-        foreach($queries as $querie) {
-            if ((string)$querie->doctor_id == $_SESSION['id']) {
-                $patient = getPatient((string)$querie->patient_id);
-                $new_q = array((string)$querie['id'], $patient[0], $patient[1], (string)$querie->date, (string)$querie->sintomas);
-                array_push($formatted_queries, $new_q);
-            }
-        }
-
-        return $formatted_queries;
+        return $queries;
     }
 
     function getQuerieInfo() {
-        require('mongodb.php');
+        require('../back-end/mongodb.php');
         $col = $database->selectCollection('consultas');
         $querie_id = htmlspecialchars($_GET['querie']);
-        $patient_name = htmlspecialchars($_GET['patient']);
         $query = $col->findOne(
             [ 'id' => $querie_id]
         );
@@ -124,7 +99,10 @@
                             <?php
                                 $patients = getAllPatients();
                                 foreach($patients as $patient) {
-                                    echo "<option value='$patient[2]'>$patient[0] - $patient[1]</option>";
+                                    $id = $patient['id'];
+                                    $name = $patient['name'];
+                                    $cpf = $patient['cpf'];
+                                    echo "<option value='$id'>$name - $cpf</option>";
                                 }
                             ?>
                         </select>
@@ -151,12 +129,18 @@
                         <?php
                             $queries = getQueries();
                             foreach($queries as $querie) {
+                                $name = $querie['patient_name'];
+                                $cpf = $querie['patient_cpf'];
+                                $date = $querie['date'];
+                                $symptoms = $querie['sintomas'];
+                                $patient_id = $querie['patient_id'];
+                                $querie_id = $querie['id'];
                                 echo "<tr>";
-                                echo "<td>$querie[1]</td>";
-                                echo "<td>$querie[2]</td>";
-                                echo "<td>$querie[3]</td>";
-                                echo "<td>$querie[4]</td>";
-                                echo "<td><a href='conta.php?querie=$querie[0]&patient=$querie[1]' onclick=\"loadTab('change querie')\"><u>Alterar</u></a></td>";
+                                echo "<td>$name</td>";
+                                echo "<td>$cpf</td>";
+                                echo "<td>$date</td>";
+                                echo "<td>$symptoms</td>";
+                                echo "<td><a href='conta.php?querie=$querie_id&patient=$patient_id' onclick=\"loadTab('change querie')\"><u>Alterar</u></a></td>";
                                 echo "</tr>";
                             }
                         ?>
@@ -180,10 +164,15 @@
                 </form>
             </div>
             <div id="change-querie-form-tab" class="content-section" style="display: none;">
-                <?php echo "<h1>Altere a consulta de $querie_info[1].</h1>"; 
-                    echo "<form id='change-querie-form' action='../back-end/change_querie.php?querie=$querie_info[0]' method='POST'>";
-                    echo "<input type='date' name='date' value=$querie_info[2] min='2020-12-01' max='2022-12-31'>";
-                    echo "<textarea name='sintomas' rows='10' cols='34' class='text-area'>$querie_info[3]</textarea>";
+                <?php 
+                    $patient_name = $querie_info['patient_name'];
+                    $query_id = $querie_info['id'];
+                    $date = $querie_info['date'];
+                    $symptoms = $querie_info['sintomas'];
+                    echo "<h1>Altere a consulta de $patient_name.</h1>"; 
+                    echo "<form id='change-querie-form' action='../back-end/change_querie.php?querie=$query_id' method='POST'>";
+                    echo "<input type='date' name='date' value=$date min='2020-12-01' max='2022-12-31'>";
+                    echo "<textarea name='sintomas' rows='10' cols='34' class='text-area'>$symptoms</textarea>";
                     ?>
                     <div class="inline-content">
                         <a href="conta.php" onclick="loadTab('queries hist')"><i><u>Voltar</i></u></a>

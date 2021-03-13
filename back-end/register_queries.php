@@ -1,21 +1,29 @@
 <?php session_start();
 
-    require('mongodb.php');
     function registerQuerie() {
+        require('mongodb.php');
         $patient_id = addslashes($_POST["patient"]);
+        $col = $database->selectCollection('contas');
+        $result = $col->findOne(
+            [
+                'id' => $patient_id
+            ]
+        );
+
+        $cpf = addslashes($result['cpf']);
+        $name = addslashes($result['name']);
         $date = addslashes($_POST["date"]);
         $sintomas = addslashes($_POST["sintomas"]);
         $id = uniqid();
-        $doctor_id = $_SESSION['id'];
-        $doctor = $_SESSION['name'];
-    
+        $doctor_id = $_SESSION['id'];    
         $col = $database->selectCollection('consultas');
-        $col->insertOne(
+        $col->insert(
             array(
                 'id' => $id,
+                'patient_name' => $name,
+                'patient_cpf' => $cpf,
                 'doctor_id' => $doctor_id,
                 'patient_id' => $patient_id,
-                'doctor' => $doctor,
                 'date' => $date,
                 'sintomas' => $sintomas
                 )

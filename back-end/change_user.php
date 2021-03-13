@@ -24,7 +24,7 @@
                 unset($_POST);
                 return false;
             }
-            if ($result['type'] == 'patient') {
+            if ($result['user_type'] == 'patient') {
                 $result = $col->findOne(
                     array(
                         'cpf' => $_POST["cpf"]
@@ -36,7 +36,7 @@
                     return false;
                 }
 
-            } else if ($result['type'] == 'lab') {
+            } else if ($result['user_type'] == 'lab') {
                 $result = $col->findOne(
                     array(
                         'cnpj' => $_POST["cnpj"]
@@ -47,7 +47,7 @@
                     unset($_POST);
                     return false;
                 }
-            } else if ($result['type'] == 'doctor') {
+            } else if ($result['user_type'] == 'doctor') {
                 $result = $col->findOne(
                     array(
                         'crm' => $_POST["crm"]
@@ -81,20 +81,19 @@
                 $result['email'] = stripslashes($_POST['email']);
             if (isset($_POST['password']) && !empty($_POST['password']))
                 $result['password'] = stripslashes($_POST['password']);
-            if ($result['type'] == 'patient') {
+            if ($result['user_type'] == 'patient') {
                 if (isset($_POST['age']) && !empty($_POST['age']))
                     $result['idade'] = stripslashes($_POST['age']);
                 if (isset($_POST['sex']) && !empty($_POST['sex']))
                     $result['genero'] = stripslashes($_POST['sex']);
                 if (isset($_POST['cpf']) && !empty($_POST['cpf']))
                     $result['cpf'] = stripslashes($_POST['cpf']);                
-            } else if ($result['type'] == 'doctor') {
+            } else if ($result['user_type'] == 'doctor') {
                 if (isset($_POST['especialidade']) && !empty($_POST['especialidade']))
                     $result['especializacao'] = stripslashes($_POST['especialidade']);
                 if (isset($_POST['crm']) && !empty($_POST['crm']))
                     $result['crm'] = stripslashes($_POST['crm']);
-            } else if ($result['type'] == 'lab') 
-            {
+            } else if ($result['user_type'] == 'lab') {
                 if (isset($_POST['cnpj']) && !empty($_POST['cnpj']))
                     $cnpj = stripslashes($_POST['cnpj']);
                     $col->updateOne(

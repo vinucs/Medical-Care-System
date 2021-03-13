@@ -2,6 +2,8 @@
 
     require('mongodb.php');
     function changeQuerie($querie_id) {
+        require('mongodb.php');
+
         $col = $database->selectCollection('consultas');
         $result = $col->findOne(
             array(
@@ -11,7 +13,7 @@
         if (!empty($result)) {
             if (isset($_POST['date']) && !empty($_POST['date']))
                 $date = stripslashes($_POST['date']);
-                $col->updateOne(
+                $col->update(
                     ['id' => $querie_id],
                     [
                         '$set' => 
@@ -22,7 +24,7 @@
                     );
             if (isset($_POST['sintomas']) && !empty($_POST['sintomas']))
                 $sintomas = stripslashes($_POST['sintomas']);
-                $col->updateOne(
+                $col->update(
                     ['id' => $querie_id],
                     ['$set' => 
                             [
