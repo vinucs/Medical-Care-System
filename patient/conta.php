@@ -6,7 +6,7 @@
         $col = $database->selectCollection('consultas');
 
         $cursor = $col->find(
-            [ 'id' => $_SESSION['id'] ]
+            [ 'patient_id' => $_SESSION['id'] ]
         );
         $queries = iterator_to_array($cursor);
         return $queries;
@@ -19,9 +19,10 @@
 
         
         $cursor = $col->find(
-                [ 'id' => $_SESSION['id'] ]
+                [ 'patient_id' => $_SESSION['id'] ]
         );
         $result = iterator_to_array($cursor);
+        #return $cursor;
         return $result;
 
     }
@@ -79,16 +80,15 @@
                     <?php
                         $queries = getQueries();
                         echo "<tr>";
-                        $cont = 0;
-                        for($i = 0; $i < count($queries); $i++) {
-                            echo "<td>$queries[$i]</td>";
-                            $cont++;
-                            if ($cont == 3){
-                                echo "</tr><tr>";
-                                $cont = 0;
-                            }
-                        }
+                        foreach ($queries as $query) {
+                            $doctor = $query['doctor'];
+                            $date = $query['date'];
+                            $symptoms = $query['sintomas'];
+                            echo "<td>$doctor</td>";
+                            echo "<td>$date</td>";
+                            echo "<td>$symptoms</td>";
                         echo "</tr>";
+                        }
                     ?>
                     </table>
                 </div>
@@ -105,16 +105,15 @@
                     <?php
                         $exams = getExams();
                         echo "<tr>";
-                        $cont = 0;
-                        for($i = 0; $i < count($exams); $i++) {
-                            echo "<td>$exams[$i]</td>";
-                            $cont++;
-                            if ($cont == 3){
-                                echo "</tr><tr>";
-                                $cont = 0;
-                            }
-                        }
+                        foreach ($exams as $exam) {
+                            $lab_name = $exam["lab_name"];
+                            $date = $exam["date"];
+                            $exam_type = $exam["exam_type"];
+                            echo "<td>$lab_name</td>";
+                            echo "<td>$date</td>";
+                            echo "<td>$exam_type</td>";
                         echo "</tr>";
+                        }
                     ?>
                     </table>
                 </div>

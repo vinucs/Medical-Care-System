@@ -14,6 +14,12 @@
                 'id' => $patient_id
             ]
         );
+        $col3 = $database->selectCollection('contas');
+        $lab = $col3->findOne(
+            [
+                'id' => $lab_id
+            ]
+        );
 
         $col = $database->selectCollection('exames');
         $col->insert(
@@ -21,9 +27,9 @@
                 'name' => $result['name'],
                 'cpf' => $result['cpf'],
                 'id' => $id,
+                'lab_name' => $lab['name'],
                 'lab_id' => $lab_id,
                 'patient_id' => $patient_id,
-                'lab' => $lab,
                 'date' => $date,
                 'exam_type' => $exam_type
                 )

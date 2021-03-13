@@ -15,7 +15,8 @@
         $date = addslashes($_POST["date"]);
         $sintomas = addslashes($_POST["sintomas"]);
         $id = uniqid();
-        $doctor_id = $_SESSION['id'];    
+        $doctor_id = $_SESSION['id'];
+        $doctor = $_SESSION['name'];    
         $col = $database->selectCollection('consultas');
         $col->insert(
             array(
@@ -23,6 +24,7 @@
                 'patient_name' => $name,
                 'patient_cpf' => $cpf,
                 'doctor_id' => $doctor_id,
+                'doctor' => $doctor,
                 'patient_id' => $patient_id,
                 'date' => $date,
                 'sintomas' => $sintomas
