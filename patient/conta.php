@@ -7,7 +7,7 @@
         foreach($xml->children() as $querie) {
             if ((string)$querie->patient_id == $_SESSION['id']) {
                 $new_q = array((string)$querie->doctor, (string)$querie->date, (string)$querie->sintomas);
-                $queries = array_merge($queries, $new_q);
+                array_push($queries, $new_q);
             }
         }
 
@@ -21,17 +21,47 @@
         foreach($xml->children() as $exam) {
             if ((string)$exam->patient_id == $_SESSION['id']) {
                 $new_e = array((string)$exam->lab, (string)$exam->date, (string)$exam->exam_type);
-                $exams = array_merge($exams, $new_e);
+                array_push($exams, $new_e);
             }
         }
 
         return $exams;
     }
 
+    function compareFunction($a, $b) {
+        $a_year = (int)substr($a[1], 0, 4);
+        $b_year = (int)substr($b[1], 0, 4);
+        if ($a_year < $b_year)
+            return 1;
+        if ($a_year > $b_year)
+            return -1;
+
+        $a_month = (int)substr($a[1], 5, 2);
+        $b_month = (int)substr($b[1], 5, 2);
+        if ($a_month < $b_month)
+            return 1;
+        if ($a_month > $b_month)
+            return -1;
+
+        $a_day = (int)substr($a[1], 8, 2);
+        $b_day = (int)substr($b[1], 8, 2);
+        if ($a_day < $b_day)
+            return 1;
+        if ($a_day > $b_day)
+            return -1;
+
+        return 0;
+    }
+
     if ($_SESSION['tipo'] != 'patient'){
         session_destroy();
         header("Location: ../index.php");
     }
+
+    $queries = getQueries();
+    uasort($queries, 'compareFunction');
+    $exams = getExams();
+    uasort($exams, 'compareFunction');
 
 ?>
 
@@ -79,18 +109,13 @@
                             <th>Sintomas</th>
                         </tr>
                     <?php
-                        $queries = getQueries();
-                        echo "<tr>";
-                        $cont = 0;
-                        for($i = 0; $i < count($queries); $i++) {
-                            echo "<td>$queries[$i]</td>";
-                            $cont++;
-                            if ($cont == 3){
-                                echo "</tr><tr>";
-                                $cont = 0;
-                            }
+                        foreach($queries as $querie) {
+                            echo "<tr>";
+                            echo "<td>$querie[0]</td>";
+                            echo "<td>$querie[1]</td>";
+                            echo "<td>$querie[2]</td>";
+                            echo "</tr>";
                         }
-                        echo "</tr>";
                     ?>
                     </table>
                 </div>
@@ -105,18 +130,13 @@
                             <th>Exame</th>
                         </tr>
                     <?php
-                        $exams = getExams();
-                        echo "<tr>";
-                        $cont = 0;
-                        for($i = 0; $i < count($exams); $i++) {
-                            echo "<td>$exams[$i]</td>";
-                            $cont++;
-                            if ($cont == 3){
-                                echo "</tr><tr>";
-                                $cont = 0;
-                            }
+                        foreach($exams as $exam) {
+                            echo "<tr>";
+                            echo "<td>$exam[0]</td>";
+                            echo "<td>$exam[1]</td>";
+                            echo "<td>$exam[2]</td>";
+                            echo "</tr>";
                         }
-                        echo "</tr>";
                     ?>
                     </table>
                 </div>

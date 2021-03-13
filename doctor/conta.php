@@ -65,6 +65,31 @@
         return $querie_info;
     }
 
+    function compareFunction($a, $b) {
+        $a_year = (int)substr($a[3], 0, 4);
+        $b_year = (int)substr($b[3], 0, 4);
+        if ($a_year < $b_year)
+            return 1;
+        if ($a_year > $b_year)
+            return -1;
+
+        $a_month = (int)substr($a[3], 5, 2);
+        $b_month = (int)substr($b[3], 5, 2);
+        if ($a_month < $b_month)
+            return 1;
+        if ($a_month > $b_month)
+            return -1;
+
+        $a_day = (int)substr($a[3], 8, 2);
+        $b_day = (int)substr($b[3], 8, 2);
+        if ($a_day < $b_day)
+            return 1;
+        if ($a_day > $b_day)
+            return -1;
+
+        return 0;
+    }
+
     if (isset($_GET['querie']) && !empty($_GET['querie'])) {
         $querie_info = getQuerieInfo();
     }
@@ -78,6 +103,7 @@
     }
 
     $queries = getQueries();
+    uasort($queries, 'compareFunction');
     $queries_date = array();
     foreach($queries as $q) {
         array_push($queries_date, $q[3]);
@@ -140,7 +166,7 @@
                     </div>
                     <div class="input-label">
                         <p>Data:</p>
-                        <input type="date" name="date" value="2020-12-01" min="2020-12-01" max="2022-12-31" required>
+                        <input type="date" name="date" value="2020-12-01" min="2018-01-01" max="2022-12-31" required>
                     </div>
                     <textarea name="sintomas" rows="10" cols="34" class="text-area" required>Sintomas.</textarea>
                     <button type="submit" form="changeuser-form" class="default-button">Marcar</button>
@@ -217,7 +243,7 @@
             <div id="change-querie-form-tab" class="content-section" style="display: none;">
                 <?php echo "<h1>Altere a consulta de $querie_info[1].</h1>"; 
                     echo "<form id='change-querie-form' action='../back-end/change_querie.php?querie=$querie_info[0]' method='POST'>";
-                    echo "<input type='date' name='date' value=$querie_info[2] min='2020-12-01' max='2022-12-31'>";
+                    echo "<input type='date' name='date' value=$querie_info[2] min='2018-01-01' max='2022-12-31'>";
                     echo "<textarea name='sintomas' rows='10' cols='34' class='text-area'>$querie_info[3]</textarea>";
                     ?>
                     <div class="inline-content">

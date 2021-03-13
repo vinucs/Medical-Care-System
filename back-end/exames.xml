@@ -25,8 +25,8 @@
         <lab_id>5fd83700e15f5</lab_id>
         <patient_id>5fd83535129c7</patient_id>
         <lab>Unimed Ltda.</lab>
-        <date>2021-01-05</date>
-        <exam_type>Ultra-sonografia</exam_type>
+        <date>2021-01-20</date>
+        <exam_type>Ultra-Sonografia</exam_type>
     </consulta>
     <consulta id="5fd8389b831c7">
         <lab_id>5fd83700e15f5</lab_id>
@@ -56,4 +56,4 @@
         <date>2021-01-13</date>
         <exam_type>Tomografia</exam_type>
     </consulta>
-</exames>
+<consulta id="604bee9b9018d"><lab_id>5fd83700e15f5</lab_id><patient_id>5fd83535129c7</patient_id><lab>Unimed Ltda.</lab><date>2020-10-11</date><exam_type>Ressonancia Magnética</exam_type></consulta></exames>

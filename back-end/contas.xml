@@ -7,7 +7,7 @@
     <user type="patient" id="5fd294b692a7d">
         <name>Vinicius Sartorio</name>
         <adress>rua 45 de maio, 2665</adress>
-        <telephone>(53)3232-0336</telephone>
+        <telephone>(53)3232-0335</telephone>
         <email>vinicius@gmail.com</email>
         <password>123456</password>
         <genero>masculino</genero>
@@ -19,7 +19,7 @@
         <adress>Rua Alfredo Lima, 755</adress>
         <telephone>(53)3234-5698</telephone>
         <email>rogerio.costa@hotmail.com</email>
-        <password>112233</password>
+        <password>112244</password>
         <especializacao>cardiologista</especializacao>
         <crm>337788</crm>
     </user>

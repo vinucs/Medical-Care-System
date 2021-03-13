@@ -84,6 +84,31 @@
         return $exam_info;
     }
 
+    function compareFunction($a, $b) {
+        $a_year = (int)substr($a[3], 0, 4);
+        $b_year = (int)substr($b[3], 0, 4);
+        if ($a_year < $b_year)
+            return 1;
+        if ($a_year > $b_year)
+            return -1;
+
+        $a_month = (int)substr($a[3], 5, 2);
+        $b_month = (int)substr($b[3], 5, 2);
+        if ($a_month < $b_month)
+            return 1;
+        if ($a_month > $b_month)
+            return -1;
+
+        $a_day = (int)substr($a[3], 8, 2);
+        $b_day = (int)substr($b[3], 8, 2);
+        if ($a_day < $b_day)
+            return 1;
+        if ($a_day > $b_day)
+            return -1;
+
+        return 0;
+    }
+
     if (isset($_GET['exam']) && !empty($_GET['exam'])) {
         $exam_info = getExamInfo();
     }
@@ -97,6 +122,7 @@
     }
 
     $exams = getExams();
+    uasort($exams, 'compareFunction');
     $exams_date = array();
     foreach($exams as $e) {
         array_push($exams_date, $e[3]);
@@ -159,15 +185,15 @@
                     </div>
                     <div class="input-label">
                         <p>Data:</p>
-                        <input type="date" name="date" value="2020-12-01" min="2020-12-01" max="2022-12-31" required>
+                        <input type="date" name="date" value="2020-12-01" min="2018-01-01" max="2022-12-31" required>
                     </div>
                     <div class="input-label">
                         <p>Selecionar exame:</p>
                         <select name="exam-type" required>
                             <option value="nenhum">-------</option>
                             <?php
-                                $exams = getExamsType();
-                                foreach($exams as $exam) {
+                                $exams_type = getExamsType();
+                                foreach($exams_type as $exam) {
                                     echo "<option value='$exam'>$exam</option>";
                                 }
                             ?>
@@ -188,7 +214,6 @@
                             <th></th>
                         </tr>
                     <?php
-                        $exams = getExams();
                         foreach($exams as $exam) {
                             echo "<tr>";
                             echo "<td>$exam[1]</td>";
@@ -250,7 +275,7 @@
                     echo "<form id='change-exam-form' action='../back-end/change_exam.php?exam=$exam_info[0]' method='POST'>";
                     echo "<div class='input-label'>
                         <p>Selecionar data:</p>
-                        <input type='date' name='date' value=$exam_info[2] min='2020-12-01' max='2022-12-31'></div>";
+                        <input type='date' name='date' value=$exam_info[2] min='2018-01-01' max='2022-12-31'></div>";
                     echo "<div class='input-label'>
                         <p>Selecionar exame:</p>
                         <select name='exam_type'>

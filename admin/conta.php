@@ -163,8 +163,8 @@
                 <h1>Escolha um usuário para alterar.</h1>
                 <table>
                     <tr>
-                        <th>Usuário</th>
                         <th>Tipo</th>
+                        <th>Usuário</th>
                         <th>Email</th>
                         <th></th>
                     </tr>
