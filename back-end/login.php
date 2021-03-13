@@ -8,7 +8,7 @@
         $user = new User;
     
         if ($user->checkCredentials($email, $senha) == true) {
-            if (isset(($_SESSION['id'])) && !empty($_SESSION['id'])) {
+            if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                 header("Location: ../home.html");
                 exit();
             } 

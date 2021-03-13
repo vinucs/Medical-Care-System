@@ -179,7 +179,8 @@
                                     $id = $patient["id"];
                                     $name = $patient["name"];
                                     $cpf = $patient["cpf"];
-                                    echo "<option value='$patient->id'>$patient->name - $patient->cpf</option>";
+                                    #echo "<option value='$patient->id'>$patient->name - $patient->cpf</option>";
+                                    echo "<option value='". $id . "'>". $name." - ".$cpf ."</option>";
                                 }
                             ?>
                         </select>

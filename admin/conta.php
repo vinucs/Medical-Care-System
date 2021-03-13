@@ -1,34 +1,23 @@
 <?php session_start();
 
+    require('mongodb.php');
+
     function getUsers() {
-        $xml = simplexml_load_file("../back-end/contas.xml");
-
-        $users = array();
-        foreach($xml->children() as $user) {
-            if ((string)$user['id'] != $_SESSION['id']) {
-                $new_u = array((string)$user['type'], (string)$user->name, (string)$user->email, (string)$user['id']);
-                array_push($users, $new_u);
-            }
-        }
-
+        require('mongodb.php');
+        $col = $database->selectCollection('contas');
+        $cursor = $col->find();
+        $users = iterator_to_array($cursor);
         return $users;
     }
 
     function getUserInfo($ch_user) {
-        $xml = simplexml_load_file("../back-end/contas.xml");
-
-        $user_info = array();
-        array_push($user_info, $ch_user);
-        foreach($xml->children() as $user) {
-            if ((string)$user['id'] == $ch_user) {
-                foreach($user->children() as $elem)
-                    array_push($user_info, (string)$elem);
+        require('mongodb.php');
+        $col = $database->selectCollection('contas');
+        $user_info = $col->findOne(
+                    ['id' => $ch_user]
+                    );
                     
-                array_push($user_info, (string)$user['type']);
-                break;
-            }
-        }
-
+        #array_push($user_info, (string)$user['type']);
         return $user_info;
     }
 
@@ -171,11 +160,15 @@
                     <?php
                         $users = getUsers();
                         foreach($users as $user) {
+                            $user_type = $user['user_type'];
+                            $name = $user['name'];
+                            $email = $user['email'];
+                            $id = 'id';
                             echo "<tr>";
-                            echo "<td>$user[0]</td>";
-                            echo "<td>$user[1]</td>";
-                            echo "<td>$user[2]</td>";
-                            echo "<td><a href='conta.php?user=$user[3]' onclick=\"loadTab('user form')\"><u>Alterar</u></a></td>";
+                            echo "<td>$name</td>";
+                            echo "<td>$user_type</td>";
+                            echo "<td>$email</td>";
+                            echo "<td><a href='conta.php?user=$user[$id]' onclick=\"loadTab('user form')\"><u>Alterar</u></a></td>";
                             echo "</tr>";
                         }
                     ?>
@@ -196,19 +189,25 @@
                 </form>
             </div>
             <div id="change-user-form-tab" class="content-section">
-                <?php echo "<h1>Mude o usuário $user_info[1].</h1>"; 
-                    echo "<form id='change-user-form' action='../back-end/change_user.php?user=$user_info[0]' method='POST' onsubmit='return validateChangeUserForm()'>";
+                <?php 
+                    $name = $user_info['name'];
+                    $adress = $user_info['adress'];
+                    $tel = $user_info['telephone'];
+                    $email = $user_info['email'];
+                    $password = $user_info['password'];
+                    echo "<h1>Mude o usuário $name.</h1>"; 
+                    echo "<form id='change-user-form' action='../back-end/change_user.php?user=$user_info[$id]' method='POST' onsubmit='return validateChangeUserForm()'>";
                 ?>
                     <script type="text/javascript">
                         var change_user_type = "<?php echo end($user_info); ?>";
                     </script>
                     <?php
-                        echo "<input type='text' placeholder='$user_info[1]' name='name' value='$user_info[1]'>";
-                        echo "<input type='text' placeholder='$user_info[2]' name='adress' value='$user_info[2]'>";
-                        echo "<input type='tel' placeholder='$user_info[3]' name='tel' value='$user_info[3]' onkeydown='fMasc(this, mTel);'>";
-                        echo "<input type='email' placeholder='$user_info[4]' name='email' value='$user_info[4]'>";
-                        echo "<input type='password' placeholder='Nova Senha' name='password' value='$user_info[5]'>";
-                        echo "<input type='password' placeholder='Confirmar Senha' name='cpassword' value='$user_info[5]'>";
+                        echo "<input type='text' placeholder='Nome' name='name' value=''>";
+                        echo "<input type='text' placeholder='Endereço' name='adress' value=''>";
+                        echo "<input type='tel' placeholder='Telefone' name='tel' value='' onkeydown='fMasc(this, mTel);'>";
+                        echo "<input type='email' placeholder='Email' name='email' value=''>";
+                        echo "<input type='password' placeholder='Nova Senha' name='password' value=''>";
+                        echo "<input type='password' placeholder='Confirmar Senha' name='cpassword' value=''>";
 
                         if (end($user_info) == 'patient') {
                             echo "<div class='select-style'>

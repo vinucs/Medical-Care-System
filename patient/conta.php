@@ -2,9 +2,7 @@
 
     function getQueries() {
         require("../back-end/mongodb.php");
-
         $col = $database->selectCollection('consultas');
-
         $cursor = $col->find(
             [ 'patient_id' => $_SESSION['id'] ]
         );
@@ -14,17 +12,13 @@
 
     function getExams() {
         require("../back-end/mongodb.php");
-
         $col = $database->selectCollection('exames');
-
-
         $cursor = $col->find(
                 [ 'patient_id' => $_SESSION['id'] ]
         );
         $result = iterator_to_array($cursor);
         #return $cursor;
         return $result;
-
     }
 
     function compareFunction($a, $b) {
