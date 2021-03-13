@@ -42,4 +42,4 @@
         <date>2021-02-27</date>
         <sintomas>Pressão alta, tontura, falta de ar.</sintomas>
     </consulta>
-<consulta id="604bef0cdcd9a"><doctor_id>5fd2968cc52fa</doctor_id><patient_id>5fd83535129c7</patient_id><doctor>Rogerio Costa</doctor><date>2021-02-05</date><sintomas>Check-up.</sintomas></consulta></consultas>
+<consulta id="604bef0cdcd9a"><doctor_id>5fd2968cc52fa</doctor_id><patient_id>5fd83535129c7</patient_id><doctor>Rogerio Costa</doctor><date>2021-02-05</date><sintomas>Check-up.</sintomas></consulta><consulta id="604cf622d6d44"><doctor_id>5fd2968cc52fa</doctor_id><patient_id>5fd83535129c7</patient_id><doctor>Rogerio Costa</doctor><date>2021-05-22</date><sintomas>Mal estar, cansaço e sono excessivo</sintomas></consulta></consultas>

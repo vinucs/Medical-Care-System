@@ -60,9 +60,17 @@
 
     $queries = getQueries();
     uasort($queries, 'compareFunction');
+    $queries_date = array();
+    foreach($queries as $q) {
+        array_push($queries_date, $q[1]);
+    }
+
     $exams = getExams();
     uasort($exams, 'compareFunction');
-
+    $exams_date = array();
+    foreach($exams as $e) {
+        array_push($exams_date, $e[1]);
+    }
 ?>
 
 <!DOCTYPE html>
@@ -72,9 +80,14 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-        <!--swup-->
+        <!--scripts-->
+        <script type='text/javascript'>
+            var queries = <?php echo json_encode($queries_date)?>;
+            var exams = <?php echo json_encode($exams_date)?>;
+        </script>
         <script defer src="scripts.js"></script>
-        <!-- Bootstrap CSS -->
+        <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+        <!-- CSS -->
         <link rel="stylesheet" href="../styles.css">
     </head>
     <body>
@@ -97,6 +110,7 @@
                 <ul>
                     <li><a onclick="loadTab('queries tab')">Suas Consultas</a></li>
                     <li><a onclick="loadTab('exams tab')">Seus Exames</a></li>
+                    <li><a onclick="loadTab('statistics')">Estatisticas</a></li>
                 </ul>
             </div>
             <div id="queries-tab" class="content-section">
@@ -139,6 +153,45 @@
                         }
                     ?>
                     </table>
+                </div>
+            </div>
+            <div id="statistics-tab" class="content-section" style="display: none;">
+                <h1>Veja suas estatísticas!</h1>
+                <div class="select-style">
+                    <div class="inline-content">
+                        <p>Escolha o ano:</p>
+                        <select onchange="selectedYear.call(this, event)">
+                            <option value='----'>----</option>
+                            <option value='2018'>2018</option>
+                            <option value='2019'>2019</option>
+                            <option value='2020'>2020</option>
+                            <option value='2021'>2021</option>
+                            <option value='2022'>2022</option>
+                        </select>
+                    </div>
+                </div>
+                <div id='chart'></div>
+                <h3>Consultas:</h3>
+                <div class="select-style">
+                    <div class="inline-content">
+                        <p>Média Mensal:</p>
+                        <p id="cmedia-mes">--</p>
+                    </div>
+                    <div class="inline-content">
+                        <p>Total Anual:</p>
+                        <p id="ctotal-ano">--</p>
+                    </div>
+                </div>
+                <h3>Exames:</h3>
+                <div class="select-style">
+                    <div class="inline-content">
+                        <p>Média Mensal:</p>
+                        <p id="emedia-mes">--</p>
+                    </div>
+                    <div class="inline-content">
+                        <p>Total Anual:</p>
+                        <p id="etotal-ano">--</p>
+                    </div>
                 </div>
             </div>
         </div>
