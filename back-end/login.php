@@ -1,6 +1,6 @@
 <?php session_start();
 
-    if (isset($_POST['email']) && !empty($_POST['email'] && isset($_POST['senha']) && !empty($_POST['senha']))) {
+if (isset($_POST['email']) && !empty($_POST['email']) && isset($_POST['senha']) && !empty($_POST['senha'])) {
         $email = addslashes($_POST['email']);
         $senha = addslashes($_POST['senha']);
 
@@ -8,7 +8,7 @@
         $user = new User;
     
         if ($user->checkCredentials($email, $senha) == true) {
-            if (isset(($_SESSION['id'])) && !empty($_SESSION['id'])) {
+            if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                 header("Location: ../home.html");
                 exit();
             } 
