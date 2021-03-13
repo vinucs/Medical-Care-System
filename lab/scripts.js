@@ -1,3 +1,59 @@
+ /* ---------- LOAD AND DRAW CHART FUNCTIONS ---------- */
+
+google.charts.load('current', {packages: ['corechart']});
+google.charts.setOnLoadCallback(function() {drawChart('----')});
+
+function selectedYear(event) {
+    drawChart(this.options[this.selectedIndex].text);
+}
+
+function contExams(year) {
+    yexams = new Array(12).fill(0);
+    num_exams_year = 0;
+    for(i = 0; i < exams.length; i++) {
+        if (year.localeCompare(exams[i].slice(0, 4)) == 0){
+            index = parseInt(exams[i].slice(5, 7)) - 1;
+            yexams[index] += 1;
+            num_exams_year += 1;
+        }
+    }
+
+    return [yexams, num_exams_year];
+}
+
+function drawChart(year) {
+    var [year_exams, num_exams_year] = contExams(year)
+
+    const container = document.querySelector('#chart')
+    const data = new google.visualization.arrayToDataTable([
+        ['Mês', 'Exames'],
+        ['Jan', year_exams[0]],
+        ['Fev', year_exams[1]],
+        ['Mar', year_exams[2]],
+        ['Abr', year_exams[3]],
+        ['Mai', year_exams[4]],
+        ['Jun', year_exams[5]],
+        ['Jul', year_exams[6]],
+        ['Ago', year_exams[7]],
+        ['Set', year_exams[8]],
+        ['Out', year_exams[9]],
+        ['Nov', year_exams[10]],
+        ['Dez', year_exams[11]]
+    ])
+
+    const options = {
+        title: 'Exames por mês no ano de ' + year,
+        height: 400,
+        width: 720
+    }
+    
+    document.getElementById('media-mes').innerHTML = +parseFloat((num_exams_year/12).toFixed(3))
+    document.getElementById('total-ano').innerHTML = num_exams_year
+
+    const chart = new google.visualization.ColumnChart(container)
+    chart.draw(data, options)
+}
+ 
  /* ---------- CHANGE TAB FUNCTION ---------- */
 
  if (sessionStorage.getItem('tab') == null) {
@@ -12,6 +68,7 @@ function loadTab(new_tab){
     if (new_tab == 'register exams') {
         document.getElementById('reg-exams-tab').style.display = "flex";
         document.getElementById('exams-hist-tab').style.display = "none";
+        document.getElementById('statistics-tab').style.display = "none";
         document.getElementById('change-user-tab').style.display = "none";
         document.getElementById('change-exam-form-tab').style.display = "none";
         document.getElementById('acc-options-tab').style.display = "flex";
@@ -19,13 +76,23 @@ function loadTab(new_tab){
     else if (new_tab == 'exams historic') {
         document.getElementById('exams-hist-tab').style.display = "flex";
         document.getElementById('reg-exams-tab').style.display = "none";
+        document.getElementById('statistics-tab').style.display = "none";
         document.getElementById('change-user-tab').style.display = "none";
+        document.getElementById('change-exam-form-tab').style.display = "none";
+        document.getElementById('acc-options-tab').style.display = "flex";
+    }
+    else if (new_tab == 'statistics') {
+        document.getElementById('statistics-tab').style.display = "flex";
+        document.getElementById('exams-hist-tab').style.display = "none";
+        document.getElementById('change-user-tab').style.display = "none";
+        document.getElementById('reg-exams-tab').style.display = "none";    
         document.getElementById('change-exam-form-tab').style.display = "none";
         document.getElementById('acc-options-tab').style.display = "flex";
     }
     else if (new_tab == 'change user') {
         document.getElementById('change-user-tab').style.display = "flex";
         document.getElementById('reg-exams-tab').style.display = "none";
+        document.getElementById('statistics-tab').style.display = "none";
         document.getElementById('exams-hist-tab').style.display = "none";
         document.getElementById('change-exam-form-tab').style.display = "none";
         document.getElementById('acc-options-tab').style.display = "flex";
@@ -33,6 +100,7 @@ function loadTab(new_tab){
     else if (new_tab == 'change exam') {
         document.getElementById('change-exam-form-tab').style.display = "flex";
         document.getElementById('change-user-tab').style.display = "none";
+        document.getElementById('statistics-tab').style.display = "none";
         document.getElementById('reg-exams-tab').style.display = "none";
         document.getElementById('exams-hist-tab').style.display = "none";
         document.getElementById('acc-options-tab').style.display = "none";

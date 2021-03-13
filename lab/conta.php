@@ -14,7 +14,6 @@
     }
 
     function getPatient($id) {
-
         require("../back-end/mongodb.php");
         $col = $database->selectCollection('contas');
         $result = $col->findOne(
@@ -41,7 +40,6 @@
     }
 
     function getExams() {
-
         require("../back-end/mongodb.php");
         $col = $database->selectCollection('exames');
         $cursor = $col->find(
@@ -82,6 +80,31 @@
         }
 
         return $exam_info;
+    } 
+
+    function compareFunction($a, $b) {
+        $a_year = (int)substr($a['date'], 0, 4);
+        $b_year = (int)substr($b['date'], 0, 4);
+        if ($a_year < $b_year)
+            return 1;
+        if ($a_year > $b_year)
+            return -1;
+
+        $a_month = (int)substr($a['date'], 5, 2);
+        $b_month = (int)substr($b['date'], 5, 2);
+        if ($a_month < $b_month)
+            return 1;
+        if ($a_month > $b_month)
+            return -1;
+
+        $a_day = (int)substr($a['date'], 8, 2);
+        $b_day = (int)substr($b['date'], 8, 2);
+        if ($a_day < $b_day)
+            return 1;
+        if ($a_day > $b_day)
+            return -1;
+
+        return 0;
     }
 
     if (isset($_GET['exam']) && !empty($_GET['exam'])) {
@@ -96,6 +119,13 @@
         header("Location: ../index.php");
     }
 
+    $exams = getExams();
+    uasort($exams, 'compareFunction');
+    $exams_date = array();
+    foreach($exams as $e) {
+        array_push($exams_date, $e['date']);
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -105,9 +135,11 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-        <!--swup-->
+        <!--scripts-->
+        <script type='text/javascript'>var exams = <?php echo json_encode($exams_date)?>;</script>
         <script defer src="scripts.js"></script>
-        <!-- Bootstrap CSS -->
+        <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+        <!-- CSS -->
         <link rel="stylesheet" href="../styles.css">
     </head>
     <body>
@@ -126,14 +158,15 @@
             </div>
         </header>          
         <div class="container">
-            <div class="acc-options">
+            <div class="acc-options" id="acc-options-tab" style="display: none;">
                 <ul>
                     <li><a onclick="loadTab('register exams')">Cadastrar Exames</a></li>
                     <li><a onclick="loadTab('exams historic')">Histórico de Exames</a></li>
+                    <li><a onclick="loadTab('statistics')">Estatísticas</a></li>
                     <li><a onclick="loadTab('change user')">Altere sua Conta</a></li>
                 </ul>
             </div>
-            <div id="reg-exams-tab" class="content-section">
+            <div id="reg-exams-tab" class="content-section" style="display: none;">>
                 <h1>Cadastre seus Exames!</h1>
                 <form id="reg-exam-form" action="../back-end/register_exams.php" method="POST">
                     <div class="input-label">
@@ -154,16 +187,15 @@
                     </div>
                     <div class="input-label">
                         <p>Data:</p>
-                        <input type="date" name="date" value="2020-12-01" min="2020-12-01" max="2022-12-31" required>
+                        <input type="date" name="date" value="2020-12-01" min="2018-01-01" max="2022-12-31" required>
                     </div>
                     <div class="input-label">
                         <p>Selecionar exame:</p>
                         <select name="exam-type" required>
                             <option value="nenhum">-------</option>
                             <?php
-                                $exams = getExamsType();
-                                foreach($exams as $exam) {
-                                    #echo "<option value='". $exam . "'>". $exam." - ".$exam ."</option>";
+                                $exams_type = getExamsType();
+                                foreach($exams_type as $exam) {
                                     echo "<option value='$exam'>$exam</option>";
                                 }
                             ?>
@@ -184,7 +216,6 @@
                             <th></th>
                         </tr>
                     <?php
-                        $exams = getExams();
                         foreach($exams as $exam) {
                             $name = $exam['name'];
                             $cpf = $exam['cpf'];
@@ -201,6 +232,33 @@
                         }
                     ?>
                     </table>
+                </div>
+            </div>
+            <div id="statistics-tab" class="content-section" style="display: none;">
+                <h1>Veja suas estatísticas!</h1>
+                <div class="select-style">
+                    <div class="inline-content">
+                        <p>Escolha o ano:</p>
+                        <select onchange="selectedYear.call(this, event)">
+                            <option value='----'>----</option>
+                            <option value='2018'>2018</option>
+                            <option value='2019'>2019</option>
+                            <option value='2020'>2020</option>
+                            <option value='2021'>2021</option>
+                            <option value='2022'>2022</option>
+                        </select>
+                    </div>
+                </div>
+                <div id='chart'></div>
+                <div class="select-style">
+                    <div class="inline-content">
+                        <p>Média Mensal:</p>
+                        <p id="media-mes">--</p>
+                    </div>
+                    <div class="inline-content">
+                        <p>Total Anual:</p>
+                        <p id="total-ano">--</p>
+                    </div>
                 </div>
             </div>
             <div id="change-user-tab" class="content-section" style="display: none;">
@@ -234,8 +292,8 @@
                         <p>Selecionar exame:</p>
                         <select name='exam_type'>
                             <option value=''>----------</option>";
-                    $exams = getExamsType();
-                    foreach($exams as $exam) {
+                    $exams_type = getExamsType();
+                    foreach($exams_type as $exam) {
                         if ($exam == $exam_type)
                             echo "<option value='$exam' selected>$exam</option>";
                         else
