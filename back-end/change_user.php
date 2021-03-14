@@ -129,7 +129,6 @@
     }
 
     if (isset($_GET['user']) && !empty($_GET['user'])) {
-
         if (checkData($_GET['user'])) {
             changeUser(stripslashes($_GET['user']));
         }

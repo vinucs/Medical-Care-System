@@ -1,6 +1,19 @@
 <?php session_start();
     require('mongodb.php');
 
+    function updateField($id,$fieldName, $value) {
+        require('mongodb.php');
+        $col = $database->selectCollection('contas');
+        $col->update(
+            ['id' => $id],
+                ['$set' => 
+                        [
+                        $fieldName => $value
+                        ]
+                ]
+            );
+
+    }
     $message = "Ocorreu algum erro!";
     if (isset($_POST['password']) && !empty($_POST['password'])) {
         $id = $_SESSION['id'];
@@ -15,23 +28,16 @@
         if (!empty($result)) {
             if (isset($_POST['email']) && !empty($_POST['email']))
                 $email = addslashes($_POST['email']);
+                updateField($id,'email',$email);
             if (isset($_POST['new_password']) && !empty($_POST['new_password']))
                 $password = addslashes($_POST['new_password']);
-            if (isset($_POST['adress']) && !empty($_POST['adress']))
+                updateField($id,'password',$password);
+            if (isset($_POST['adress']) && !empty($_POST['adress'])) 
                 $adress = addslashes($_POST['adress']);
+                updateField($id,'adress',$adress);
             if (isset($_POST['tel']) && !empty($_POST['tel']))
                 $telephone = addslashes($_POST['tel']);
-
-            $col->update(
-                ['id' => $_SESSION['id']],
-                ['$set' => [
-                                'email' => $email,
-                                'password' => $password,
-                                'adress' => $adress,
-                                'telephone' => $telephone
-                            ]
-                ]
-            );
+                updateField($id,'telephone',$telephone);
             $message = 'Mudado com sucesso!';
         } else {
             $message = 'Senha inválida!';

@@ -166,7 +166,7 @@
                     <li><a onclick="loadTab('change user')">Altere sua Conta</a></li>
                 </ul>
             </div>
-            <div id="reg-exams-tab" class="content-section" style="display: none;">>
+            <div id="reg-exams-tab" class="content-section" style="display: none;">
                 <h1>Cadastre seus Exames!</h1>
                 <form id="reg-exam-form" action="../back-end/register_exams.php" method="POST">
                     <div class="input-label">
